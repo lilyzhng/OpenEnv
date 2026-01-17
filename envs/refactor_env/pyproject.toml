@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openenv-refactor-env"
+version = "0.1.0"
+description = "Refactor Environment for OpenEnv - RL environment for code refactoring tasks"
+requires-python = ">=3.10"
+dependencies = [
+    # Core OpenEnv dependencies (required for server functionality)
+    "openenv-core @ git+https://github.com/meta-pytorch/OpenEnv.git@main",
+    "fastapi>=0.115.0",
+    "pydantic>=2.0.0",
+    "uvicorn>=0.24.0",
+    "requests>=2.31.0",
+    # Metrics computation
+    "radon>=6.0.0",
+    # Required for running tests in the target repo
+    "pytest>=8.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+[project.scripts]
+server = "refactor_env.server.app:main"
+
+[tool.setuptools]
+include-package-data = true
+packages = ["refactor_env", "refactor_env.server"]
+package-dir = { "refactor_env" = ".", "refactor_env.server" = "server" }
+
