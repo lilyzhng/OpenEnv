@@ -112,6 +112,11 @@ Desktop.ini
 **/outputs/
 outputs/
 
+# Node.js
+**/node_modules/
+**/dist/
+**/.vite/
+
 # Generated requirements files from pyproject.toml
 **/server/requirements.txt.generated
 

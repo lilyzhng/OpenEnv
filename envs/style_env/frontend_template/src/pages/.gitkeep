@@ -1,0 +1,11 @@
+# Pages Directory
+#
+# This is the target directory for evaluation tasks.
+# Models will create new pages here during episodes.
+#
+# Example pages that might be generated:
+# - Dashboard.tsx
+# - Settings.tsx
+# - Pricing.tsx
+# - UserProfile.tsx
+
