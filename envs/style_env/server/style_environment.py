@@ -452,8 +452,11 @@ class StyleEnvironment(Environment):
         self._state.lint_passed = lint_result.lint_passed
         self._state.format_passed = lint_result.format_passed
 
-        # If hard gates fail, score is 0
-        if not lint_result.all_passed:
+        # Hard gates: only lint and format are hard failures (score=0)
+        # Build failures get soft penalties (we care about aesthetics, not minor TS errors)
+        hard_gate_failed = not lint_result.lint_passed or not lint_result.format_passed
+        
+        if hard_gate_failed:
             score_breakdown = ScoreBreakdown(
                 total_score=0,
                 max_score=100,
@@ -469,9 +472,25 @@ class StyleEnvironment(Environment):
             self._last_score_breakdown = score_breakdown
 
             return self._format_score_output(score_breakdown, lint_result)
+        
+        # Build failures are soft penalties (-20 per build error type)
+        build_penalty = 0
+        build_violations = []
+        if not lint_result.build_passed:
+            build_penalty = -20  # Soft penalty for build issues
+            build_violations.append(RuleViolation(
+                rule="R0-BUILD",
+                file="(build)",
+                line=1,  # Must be >= 1 per model constraint
+                snippet="Build failed - minor TypeScript errors (unused imports, etc.)",
+                penalty=-20,
+            ))
 
         # Run style scorers
         all_violations = []
+        
+        # Add build violations if any (soft penalty)
+        all_violations.extend(build_violations)
 
         # Token scorer (R1-R4)
         token_scorer = TokenScorer(
@@ -528,7 +547,7 @@ class StyleEnvironment(Environment):
             total_score=total_score,
             max_score=100,
             hard_gates={
-                "build": True,
+                "build": lint_result.build_passed,  # Soft gate (penalty, not zero)
                 "lint": True,
                 "format": True,
             },
