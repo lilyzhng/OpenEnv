@@ -1,0 +1,268 @@
+{
+  "model": "z-ai/glm-4.5",
+  "results": [
+    {
+      "task_id": "task_6fa5694c8bbe434e944d76e6782369b1",
+      "task_idx": 8,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_8_0imdiuka",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_8_0imdiuka -name \"*.csv\" -o -name \"*.json\" -o -name \"*.xlsx\" -o -name \"*.txt\" -o -name \"*.pdf\" 2>/dev/null | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*kenvue*\" -o -name \"*Kenvue*\" -o -name \"*deal*\" -o -name \"*investment*\" -o -name \"*banking*\" 2>/dev/null | head -20",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T | grep -E \"(kenvue|Kenvue|deal|investment|banking)\" | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -type f -name \"*\" 2>/dev/null | grep -E \"(kenvue|Kenvue|deal|investment|banking)\" | head -20"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_68a8fbc9544640cf9a20db80dd845d85",
+      "task_idx": 9,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 3,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_9_a90_dpu4",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_9_a90_dpu4 && pwd",
+        "echo \"I need to calculate KVUE's enterprise value under four different scenarios. Let me first check if there are any existing files with financial data or if I need to create the calculation from scratch.\" && ls -laSTDOUT:"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_16c0324b442841ec86f8ae24cbde119e",
+      "task_idx": 10,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_10_04q_wcra",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_10_04q_wcra && python3 -c \"",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_10_04q_wcra && python3 -c \"",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_10_04q_wcra && python3 -c \"",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_10_04q_wcra && python3 -c \"import pandas as pd; import numpy as np; years = ['2024A', '2025E', '2026E', '2027E', '2028E', '2029E', 'Terminal']; revenue = np.array([1000, 1050, 1102.5, 1157.63, 1215.51, 1276.28]); ebitda_margin = 0.30; depreciation_rate = 0.05; tax_rate_initial = 0.21; tax_rate_new = 0.25; working_capital_rate = 0.15; capex_rate = 0.08; ebitda = revenue * ebitda_margin; depreciation = revenue * depreciation_rate; ebit = ebitda - depreciation; tax_initial = ebit * tax_rate_initial; tax_new = ebit * tax_rate_new; nopat_initial = ebit - tax_initial; nopat_new = ebit - tax_new; working_capital = revenue * working_capital_rate; change_in_wc = np.zeros_like(revenue); change_in_wc[1:] = working_capital[1:] - working_capital[:-1]; capex = revenue * capex_rate; fcf_initial = nopat_initial + depreciation - capex - change_in_wc; fcf_new = nopat_new + depreciation - capex - change_in_wc; wacc = 0.085; terminal_growth_initial = 0.02; terminal_growth_new = 0.0175; terminal_value_initial = fcf_initial[-1] * (1 + terminal_growth_initial) / (wacc - terminal_growth_initial); terminal_value_new = fcf_new[-1] * (1 + terminal_growth_new) / (wacc - terminal_growth_new); discount_factors = np.array([1/(1+wacc)**i for i in range(1, 7)]); ev_initial = np.sum(fcf_initial[:-1] * discount_factors[:-1]) + terminal_value_initial * discount_factors[-1]; ev_new = np.sum(fcf_new[:-1] * discount_factors[:-1]) + terminal_value_new * discount_factors[-1]; debt = 500; cash = 100; equity_value_initial = ev_initial - debt + cash; equity_value_new = ev_new - debt + cash; shares_outstanding = 100; share_price_initial = equity_value_initial / shares_outstanding; share_price_new = equity_value_new / shares_outstanding; results = pd.DataFrame({'Year': years[:-1], 'Revenue': revenue[:-1], 'EBITDA': ebitda[:-1], 'Depreciation': depreciation[:-1], 'EBIT': ebit[:-1], 'Tax (Initial)': tax_initial[:-1], 'Tax (New)': tax_new[:-1], 'NOPAT (Initial)': nopat_initial[:-1], 'NOPAT (New)': nopat_new[:-1], 'FCF (Initial)': fcf_initial[:-1], 'FCF (New)': fcf_new[:-1]}); results.to_csv('kvue_dcf_model.csv', index=False); summary = pd.DataFrame({'Metric': ['Enterprise Value (Initial)', 'Enterprise Value (New)', 'Equity Value (Initial)', 'Equity Value (New)', 'Share Price (Initial)', 'Share Price (New)'], 'Value': [ev_initial, ev_new, equity_value_initial, equity_value_new, share_price_initial, share_price_new]}); summary.to_csv('kvue_dcf_summary.csv', index=False)\""
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_1fb84d7682dc43138ad220b203ed5b22",
+      "task_idx": 11,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_11_mklypdjk",
+        "pwdfind /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*.csv\" -o -name \"*.json\" -o -name \"*.xlsx\" -o -name \"*.xls\" 2>/dev/null | head -20",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_11_mklypdjk/.. | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*dcf*\" -o -name \"*DCF*\" -o -name \"*financial*\" -o -name \"*model*\" 2>/dev/null | head -10",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -type f -name \"*.csv\" -o -name \"*.json\" -o -name \"*.xlsx\" -o -name \"*.xls\" -o -name \"*.txt\" 2>/dev/null | head -20"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_7c394865481b40cdbdd577a039825679",
+      "task_idx": 12,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_12_os6i2o6k",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_12_os6i2o6k -name \"*.csv\" -o -name \"*.json\" -o -name \"*.xlsx\" -o -name \"*.xls\" -o -name \"*.txt\" -o -name \"*.dcf\" -o -name \"*.model\" -o -name \"*.py\" | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_12_os6i2o6k -type f | head -20",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_12_os6i2o6k/.. | grep -E \"(dcf|model|cpi|wacc|growth|price|share)\" | head -10",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*dcf*\" -o -name \"*model*\" -o -name \"*cpi*\" -o -name \"*wacc*\" -o -name \"*growth*\" -o -name \"*price*\" -o -name \"*share*\" 2>/dev/null | head -10"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_7d11f0f8a4ac415599f715647d2a09e4",
+      "task_idx": 14,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_14_aev_pgck",
+        "pwdls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_14_aev_pgck/.*find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*DCF*\" -o -name \"*excel*\" -o -name \"*.xlsx\" -o -name \"*.xls\" -o -name \"*.csv\" 2>/dev/null | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -type f -name \"*\" 2>/dev/null | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -type f -name \"*DCF*\" -o -name \"*model*\" -o -name \"*.xlsx\" -o -name \"*.xls\" -o -name \"*.csv\" 2>/dev/null | grep -v \"node-compile-cache\" | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -type f -name \"*DCF*\" -o -name \"*model*\" -o -name \"*.xlsx\" -o -name \"*.xls\" -o -name \"*.csv\" -o -name \"*.json\" 2>/dev/null | grep -v \"node-compile-cache\" | head -20"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_0097f20dd1744647a5a6e76db215a467",
+      "task_idx": 1,
+      "domain": "Law",
+      "reward": 0.7666666666666666,
+      "num_turns": 3,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_1_036_77a0",
+        "echo \"No. The President has broad authority to impose tariffs under the International Emergencies Economic Powers Act (IEEPA), and courts generally defer to the executive branch on matters of national security and foreign trade policy.\" > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_1_036_77a0/answer.txt",
+        "done"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_2b5df2b5a0eb423e998099a9fcd8e262",
+      "task_idx": 3,
+      "domain": "Law",
+      "reward": 0.8833333333333333,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_3_b0ugh2ob",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_3_b0ugh2ob && pwd",
+        "echo \"No, the motion to transfer will be granted because the Court of International Trade has exclusive jurisdiction over challenges to tariff decisions under the Customs Courts Act of 1980.\" > answer.txt",
+        "cat answer.txtSTDOUT:",
+        "echo \"Yes, the motion to transfer will be granted because the Court of International Trade has exclusive jurisdiction over challenges to tariff decisions under the Customs Courts Act of 1980.\" > answer.txt"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_58d04f83ddee4c01bf89a4a1ca0b933a",
+      "task_idx": 6,
+      "domain": "Law",
+      "reward": 0.5333333333333333,
+      "num_turns": 3,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_6_jgxe65me",
+        "echo \"No. The plaintiffs are unlikely to succeed because courts generally grant significant deference to the President on matters of national security and international trade under the IEEPA.\" > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_6_jgxe65me/answer.txt",
+        "done"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_f868a55db35a4add998e12e09056b96a",
+      "task_idx": 59,
+      "domain": "Law",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_59_xaw8tisq",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_59_xaw8tisq && wget https://www.govinfo.gov/content/pkg/USCODE-2020-title33/pdf/USCODE-2020-title33-partC-chap40.pdfls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_59_xaw8tisq",
+        "curl -o oil_pollution_act.pdf https://www.govinfo.gov/content/pkg/USCODE-2020-title33/pdf/USCODE-2020-title33-partC-chap40.pdf",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_59_xaw8tisq",
+        "curl -L -o oil_pollution_act.pdf https://www.govinfo.gov/content/pkg/USCODE-2020-title33/pdf/USCODE-2020-title33-partC-chap40.pdf"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_410408825872453bacd57f4ba8a3ae0a",
+      "task_idx": 60,
+      "domain": "Law",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_60_6fqhtj5u",
+        "pwdSTDOUT:",
+        "pwd",
+        "find /private/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_60_6fqhtj5u -type f -name \"*\" 2>/dev/null | head -20",
+        "ls -la /private/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_60_6fqhtj5u/.. | head -10"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_ee25ae5557074bbaac24113f0412275d",
+      "task_idx": 61,
+      "domain": "Law",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_61_w7sn129w",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_61_w7sn129w -type f -name \"*.pdf\" -o -name \"*.txt\" -o -name \"*.doc\" -o -name \"*.docx\" -o -name \"*.json\" -o -name \"*.csv\" 2>/dev/null | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_61_w7sn129w -type f 2>/dev/null | head -20",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_61_w7sn129w/.. 2>/dev/null | grep -E \"insurance|policy|claim|MARINEX|Sparrow|Dee\" | head -10",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -type f -name \"*insurance*\" -o -name \"*policy*\" -o -name \"*claim*\" -o -name \"*MARINEX*\" -o -name \"*Sparrow*\" -o -name \"*Dee*\" 2>/dev/null | head -20"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_699ea5ca3b0243a5852ad33e33043f12",
+      "task_idx": 27,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_27_9uy0kbki",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_27_9uy0kbki/.. | grep -E \"apex_eval|task_699ea5ca3b0243a5852ad33e33043f12\" | head -10",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*task_699ea5ca3b0243a5852ad33e33043f12*\" -type f 2>/dev/null | head -10",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*.csv\" -o -name \"*.json\" -o -name \"*.xlsx\" -o -name \"*.xls\" | head -10",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*curtailment*\" -o -name \"*redispatch*\" -o -name \"*energy*\" -type f 2>/dev/null | head -10"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_4b3c2dfc4d164a25831e8787397766c3",
+      "task_idx": 28,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_28_fcnt692q",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_28_fcnt692q/.. | grep apex_eval_28_fcnt692q",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*asset*\" -type f 2>/dev/null | head -10",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*.csv\" -type f 2>/dev/null | head -10",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*.json\" -type f 2>/dev/null | head -10"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_7acc98cded8b49de972ee79b0461107e",
+      "task_idx": 31,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_31_qamtzqqi",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_31_qamtzqqi/.. | grep -E \"(maintenance|workforce|weather)\" | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_31_qamtzqqi -name \"*.csv\" -o -name \"*.xlsx\" -o -name \"*.json\" | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_31_qamtzqqi -type f | head -20",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_31_qamtzqqi/../../../ | grep -E \"(maintenance|workforce|weather)\" | head -20"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_f32cf6dbffac45eea7454b4f3a62eaf9",
+      "task_idx": 33,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 4,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_33_ay9z8__s",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_33_ay9z8__s/.. | grep -E \"registry|asset|risk|roadmap\" | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*registry*\" -o -name \"*asset*\" -o -name \"*risk*\" -o -name \"*roadmap*\" 2>/dev/null | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -type f -name \"*.csv\" -o -name \"*.json\" -o -name \"*.xlsx\" -o -name \"*.xls\" 2>/dev/null | grep -i -E \"registry|asset|risk|roadmap\" | head -20"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_ec97a505112645f9b266df1954f2738d",
+      "task_idx": 34,
+      "domain": "Management Consulting",
+      "reward": 0.3,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_34_z__v_cgj",
+        "pwd > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_34_z__v_cgj/workspace.txt",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_34_z__v_cgj/workspace.txt",
+        "cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_34_z__v_cgj/workspace.txt",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_34_z__v_cgj && ls -la > workspace_contents.txt && cat workspace_contents.txt"
+      ],
+      "model": "z-ai/glm-4.5"
+    },
+    {
+      "task_id": "task_f9f2907c268c44f686496a4934f1fc15",
+      "task_idx": 37,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_37_psvlc1j1",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_37_psvlc1j1/.. | grep -E \"(renewables|load)\" | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*renewable*\" -o -name \"*load*\" -o -name \"*connection*\" 2>/dev/null | head -20",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*.csv\" -o -name \"*.json\" -o -name \"*.xlsx\" 2>/dev/null | grep -i -E \"(renewable|load|connection)\" | head -20STDOUT:",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -name \"*.csv\" -o -name \"*.json\" -o -name \"*.xlsx\" 2>/dev/null | grep -i -E \"(renewable|load|connection)\" | head -20"
+      ],
+      "model": "z-ai/glm-4.5"
+    }
+  ]
+}

@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEX Environment - Architecture Explainer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-primary: #F9F8F4;
+  --bg-secondary: #F5F4F0;
+  --bg-white: #FFFFFF;
+  --gold: #C5A059;
+  --gold-light: rgba(197,160,89,0.15);
+  --gold-border: rgba(197,160,89,0.3);
+  --stone-900: #1c1917;
+  --stone-800: #292524;
+  --stone-700: #44403c;
+  --stone-600: #57534e;
+  --stone-500: #78716c;
+  --stone-400: #a8a29e;
+  --stone-300: #d6d3d1;
+  --stone-200: #e7e5e3;
+  --stone-100: #f5f5f4;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  --mono: 'SF Mono', 'Fira Code', monospace;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.1);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.12);
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg-primary);
+  color: var(--stone-800);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== NAV ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(249,248,244,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--stone-200);
+  padding: 0 2rem;
+  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 1.2rem; font-weight: 700;
+  color: var(--stone-900);
+}
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 1.5rem; }
+.nav-links a {
+  font-size: 0.82rem; font-weight: 500;
+  color: var(--stone-600);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--gold); }
+
+/* ===== HERO ===== */
+.hero {
+  padding: 140px 2rem 80px;
+  max-width: 720px; margin: 0 auto;
+  text-align: center;
+}
+.hero-badge {
+  display: inline-block;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold);
+  background: var(--gold-light);
+  padding: 6px 16px;
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: 3rem; font-weight: 700;
+  line-height: 1.15; color: var(--stone-900);
+  margin-bottom: 1.25rem;
+}
+.hero p {
+  font-size: 1.1rem; color: var(--stone-600);
+  max-width: 560px; margin: 0 auto 2rem;
+  line-height: 1.8;
+}
+.accent { color: var(--gold); }
+.scroll-hint {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 0.25rem;
+  color: var(--stone-400);
+  font-size: 0.78rem; font-weight: 500;
+  animation: float 2s ease-in-out infinite;
+}
+.scroll-hint svg { width: 20px; height: 20px; }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  padding: 80px 2rem;
+  max-width: 720px; margin: 0 auto;
+}
+.section-alt { background: var(--bg-secondary); }
+.section-full { max-width: 100%; }
+.section-full > .section-inner { max-width: 720px; margin: 0 auto; }
+.section-label {
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.75rem;
+}
+.section h2 {
+  font-family: var(--serif);
+  font-size: 2rem; font-weight: 700;
+  color: var(--stone-900);
+  margin-bottom: 0.5rem;
+}
+.section-subtitle {
+  font-size: 1rem; color: var(--stone-500);
+  margin-bottom: 2.5rem;
+}
+
+/* ===== ARCHITECTURE ===== */
+.arch-stack { display: flex; flex-direction: column; gap: 0; }
+.arch-card {
+  background: var(--bg-white);
+  border: 1px solid var(--stone-200);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: var(--shadow-sm);
+}
+.arch-card:hover { box-shadow: var(--shadow-md); border-color: var(--gold-border); }
+.arch-card.active { border-color: var(--gold); box-shadow: var(--shadow-lg); }
+.arch-card-header { display: flex; align-items: center; gap: 1rem; }
+.arch-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; flex-shrink: 0;
+}
+.arch-card-title {
+  font-family: var(--serif);
+  font-size: 1.05rem; font-weight: 600;
+  color: var(--stone-900);
+}
+.arch-card-tech {
+  font-size: 0.78rem; color: var(--stone-500);
+  font-family: var(--mono);
+}
+.arch-card-detail {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.arch-card.active .arch-card-detail { max-height: 600px; padding-top: 1rem; }
+.arch-card-detail p { font-size: 0.92rem; color: var(--stone-700); margin-bottom: 0.75rem; line-height: 1.7; }
+.analogy {
+  background: var(--gold-light);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.88rem; color: var(--stone-700);
+  line-height: 1.6;
+  margin-top: 0.75rem;
+}
+.arch-connector {
+  display: flex; justify-content: center;
+  padding: 0.35rem 0;
+  color: var(--stone-300);
+}
+.arch-connector svg { width: 20px; height: 20px; }
+
+/* ===== CHAT FLOW ===== */
+.chat-container {
+  background: var(--bg-white);
+  border: 1px solid var(--stone-200);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+.chat-message {
+  display: flex; gap: 0.75rem;
+  margin-bottom: 1rem;
+  opacity: 0; transform: translateY(15px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.chat-message.visible { opacity: 1; transform: translateY(0); }
+.chat-message.right { flex-direction: row-reverse; }
+.chat-avatar {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.chat-content { max-width: 75%; }
+.chat-sender {
+  font-size: 0.75rem; font-weight: 600;
+  margin-bottom: 4px;
+}
+.chat-message.right .chat-sender { text-align: right; }
+.chat-bubble {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.chat-bubble code {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  background: rgba(0,0,0,0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.chat-divider {
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--stone-400);
+  position: relative;
+}
+.chat-divider::before, .chat-divider::after {
+  content: '';
+  position: absolute; top: 50%;
+  width: calc(50% - 80px);
+  height: 1px; background: var(--stone-200);
+}
+.chat-divider::before { left: 0; }
+.chat-divider::after { right: 0; }
+
+/* Chat color schemes */
+.chat-trainer .chat-avatar { background: #EDE9FE; }
+.chat-trainer .chat-sender { color: #7C3AED; }
+.chat-trainer .chat-bubble { background: #F5F3FF; border: 1px solid #E9E5FF; }
+
+.chat-env .chat-avatar { background: #FEF3C7; }
+.chat-env .chat-sender { color: #D97706; }
+.chat-env .chat-bubble { background: #FFFBEB; border: 1px solid #FDE68A; }
+
+.chat-task .chat-avatar { background: #DBEAFE; }
+.chat-task .chat-sender { color: #2563EB; }
+.chat-task .chat-bubble { background: #EFF6FF; border: 1px solid #BFDBFE; }
+
+.chat-bash .chat-avatar { background: #D1FAE5; }
+.chat-bash .chat-sender { color: #059669; }
+.chat-bash .chat-bubble { background: #ECFDF5; border: 1px solid #A7F3D0; }
+
+.chat-reward .chat-avatar { background: #FFE4E6; }
+.chat-reward .chat-sender { color: #E11D48; }
+.chat-reward .chat-bubble { background: #FFF1F2; border: 1px solid #FECDD3; }
+
+/* ===== DESIGN DEEP DIVE ===== */
+.design-block {
+  background: var(--bg-white);
+  border: 1px solid var(--stone-200);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.design-block:hover { box-shadow: var(--shadow-md); border-color: var(--gold-border); }
+.design-block.active { border-color: var(--gold); }
+.design-block-header { display: flex; align-items: center; gap: 1rem; }
+.design-number {
+  width: 36px; height: 36px;
+  background: var(--gold-light);
+  color: var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-weight: 700; font-size: 1rem;
+  flex-shrink: 0;
+}
+.design-title {
+  font-family: var(--serif);
+  font-size: 1.1rem; font-weight: 600;
+  color: var(--stone-900);
+}
+.design-subtitle {
+  font-size: 0.85rem; color: var(--stone-500);
+  font-style: italic; margin-top: 2px;
+}
+.design-detail {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.design-block.active .design-detail { max-height: 800px; padding-top: 1rem; }
+.design-detail p { font-size: 0.92rem; color: var(--stone-700); margin-bottom: 0.75rem; line-height: 1.7; }
+
+.method-compare {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  margin: 1rem 0;
+}
+.method-card {
+  background: var(--bg-primary);
+  border-radius: var(--radius);
+  padding: 1rem;
+  border-top: 3px solid var(--stone-300);
+}
+.method-card.chosen { border-top-color: var(--gold); }
+.method-card.rejected { border-top-color: var(--stone-300); opacity: 0.7; }
+.method-card h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; }
+.method-card p { font-size: 0.82rem; color: var(--stone-600); line-height: 1.5; margin: 0; }
+.method-card .tag {
+  display: inline-block;
+  font-size: 0.7rem; font-weight: 600;
+  padding: 2px 8px; border-radius: 100px;
+  margin-top: 0.5rem;
+}
+.method-card.chosen .tag { background: #D1FAE5; color: #059669; }
+.method-card.rejected .tag { background: var(--stone-200); color: var(--stone-500); }
+
+/* ===== FILES GRID ===== */
+.files-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+}
+.file-card {
+  background: var(--bg-white);
+  border: 1px solid var(--stone-200);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  transition: all 0.3s;
+  box-shadow: var(--shadow-sm);
+}
+.file-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--gold-border);
+  transform: translateY(-2px);
+}
+.file-card-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; margin-bottom: 0.75rem;
+}
+.file-card h4 {
+  font-family: var(--mono);
+  font-size: 0.85rem; font-weight: 600;
+  color: var(--stone-900); margin-bottom: 0.35rem;
+}
+.file-card p {
+  font-size: 0.82rem; color: var(--stone-600);
+  line-height: 1.5;
+}
+.file-card .lines {
+  font-size: 0.7rem; color: var(--stone-400);
+  margin-top: 0.5rem; font-family: var(--mono);
+}
+
+/* ===== SAAS / SERVICES ===== */
+.saas-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
+}
+.saas-card {
+  background: var(--bg-white);
+  border: 1px solid var(--stone-200);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s;
+}
+.saas-card:hover { box-shadow: var(--shadow-md); border-color: var(--gold-border); }
+.saas-card-header {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.saas-card-header span { font-size: 1.3rem; }
+.saas-card h4 { font-size: 0.95rem; font-weight: 600; }
+.saas-card .role { font-size: 0.75rem; color: var(--stone-500); }
+.saas-card p { font-size: 0.85rem; color: var(--stone-600); margin-bottom: 0.75rem; line-height: 1.6; }
+.pricing-row { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
+.pricing-box {
+  flex: 1; padding: 0.5rem 0.75rem;
+  border-radius: 8px; font-size: 0.78rem;
+}
+.pricing-box.free { background: #ECFDF5; color: #059669; }
+.pricing-box.paid { background: #EFF6FF; color: #2563EB; }
+.pricing-box .price-label { font-weight: 600; display: block; margin-bottom: 2px; }
+
+/* ===== GLOSSARY ===== */
+.glossary-category {
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold); margin: 2rem 0 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--gold-border);
+}
+.glossary-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+}
+.glossary-card {
+  background: var(--bg-white);
+  border: 1px solid var(--stone-200);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+}
+.glossary-term {
+  font-family: var(--mono);
+  font-size: 0.85rem; font-weight: 600;
+  color: var(--stone-900); margin-bottom: 0.35rem;
+}
+.glossary-def {
+  font-size: 0.82rem; color: var(--stone-600);
+  line-height: 1.5; margin-bottom: 0.5rem;
+}
+.glossary-analogy {
+  background: var(--gold-light);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem; color: var(--stone-700);
+  line-height: 1.5;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--stone-900);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.footer-logo {
+  font-family: var(--serif);
+  font-size: 1.5rem; font-weight: 700;
+  color: var(--stone-100);
+  margin-bottom: 0.5rem;
+}
+.footer-logo span { color: var(--gold); }
+.footer p { font-size: 0.85rem; color: var(--stone-500); line-height: 1.6; }
+
+/* ===== ANIMATIONS ===== */
+.animate-in {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.animate-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.2rem; }
+  .hero { padding: 120px 1.5rem 60px; }
+  .section { padding: 60px 1.5rem; }
+  .nav-links { display: none; }
+  .files-grid, .saas-grid, .glossary-grid, .method-compare {
+    grid-template-columns: 1fr;
+  }
+  .chat-content { max-width: 85%; }
+}
+@media (max-width: 480px) {
+  .hero h1 { font-size: 1.8rem; }
+  .section h2 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <div class="nav-logo">Apex<span>Env</span></div>
+  <div class="nav-links">
+    <a href="#architecture">Architecture 架构</a>
+    <a href="#flow">How It Works 运行流程</a>
+    <a href="#files">Components 组件</a>
+    <a href="#design">Design 设计</a>
+    <a href="#services">Services 服务</a>
+    <a href="#glossary">Glossary 术语</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-badge">Interactive Architecture / 交互式架构解读</div>
+  <h1>Teaching AI to <span class="accent">Act</span>,<br>Not Just Think</h1>
+  <p>
+    教 AI 动手做事，而不只是动嘴说话。APEX Environment 是 AI agent 的训练场 &mdash; agent 不再只是生成文字，而是学会用 bash 命令解决真实的专业任务：法律分析、投行建模、管理咨询，像一个初级分析师一样工作。
+  </p>
+  <div class="scroll-hint">
+    <span>往下滑 &middot; Scroll to explore</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 7l5 5 5-5"/></svg>
+  </div>
+</section>
+
+<!-- ===== ARCHITECTURE ===== -->
+<section class="section section-alt section-full" id="architecture">
+  <div class="section-inner">
+    <div class="section-label">Architecture 架构</div>
+    <h2>Five Layers, <span class="accent">One Loop</span></h2>
+    <p class="section-subtitle">五层架构，一个循环。点击每一层查看详情，数据从上往下流动。</p>
+
+    <div class="arch-stack">
+      <!-- Layer 1: Client -->
+      <div class="arch-card animate-in" data-layer="0">
+        <div class="arch-card-header">
+          <div class="arch-icon" style="background:#EDE9FE;">&#x1F3AE;</div>
+          <div>
+            <div class="arch-card-title">Client (ApexEnv) &middot; 客户端</div>
+            <div class="arch-card-tech">client.py &middot; EnvClient wrapper &middot; Pydantic models</div>
+          </div>
+        </div>
+        <div class="arch-card-detail">
+          <p>这是 RL trainer 敲的那扇门。Client 把 bash 命令打包成 <code>BashAction</code> 对象，通过 HTTP 发给服务器，再把返回值解包成类型化的 Python 对象（<code>ApexObservation</code>、<code>ApexState</code>）。</p>
+          <p>它只实现三个方法：<code>_step_payload()</code> 序列化 action，<code>_parse_result()</code> 反序列化 observation，<code>_parse_state()</code> 读取环境状态。</p>
+          <div class="analogy"><strong>类比：</strong>就像电视遥控器。你按按钮（发命令），遥控器把你的意图翻译成红外信号给电视。你永远不用直接碰电视内部。</div>
+        </div>
+      </div>
+
+      <div class="arch-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+      <!-- Layer 2: API Server -->
+      <div class="arch-card animate-in" data-layer="1">
+        <div class="arch-card-header">
+          <div class="arch-icon" style="background:#DBEAFE;">&#x1F310;</div>
+          <div>
+            <div class="arch-card-title">API Server &middot; 接口服务</div>
+            <div class="arch-card-tech">server/app.py &middot; FastAPI &middot; uvicorn</div>
+          </div>
+        </div>
+        <div class="arch-card-detail">
+          <p>一行代码搞定整个 HTTP API。OpenEnv 的 <code>create_app()</code> 工厂函数接收你的 Environment 类、Action 类型和 Observation 类型，自动生成 <code>/reset</code>、<code>/step</code>、<code>/state</code>、<code>/close</code> 四个端点。</p>
+          <p>整个文件只有 6 行有效代码。这就是站在 OpenEnv 约定上的力量 &mdash; 不写样板代码。</p>
+          <div class="analogy"><strong>类比：</strong>像餐厅的前台系统。你不用从零搭建预约系统、菜单展示和收银台 &mdash; 你接入现成的 POS 平台，它自动生成所有界面。你只需要提供菜单（你的环境逻辑）。</div>
+        </div>
+      </div>
+
+      <div class="arch-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+      <!-- Layer 3: Environment Core -->
+      <div class="arch-card animate-in" data-layer="2">
+        <div class="arch-card-header">
+          <div class="arch-icon" style="background:#FEF3C7;">&#x1F9E0;</div>
+          <div>
+            <div class="arch-card-title">Environment Core (ApexEnvironment) &middot; 核心</div>
+            <div class="arch-card-tech">server/apex_environment.py &middot; 155 lines &middot; the brain</div>
+          </div>
+        </div>
+        <div class="arch-card-detail">
+          <p>这是心脏。它管理每个训练 episode 的完整生命周期：</p>
+          <p><strong>reset()</strong> &mdash; 抽一个专业任务（比如"分析这笔并购交易"），创建一个全新的临时目录作为 agent 的工作区，把任务说明交给 agent。</p>
+          <p><strong>step()</strong> &mdash; 接收一条 bash 命令，在工作区里执行，检查 episode 是否该结束（到了 20 步上限？agent 说了"done"？），如果是，计算奖励。</p>
+          <p><strong>close()</strong> &mdash; 清理临时工作区，不留痕迹。</p>
+          <div class="analogy"><strong>类比：</strong>像监考老师。发卷子（reset），看你做题并在每一步检查（step），时间到了收卷（close）。每个考生有自己的桌子（工作区隔离）。</div>
+        </div>
+      </div>
+
+      <div class="arch-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+      <!-- Layer 4: Bash Executor -->
+      <div class="arch-card animate-in" data-layer="3">
+        <div class="arch-card-header">
+          <div class="arch-icon" style="background:#D1FAE5;">&#x1F4BB;</div>
+          <div>
+            <div class="arch-card-title">Bash Executor &middot; 命令执行器</div>
+            <div class="arch-card-tech">server/bash_executor.py &middot; subprocess &middot; 30s timeout</div>
+          </div>
+        </div>
+        <div class="arch-card-detail">
+          <p>Python <code>subprocess.run()</code> 的轻量包装。接收 bash 命令字符串，在工作目录里执行，捕获 stdout/stderr，强制 30 秒超时。</p>
+          <p>安全护栏：输出截断到 10KB（stdout）和 5KB（stderr），防止命令输出刷爆内存。超时返回 exit code 124（和 Unix 的 <code>timeout</code> 命令一样）。</p>
+          <div class="analogy"><strong>类比：</strong>像秘书。你写张便条给她，她去终端上敲进去，再把屏幕上显示的东西带回来 &mdash; 但如果 30 秒还没跑完，她会直接报告"超时了"。</div>
+        </div>
+      </div>
+
+      <div class="arch-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+      <!-- Layer 5: Reward -->
+      <div class="arch-card animate-in" data-layer="4">
+        <div class="arch-card-header">
+          <div class="arch-icon" style="background:#FFE4E6;">&#x1F3AF;</div>
+          <div>
+            <div class="arch-card-title">Reward Pipeline &middot; 奖励管线</div>
+            <div class="arch-card-tech">server/reward.py &middot; keyword matching &middot; [0, 1] score</div>
+          </div>
+        </div>
+        <div class="arch-card-detail">
+          <p>每个 episode 结束时，这个模块给 agent 的工作打分。当前版本（v1）用两个信号：</p>
+          <p><strong>文件存在性（30%）：</strong>Agent 到底有没有创建输出文件？工作区里只要有一个可读文件（.txt, .md, .csv 等），就拿 0.3 分。奖励"做了点什么"而不是"什么都没做"。</p>
+          <p><strong>关键词覆盖率（70%）：</strong>每个任务有评分标准（rubric）。奖励函数从标准里提取重要术语（大写短语、引号里的词），然后检查 agent 的输出文件里出现了多少。匹配越多，分越高。</p>
+          <div class="analogy"><strong>类比：</strong>像老师用 checklist 批改作文。先看："学生到底写了没？"（30%）。再看："他有没有提到评分标准里的关键概念 &mdash; 比如'Section 1983'、'IRR 计算'、'市场规模'？"（70%）。不算精读，但足以区分白卷和还行的答案。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CHAT FLOW ===== -->
+<section class="section" id="flow">
+  <div class="section-label">How It Actually Works 实际运行</div>
+  <h2>A Full <span class="accent">Episode</span></h2>
+  <p class="section-subtitle">看一个 AI agent 如何一步步完成一个投行任务。Watch an agent tackle an IB task, step by step.</p>
+
+  <div class="chat-container">
+    <!-- Phase 1: Reset -->
+    <div class="chat-divider">Episode Start &mdash; reset() &middot; 开始</div>
+
+    <div class="chat-message chat-trainer">
+      <div class="chat-avatar">&#x1F916;</div>
+      <div class="chat-content">
+        <div class="chat-sender">RL Trainer (GRPOTrainer)</div>
+        <div class="chat-bubble">新 episode。<code>env.reset(seed=42)</code> &mdash; 给我一个任务。</div>
+      </div>
+    </div>
+
+    <div class="chat-message chat-task right">
+      <div class="chat-avatar">&#x1F4DA;</div>
+      <div class="chat-content">
+        <div class="chat-sender">TaskLoader 任务加载器</div>
+        <div class="chat-bubble">从 <code>mercor/APEX-v1-extended</code> 加载中... Task #42: "分析 TechCorp 的拟议收购案。计算隐含企业价值，审查交易结构，识别关键风险。" 领域：Investment Banking。</div>
+      </div>
+    </div>
+
+    <div class="chat-message chat-env right">
+      <div class="chat-avatar">&#x1F9E0;</div>
+      <div class="chat-content">
+        <div class="chat-sender">ApexEnvironment</div>
+        <div class="chat-bubble">已创建工作区 <code>/tmp/apex_42_a7f3b/</code>。指令已返回给 agent。步数：0/20。</div>
+      </div>
+    </div>
+
+    <!-- Phase 2: Agent works -->
+    <div class="chat-divider">Agent Starts Working &mdash; step() &middot; 开始工作</div>
+
+    <div class="chat-message chat-trainer">
+      <div class="chat-avatar">&#x1F916;</div>
+      <div class="chat-content">
+        <div class="chat-sender">Agent (Qwen-2.5-7B)</div>
+        <div class="chat-bubble"><code>step(BashAction(command="ls -la"))</code><br>让我看看工作区里有什么。</div>
+      </div>
+    </div>
+
+    <div class="chat-message chat-bash right">
+      <div class="chat-avatar">&#x1F4BB;</div>
+      <div class="chat-content">
+        <div class="chat-sender">BashExecutor 命令执行器</div>
+        <div class="chat-bubble"><code>subprocess.run(["bash", "-c", "ls -la"], cwd=/tmp/apex_42_a7f3b/)</code><br>stdout: "total 0" &mdash; 空工作区，耗时 0.02s</div>
+      </div>
+    </div>
+
+    <div class="chat-message chat-trainer">
+      <div class="chat-avatar">&#x1F916;</div>
+      <div class="chat-content">
+        <div class="chat-sender">Agent (Qwen-2.5-7B)</div>
+        <div class="chat-bubble"><code>step(BashAction(command="cat << 'EOF' > analysis.md\n# TechCorp Acquisition Analysis\n## Enterprise Value\n..."))</code><br>开始写分析报告。</div>
+      </div>
+    </div>
+
+    <div class="chat-message chat-bash right">
+      <div class="chat-avatar">&#x1F4BB;</div>
+      <div class="chat-content">
+        <div class="chat-sender">BashExecutor 命令执行器</div>
+        <div class="chat-bubble">文件已创建。exit_code: 0。步数 2/20。</div>
+      </div>
+    </div>
+
+    <div class="chat-message chat-trainer">
+      <div class="chat-avatar">&#x1F916;</div>
+      <div class="chat-content">
+        <div class="chat-sender">Agent (Qwen-2.5-7B)</div>
+        <div class="chat-bubble"><code>step(BashAction(command="done"))</code><br>分析完成了。</div>
+      </div>
+    </div>
+
+    <!-- Phase 3: Reward -->
+    <div class="chat-divider">Episode End &mdash; Scoring &middot; 评分</div>
+
+    <div class="chat-message chat-reward right">
+      <div class="chat-avatar">&#x1F3AF;</div>
+      <div class="chat-content">
+        <div class="chat-sender">Reward Pipeline 奖励管线</div>
+        <div class="chat-bubble">
+          <strong>给 agent 的工作打分：</strong><br>
+          &#x2705; 找到输出文件：analysis.md &rarr; +0.30<br>
+          &#x1F50D; Rubric 关键词：["Enterprise Value", "Deal Structure", "TechCorp", "Risk"]<br>
+          &#x2705; 匹配了 3/4 个关键词 &rarr; +0.525<br>
+          <strong>最终奖励：0.825</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-message chat-env right">
+      <div class="chat-avatar">&#x1F9E0;</div>
+      <div class="chat-content">
+        <div class="chat-sender">ApexEnvironment</div>
+        <div class="chat-bubble"><code>ApexObservation(done=True, reward=0.825)</code> &mdash; Episode 结束，清理工作区。这个奖励反馈给 RL trainer，用于下一轮权重更新。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FILE COMPONENTS ===== -->
+<section class="section section-alt section-full" id="files">
+  <div class="section-inner">
+    <div class="section-label">Components 组件</div>
+    <h2>Every <span class="accent">File</span>, At a Glance</h2>
+    <p class="section-subtitle">10 个文件，总共约 450 行。故意做得小。Intentionally small.</p>
+
+    <div class="files-grid">
+      <div class="file-card animate-in">
+        <div class="file-card-icon" style="background:#FEF3C7;">&#x1F9E0;</div>
+        <h4>apex_environment.py</h4>
+        <p>大脑。管理 episode 生命周期：reset/step/close。创建隔离工作区，路由 bash 命令，触发奖励计算。</p>
+        <div class="lines">155 lines &middot; server/</div>
+      </div>
+      <div class="file-card animate-in">
+        <div class="file-card-icon" style="background:#FFE4E6;">&#x1F3AF;</div>
+        <h4>reward.py</h4>
+        <p>通过关键词匹配 + 文件存在性给 agent 输出打分。从 APEX rubric 提取术语。返回 [0, 1] 的 float。</p>
+        <div class="lines">75 lines &middot; server/</div>
+      </div>
+      <div class="file-card animate-in">
+        <div class="file-card-icon" style="background:#D1FAE5;">&#x1F4BB;</div>
+        <h4>bash_executor.py</h4>
+        <p>通过 subprocess 执行 bash 命令。捕获 stdout/stderr，强制超时，截断过长输出。</p>
+        <div class="lines">38 lines &middot; server/</div>
+      </div>
+      <div class="file-card animate-in">
+        <div class="file-card-icon" style="background:#DBEAFE;">&#x1F4DA;</div>
+        <h4>task_loader.py</h4>
+        <p>从 HuggingFace 懒加载 100 个专业任务。支持按 seed、task_id 或随机选取。</p>
+        <div class="lines">43 lines &middot; server/</div>
+      </div>
+      <div class="file-card animate-in">
+        <div class="file-card-icon" style="background:#EDE9FE;">&#x1F4E6;</div>
+        <h4>models.py</h4>
+        <p>三个 Pydantic 模型：BashAction（agent 发什么）、ApexObservation（返回什么）、ApexState（episode 状态）。</p>
+        <div class="lines">28 lines</div>
+      </div>
+      <div class="file-card animate-in">
+        <div class="file-card-icon" style="background:#EDE9FE;">&#x1F3AE;</div>
+        <h4>client.py</h4>
+        <p>HTTP 客户端包装器。序列化 action，反序列化 observation。把 trainer 接到环境服务器上。</p>
+        <div class="lines">42 lines</div>
+      </div>
+      <div class="file-card animate-in">
+        <div class="file-card-icon" style="background:#DBEAFE;">&#x1F310;</div>
+        <h4>app.py</h4>
+        <p>一行代码的 FastAPI 应用。OpenEnv 的 create_app() 从你的类型自动生成所有 REST 端点。</p>
+        <div class="lines">23 lines &middot; server/</div>
+      </div>
+      <div class="file-card animate-in">
+        <div class="file-card-icon" style="background:#FEF3C7;">&#x1F433;</div>
+        <h4>Dockerfile</h4>
+        <p>Python 3.11-slim，预装了 curl、wget、jq、git。这些就是 agent 在任务中能用的工具。</p>
+        <div class="lines">38 lines</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DESIGN DEEP DIVE ===== -->
+<section class="section" id="design">
+  <div class="section-label">Design Decisions 设计决策</div>
+  <h2>Why <span class="accent">This Way</span>?</h2>
+  <p class="section-subtitle">为什么这样设计？每个架构选择背后的思考。</p>
+
+  <!-- Decision 1: Bash vs MCP -->
+  <div class="design-block animate-in" data-design="0">
+    <div class="design-block-header">
+      <div class="design-number">1</div>
+      <div>
+        <div class="design-title">Bash, Not MCP &middot; 用 Bash，不用 MCP</div>
+        <div class="design-subtitle">为什么选纯 bash 命令而不是结构化工具协议？</div>
+      </div>
+    </div>
+    <div class="design-detail">
+      <p>MCP（Model Context Protocol）是一个正式协议：你把工具定义成 JSON schema，agent 通过名称和类型化参数来调用。很干净。但它多了很多层：JSON-RPC 传输、工具 schema 定义、参数序列化/验证。</p>
+      <p>Bash 是通用的。所有 LLM 都已经会写 <code>grep</code>、<code>cat</code>、<code>curl</code>。不需要 schema。不会出"tool not found"错误。Agent 直接输入它在终端里会输入的东西。</p>
+      <div class="method-compare">
+        <div class="method-card chosen">
+          <h4>Bash (Chosen)</h4>
+          <p>零样本就能用。所有模型都懂 bash。不需要设计 schema。法律、金融、咨询任务用同一个 action space。</p>
+          <span class="tag">Selected</span>
+        </div>
+        <div class="method-card rejected">
+          <h4>MCP</h4>
+          <p>干净的类型化 API。但每个功能都要写 tool schema。JSON-RPC 开销。模型需要针对特定工具名做训练。</p>
+          <span class="tag">Rejected</span>
+        </div>
+      </div>
+      <p>Harbor（SkyRL 的训练框架）已经证明这个方案在大规模 RL 训练中可行。</p>
+    </div>
+  </div>
+
+  <!-- Decision 2: Reward Design -->
+  <div class="design-block animate-in" data-design="1">
+    <div class="design-block-header">
+      <div class="design-number">2</div>
+      <div>
+        <div class="design-title">Reward: Start Simple, Upgrade Later &middot; 先简单，后升级</div>
+        <div class="design-subtitle">三个级别的奖励质量，逐步部署</div>
+      </div>
+    </div>
+    <div class="design-detail">
+      <p>奖励函数是所有 RL 系统中最重要的部分 &mdash; 它定义了什么叫"好"。但一个完美的奖励函数如果要花一周才能写好，还不如一个今天就能跑的"还行"的版本有价值。</p>
+      <p><strong>v1（当前）：</strong>关键词匹配。速度快（零 API 调用），粗糙但能区分好坏。空工作区得 0.0；提到了对的术语的报告得 0.7+。</p>
+      <p><strong>v2（计划中）：</strong>LLM-as-judge。把每条评分标准 + agent 输出发给快速 LLM（Gemini Flash）做逐项评分。复用 Mercor 在 apex-evals 里经过实战检验的评分逻辑。</p>
+      <div class="analogy"><strong>为什么这个顺序？</strong>你得先知道训练管线本身能不能跑通，再去投入奖励质量。如果 RL loop 有 bug，再完美的奖励函数也白搭。先上 v1，验证管线，再升级信号。</div>
+    </div>
+  </div>
+
+  <!-- Decision 3: Workspace Isolation -->
+  <div class="design-block animate-in" data-design="2">
+    <div class="design-block-header">
+      <div class="design-number">3</div>
+      <div>
+        <div class="design-title">One Workspace Per Episode &middot; 每个 Episode 一个工作区</div>
+        <div class="design-subtitle">通过临时目录隔离，而不是容器</div>
+      </div>
+    </div>
+    <div class="design-detail">
+      <p>每个 episode 获得自己的 <code>/tmp/apex_{task_id}_{uuid}/</code> 目录。Agent 只能在这个沙箱里读写。Episode 结束后，目录被删除。</p>
+      <p>这比每个 episode 开一个 Docker 容器（Harbor 的做法）更轻量，但仍然提供隔离。对于 RL 训练这种需要跑成千上万个 episode 的场景，每个 episode 都起容器的开销太大了。</p>
+      <p><code>SUPPORTS_CONCURRENT_SESSIONS = True</code> 意味着多个 episode 可以并行运行 &mdash; 每个都有自己的临时目录，互不共享状态。这对批量 RL 训练至关重要，因为你需要同时跑多个 rollout。</p>
+    </div>
+  </div>
+
+  <!-- Decision 4: 20-Step Budget -->
+  <div class="design-block animate-in" data-design="3">
+    <div class="design-block-header">
+      <div class="design-number">4</div>
+      <div>
+        <div class="design-title">20-Step Budget + "done" Signal &middot; 20 步预算 + 完成信号</div>
+        <div class="design-subtitle">教效率，不只是教正确</div>
+      </div>
+    </div>
+    <div class="design-detail">
+      <p>Episode 通过两种方式结束：agent 说 <code>"done"</code>，或者到了 20 步上限。这是刻意设计的。</p>
+      <p>步数限制防止无限循环（一个不停跑 <code>ls</code> 的 agent）。但"done"信号奖励效率 &mdash; 一个 5 步就解决任务并说"done"的 agent 比浪费了 20 步的 agent 更好。两个都能拿到奖励，但高效的 agent 省下的算力可以用来跑更多训练 episode。</p>
+      <div class="analogy"><strong>类比：</strong>像一场可以提前交卷的考试。60 分钟到了监考老师会收卷，但如果你 30 分钟就写完交了，你既展示了能力，又给下一个考生让出了教室。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="section section-alt section-full" id="services">
+  <div class="section-inner">
+    <div class="section-label">Tech Stack 技术栈</div>
+    <h2>Services & <span class="accent">Dependencies</span></h2>
+    <p class="section-subtitle">项目依赖什么，花多少钱。What this project depends on, and what it costs.</p>
+
+    <div class="saas-grid">
+      <div class="saas-card animate-in">
+        <div class="saas-card-header">
+          <span>&#x1F917;</span>
+          <div>
+            <h4>HuggingFace Datasets</h4>
+            <div class="role">任务数据源 Task source</div>
+          </div>
+        </div>
+        <p>提供 <code>mercor/APEX-v1-extended</code> 的 100 个专业任务。第一次 <code>reset()</code> 时懒加载，之后缓存在内存里。</p>
+        <div class="pricing-row">
+          <div class="pricing-box free"><span class="price-label">Free</span>公开数据集，无限下载</div>
+          <div class="pricing-box paid"><span class="price-label">Pro $9/mo</span>私有数据集，更快推理</div>
+        </div>
+      </div>
+
+      <div class="saas-card animate-in">
+        <div class="saas-card-header">
+          <span>&#x26A1;</span>
+          <div>
+            <h4>FastAPI + Uvicorn</h4>
+            <div class="role">HTTP 服务器</div>
+          </div>
+        </div>
+        <p>FastAPI 生成 REST API；Uvicorn 跑服务。OpenEnv 的 <code>create_app()</code> 处理所有路由创建。你只需提供类型。</p>
+        <div class="pricing-row">
+          <div class="pricing-box free"><span class="price-label">Free</span>开源，MIT 协议，无限制。</div>
+        </div>
+      </div>
+
+      <div class="saas-card animate-in">
+        <div class="saas-card-header">
+          <span>&#x1F4E6;</span>
+          <div>
+            <h4>OpenEnv Core</h4>
+            <div class="role">环境框架 Environment framework</div>
+          </div>
+        </div>
+        <p>提供基础类（<code>Environment</code>、<code>Action</code>、<code>Observation</code>、<code>State</code>）、<code>create_app()</code> 工厂函数、以及 <code>EnvClient</code> 用于客户端-服务器通信。</p>
+        <div class="pricing-row">
+          <div class="pricing-box free"><span class="price-label">Free</span>开源 (v0.2.1+)</div>
+        </div>
+      </div>
+
+      <div class="saas-card animate-in">
+        <div class="saas-card-header">
+          <span>&#x1F433;</span>
+          <div>
+            <h4>Docker</h4>
+            <div class="role">部署容器 Deployment container</div>
+          </div>
+        </div>
+        <p>Dockerfile 把一切打包成可部署的镜像。Python 3.11-slim 基础镜像，预装了 bash 工具（curl、wget、jq、git）供 agent 使用。</p>
+        <div class="pricing-row">
+          <div class="pricing-box free"><span class="price-label">Free</span>Docker Desktop 个人用免费</div>
+          <div class="pricing-box paid"><span class="price-label">$5/mo</span>Docker Pro 商业团队版</div>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:0.75rem;color:var(--stone-400);text-align:center;margin-top:1.5rem;">价格数据截至 2026 年 3 月 / Pricing data as of March 2026</p>
+  </div>
+</section>
+
+<!-- ===== GLOSSARY ===== -->
+<section class="section" id="glossary">
+  <div class="section-label">Glossary 术语表</div>
+  <h2>Jargon <span class="accent">Buster</span></h2>
+  <p class="section-subtitle">这页上的每个技术术语，用人话解释。Every term explained simply.</p>
+
+  <p style="font-size:0.9rem;color:var(--stone-600);margin-bottom:1.5rem;line-height:1.7;">
+    大局观：<strong>RL Trainer</strong> 在<strong>环境</strong>里跑 <strong>episode</strong>。每个 episode 里，<strong>agent</strong> 执行<strong>动作</strong>（bash 命令）并收到<strong>观测</strong>（终端输出）。最后，<strong>奖励</strong>函数给 agent 的表现打分。Trainer 用这个分数更新 agent 的大脑（模型权重），让它在下一个 episode 里更聪明。重复几千次。
+  </p>
+
+  <div class="glossary-category">Reinforcement Learning 强化学习</div>
+  <div class="glossary-grid">
+    <div class="glossary-card animate-in">
+      <div class="glossary-term">Environment 环境</div>
+      <div class="glossary-def">AI agent 生活的"世界"。定义了什么动作是可能的、agent 能看到什么、以及怎么评分。</div>
+      <div class="glossary-analogy">像飞行员的飞行模拟器。不是真的，但表现得像真的 &mdash; 飞行员通过在模拟器里练习学会真技术。</div>
+    </div>
+    <div class="glossary-card animate-in">
+      <div class="glossary-term">Episode 回合</div>
+      <div class="glossary-def">对一个任务的一次完整尝试，从头到尾。从 reset() 开始，到 done=True 结束。</div>
+      <div class="glossary-analogy">像棋盘游戏的一局。摆好棋盘，玩到有人赢（或时间到），然后重置下一局。</div>
+    </div>
+    <div class="glossary-card animate-in">
+      <div class="glossary-term">Reward 奖励</div>
+      <div class="glossary-def">一个 0 到 1 的数字，告诉 agent 做得多好。越高越好。只在 episode 结束时计算。</div>
+      <div class="glossary-analogy">像考试成绩。你不是每做一题就被评分 &mdash; 而是交卷后拿到一个总分。</div>
+    </div>
+    <div class="glossary-card animate-in">
+      <div class="glossary-term">GRPO (Group Relative Policy Optimization)</div>
+      <div class="glossary-def">一个训练算法。让多个 agent 尝试同一个任务，然后强化做得更好的那些。</div>
+      <div class="glossary-analogy">像拼写比赛。10 个小孩拼同一个单词。拼对的被强化（"继续这样做！"），拼错的被提醒下次换个方式。</div>
+    </div>
+  </div>
+
+  <div class="glossary-category">APEX Environment</div>
+  <div class="glossary-grid">
+    <div class="glossary-card animate-in">
+      <div class="glossary-term">BashAction</div>
+      <div class="glossary-def">Agent 的"棋步" &mdash; 一条 bash 命令，比如 <code>ls</code>、<code>cat file.txt</code> 或 <code>echo "analysis" > report.md</code>。</div>
+      <div class="glossary-analogy">就是在终端里敲一行命令。字面意思。</div>
+    </div>
+    <div class="glossary-card animate-in">
+      <div class="glossary-term">ApexObservation 观测</div>
+      <div class="glossary-def">执行 bash 命令后返回的东西：终端输出（stdout）、错误信息（stderr）、退出码（0 = 成功）。</div>
+      <div class="glossary-analogy">就是你在终端里按回车后屏幕上显示的内容。电脑回复你的话。</div>
+    </div>
+    <div class="glossary-card animate-in">
+      <div class="glossary-term">Workspace 工作区</div>
+      <div class="glossary-def">为每个 episode 新建的临时文件夹（<code>/tmp/apex_...</code>）。Agent 在这里读写文件。Episode 结束后被删除。</div>
+      <div class="glossary-analogy">像考试时分配给你的干净桌子。一切从空白开始，你在上面工作，考完后清洁工清空。</div>
+    </div>
+    <div class="glossary-card animate-in">
+      <div class="glossary-term">Rubric 评分标准</div>
+      <div class="glossary-def">附在每个任务上的评分清单。列出 agent 应该涵盖的具体标准，每条带权重（重要程度）。</div>
+      <div class="glossary-analogy">像辩论赛的评分指南："有没有反驳对方观点？（30%）有没有引用证据？（40%）结论清晰吗？（30%）"</div>
+    </div>
+  </div>
+
+  <div class="glossary-category">Infrastructure 基础设施</div>
+  <div class="glossary-grid">
+    <div class="glossary-card animate-in">
+      <div class="glossary-term">OpenEnv</div>
+      <div class="glossary-def">构建 RL 训练环境的框架。提供基础类和约定，让你不用重新造轮子。</div>
+      <div class="glossary-analogy">像 Django 之于 web 应用 &mdash; 它给你骨架，你填业务逻辑。</div>
+    </div>
+    <div class="glossary-card animate-in">
+      <div class="glossary-term">FastAPI / create_app()</div>
+      <div class="glossary-def">一个能自动生成 HTTP 端点的 web 框架。<code>create_app()</code> 是 OpenEnv 的魔法函数，把你的环境类变成一个跑起来的 web 服务器。</div>
+      <div class="glossary-analogy">像一个食品车生成器。你带着菜谱（你的环境），它给你一辆全副武装的餐车，带窗口、菜单板和收银系统。</div>
+    </div>
+    <div class="glossary-card animate-in">
+      <div class="glossary-term">APEX-v1-extended</div>
+      <div class="glossary-def">HuggingFace 上的数据集，100 个横跨法律、投行和咨询的专业任务。每个任务有说明、评分标准和标准答案。</div>
+      <div class="glossary-analogy">像一本有 100 道练习题和答案的教材。题目是初级分析师会遇到的真实专业场景。</div>
+    </div>
+    <div class="glossary-card animate-in">
+      <div class="glossary-term">EnvClient</div>
+      <div class="glossary-def">客户端类，通过 HTTP 和环境服务器通信。在 Python 对象和 JSON 之间来回翻译。</div>
+      <div class="glossary-analogy">像外交会议上的翻译。Trainer 说 Python，服务器说 HTTP/JSON &mdash; 客户端两边都翻。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-logo">Apex<span>Env</span></div>
+  <p>教 Agent 动手做事，而不只是动嘴。Teach agents to ACT, not just think.</p>
+  <p style="margin-top:0.75rem;">Built for the OpenEnv Hackathon (Mar 7-9, 2026)</p>
+  <p style="margin-top:1.5rem;font-size:0.75rem;color:var(--stone-600);">
+    OpenEnv 0.2.1 &middot; FastAPI &middot; Python 3.11 &middot; HuggingFace Datasets<br>
+    价格数据截至 2026 年 3 月 / Pricing data as of March 2026
+  </p>
+</footer>
+
+<script>
+// 1. Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
+
+// 2. Chat message stagger
+const chatObs = new IntersectionObserver((entries, obs) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const messages = entry.target.querySelectorAll('.chat-message');
+      messages.forEach((msg, i) => {
+        setTimeout(() => msg.classList.add('visible'), i * 180);
+      });
+      obs.disconnect();
+    }
+  });
+}, { threshold: 0.1 });
+const chatContainer = document.querySelector('.chat-container');
+if (chatContainer) chatObs.observe(chatContainer);
+
+// 3. Architecture accordion
+document.querySelectorAll('.arch-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const wasActive = card.classList.contains('active');
+    document.querySelectorAll('.arch-card').forEach(c => c.classList.remove('active'));
+    if (!wasActive) card.classList.add('active');
+  });
+});
+
+// 4. Design accordion
+document.querySelectorAll('.design-block').forEach(block => {
+  block.addEventListener('click', () => {
+    const wasActive = block.classList.contains('active');
+    document.querySelectorAll('.design-block').forEach(b => b.classList.remove('active'));
+    if (!wasActive) block.classList.add('active');
+  });
+});
+
+// 5. Smooth scroll
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      window.scrollTo({ top: target.offsetTop - 70, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+</body>
+</html>

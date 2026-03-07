@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openenv-apex_env"
+version = "0.1.0"
+description = "APEX Professional Task Environment for OpenEnv"
+requires-python = ">=3.10"
+dependencies = [
+    "openenv-core[core]>=0.2.1",
+    "fastapi>=0.115.0",
+    "pydantic>=2.0.0",
+    "uvicorn[standard]>=0.24.0",
+    "datasets>=2.14.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+[project.scripts]
+server = "apex_env.server.app:main"
+
+[tool.setuptools]
+packages = ["apex_env", "apex_env.server"]
+package-dir = { "apex_env" = ".", "apex_env.server" = "server" }
+
+[tool.setuptools.package-data]
+apex_env = ["**/*.yaml", "**/*.yml"]

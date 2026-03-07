@@ -1,0 +1,5 @@
+name: apex_env
+version: "0.1.0"
+description: "APEX professional task environment for RL training (law, IB, consulting)"
+action: BashAction
+observation: ApexObservation

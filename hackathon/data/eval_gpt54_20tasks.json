@@ -1,0 +1,265 @@
+{
+  "model": "openai/gpt-5.4",
+  "results": [
+    {
+      "task_id": "task_6fa5694c8bbe434e944d76e6782369b1",
+      "task_idx": 8,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_8_n4e9umhc -maxdepth 3 -type f | sed 's#^#/FOUND #'grep -Rni \"Kenvue\\|FY24\\|EBITDA\\|OpFCF\\|median deal value\\|deal value\" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_8_n4e9umhc 2>/dev/null | head -200done",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_8_n4e9umhc -maxdepth 3 -type f | sed 's#^#/FOUND #'done",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_8_n4e9umhc -maxdepth 3 -type f",
+        "grep -Rni \"Kenvue\\|FY24\\|EBITDA\\|OpFCF\\|median deal value\\|deal value\" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_8_n4e9umhc 2>/dev/null | head -200",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_8_n4e9umhc -maxdepth 5 -type f \\( -iname \"*.xlsx\" -o -iname \"*.csv\" -o -iname \"*.tsv\" -o -iname \"*.json\" -o -iname \"*.txt\" -o -iname \"*.md\" \\) -print"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_68a8fbc9544640cf9a20db80dd845d85",
+      "task_idx": 9,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "pwd && ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_9_xy1w5rtg && find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_9_xy1w5rtg -maxdepth 2 -type f | sed 's#^#FILE #'",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -maxdepth 3 -type f | grep -Ei 'kvue|task_68a8fbc9544640cf9a20db80dd845d85|wacc|dcf|model|valuation|treasury|rates' | head -200",
+        "find /private/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -maxdepth 2 -type f 2>/dev/null | sed 's#^#FILE #' | head -500",
+        "find /private/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -maxdepth 4 -type f 2>/dev/null | grep -Ei '\\.(xlsx|xls|csv|json|txt|md)$|kvue|task_68a8fbc9544640cf9a20db80dd845d85|valuation|dcf|wacc' | head -500",
+        "grep -Rni \"KVUE\\|enterprise value\\|EV\\|WACC\\|beta\\|risk-free\\|treasury\" /private/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/tmp* 2>/dev/null | head -300"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_16c0324b442841ec86f8ae24cbde119e",
+      "task_idx": 10,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 2,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_10_fwzqy87ifind /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_10_fwzqy87i -maxdepth 3 -type f | sed 's#^#/##' | sortdone",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_10_fwzqy87i -maxdepth 3 -type f | sort"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_1fb84d7682dc43138ad220b203ed5b22",
+      "task_idx": 11,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_11_smyyas3q -maxdepth 3 -type f | sort",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_11_smyyas3q -maxdepth 5 -type f | sortdone",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_11_smyyas3q -maxdepth 5 -type f | sort",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_11_smyyas3q -maxdepth 5 -type f | sort",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_11_smyyas3q"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_7c394865481b40cdbdd577a039825679",
+      "task_idx": 12,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_12_0robjsbb -maxdepth 3 -type f | sort",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_12_0robjsbb -maxdepth 5 -type f | sed 's#^#/FILE #'",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_12_0robjsbb",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -maxdepth 3 \\( -type f -o -type d \\) | grep -iE 'task_7c394865481b40cdbdd577a039825679|dcf|model|xlsx|csv|json' | head -200",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -maxdepth 4 -type f \\( -iname '*.xlsx' -o -iname '*.xls' -o -iname '*.csv' -o -iname '*.tsv' -o -iname '*.json' -o -iname '*.jsonl' -o -iname '*.txt' \\) 2>/dev/null | sort | head -500"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_7d11f0f8a4ac415599f715647d2a09e4",
+      "task_idx": 14,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_14_7vu2b4__find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_14_7vu2b4__ -maxdepth 2 -type f | sed 's#^#/##' | sort",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_14_7vu2b4__ -maxdepth 2 -type f | sort",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_14_7vu2b4__ -maxdepth 4 | sort",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn -maxdepth 3 -type f | grep -Ei 'xlsx|csv|tsv|json|txt'",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -maxdepth 2 -type f \\( -name '*.xlsx' -o -name '*.xls' -o -name '*.csv' -o -name '*.tsv' -o -name '*.json' -o -name '*.txt' \\) | sort"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_0097f20dd1744647a5a6e76db215a467",
+      "task_idx": 1,
+      "domain": "Law",
+      "reward": 0.0,
+      "num_turns": 2,
+      "actions": [
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_1_m7tsd3nf && python3 - <<'PY'",
+        "done"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_2b5df2b5a0eb423e998099a9fcd8e262",
+      "task_idx": 3,
+      "domain": "Law",
+      "reward": 0.8833333333333333,
+      "num_turns": 3,
+      "actions": [
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_3_jyre5inh && pwd && ls -la",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_3_jyre5inh && printf '%s\\n' 'Yes. Because the suit challenges the legality of a tariff on imported goods, exclusive jurisdiction likely lies in the Court of International Trade under 28 U.S.C. \u00a7 1581(i), so the motion to transfer will likely be granted.' > answer.txt",
+        "done"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_58d04f83ddee4c01bf89a4a1ca0b933a",
+      "task_idx": 6,
+      "domain": "Law",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_6_hnzcvzk5find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_6_hnzcvzk5 -maxdepth 2 -type f | sed 's#^#/##'done",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_6_hnzcvzk5 -maxdepth 2 -type f -o -type d",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_6_hnzcvzk5 -maxdepth 3 -type f",
+        "python3 - <<'PY'",
+        "python3 - <<'PY'"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_f868a55db35a4add998e12e09056b96a",
+      "task_idx": 59,
+      "domain": "Law",
+      "reward": 0.7083333333333333,
+      "num_turns": 5,
+      "actions": [
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_59_rmchtxtw && pwd && find .. -maxdepth 3 -type f | sed 's#^\\.\\./##' | sort | head -200",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_59_rmchtxtw && python3 - <<'PY'",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_59_rmchtxtw && ls -1 *.html 2>/dev/null && grep -Rni \"single-hull\\|double hull\\|tank vessel\\|offshore facility\\|onshore facility\\|liability limit\\|2704\" *.html | head -200",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_59_rmchtxtw && python3 - <<'PY'",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_59_rmchtxtw && curl -L --max-time 20 -o opa2704.html https://www.law.cornell.edu/uscode/text/33/2704 && wc -c opa2704.html && grep -ni \"tank vessel\\|single hull\\|double hull\\|offshore facility\\|onshore facility\\|2704\" opa2704.html | head -100"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_410408825872453bacd57f4ba8a3ae0a",
+      "task_idx": 60,
+      "domain": "Law",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_60_5jujpxbd",
+        "find / -type f \\( -iname '*BLPL*' -o -iname '*Claim*Summary*' -o -iname '*Red*Room*' -o -iname '*Hull*Machinery*Survey*' -o -iname '*OPA*' \\) 2>/dev/null | head -200find / -type f \\( -iname '*BLPL*' -o -iname '*Claim*Summary*' -o -iname '*Red*Room*' -o -iname '*Hull*Machinery*Survey*' -o -iname '*OPA*' \\) 2>/dev/null | head -200",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -type f 2>/dev/null | grep -Ei 'blpl|claim|summary|red room|hull|machinery|survey|cooper|jeffries|star tankers|oil pollution|opa' | head -200",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -type f | head -200",
+        "find ~ -type f 2>/dev/null | grep -Ei 'blpl|claim|summary|red room|hull|machinery|survey|cooper|jeffries|star tankers|oil pollution|opa' | head -200"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_ee25ae5557074bbaac24113f0412275d",
+      "task_idx": 61,
+      "domain": "Law",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -l /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_61_qsaqrg2n",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_61_qsaqrg2n -maxdepth 3 -type f -print",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn -maxdepth 4 -type f | head -200",
+        "find / -type f \\( -iname \"*policy*\" -o -iname \"*insurance*\" -o -iname \"*claim*\" -o -iname \"*.pdf\" -o -iname \"*.txt\" -o -iname \"*.docx\" \\) 2>/dev/null | grep -E \"apex_eval|task_ee25ae5557074bbaac24113f0412275d|workspace|MARINEX|policy|insurance\" | head -200",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -maxdepth 3 -type f \\( -iname \"*.pdf\" -o -iname \"*.txt\" -o -iname \"*.docx\" -o -iname \"*.json\" -o -iname \"*.csv\" -o -iname \"*.html\" \\) -print"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_699ea5ca3b0243a5852ad33e33043f12",
+      "task_idx": 27,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 3,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_27_bqwqhcanfind /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_27_bqwqhcan -maxdepth 2 -type f | sed 's#^#/##' | sortdone",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_27_bqwqhcan -maxdepth 2 -type f | sort",
+        "done"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_4b3c2dfc4d164a25831e8787397766c3",
+      "task_idx": 28,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_28_ceq2e0g3 && find . -maxdepth 2 -type f | sed 's#^\\./##' | sort",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_28_ceq2e0g3 && ls -la",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_28_ceq2e0g3 && find .. -maxdepth 3 -type f | sed 's#^\\./##' | sort | tail -n 200",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_28_ceq2e0g3 && find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -maxdepth 2 -type f \\( -iname '*.csv' -o -iname '*.xlsx' -o -iname '*.json' -o -iname '*.parquet' \\) | sort",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_28_ceq2e0g3 && python3 - <<'PY'"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_7acc98cded8b49de972ee79b0461107e",
+      "task_idx": 31,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -1 /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_31_mb3pq_s9find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_31_mb3pq_s9 -maxdepth 2 -type f | sed 's#^#/##'done",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_31_mb3pq_s9 -maxdepth 2 -type fdone",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_31_mb3pq_s9 -maxdepth 3 -type f",
+        "pwd && find . -maxdepth 3 -type f",
+        "find .. -maxdepth 3 -type f | head -200"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_f32cf6dbffac45eea7454b4f3a62eaf9",
+      "task_idx": 33,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_33_hwud_a7v && find . -maxdepth 2 -type f | sed 's#^\\./##' | sort",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_33_hwud_a7v && ls -la",
+        "cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_33_hwud_a7v && find .. -maxdepth 3 -type f | sed 's#^\\.\\./##' | sort | head -200",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -maxdepth 2 -type f | grep -Ei 'task_f32cf6dbffac45eea7454b4f3a62eaf9|roadmap|registry|risk|financial|asset|phase' | sort",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -maxdepth 3 -type f 2>/dev/null | grep -Ei 'task_f32cf6dbffac45eea7454b4f3a62eaf9|roadmap|registry|risk|financial|asset|phase|10 year' | sort | head -200"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_ec97a505112645f9b266df1954f2738d",
+      "task_idx": 34,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_34_d4oz6xdffind /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_34_d4oz6xdf -maxdepth 2 -type f | sed 's#^#/##'done",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_34_d4oz6xdf -maxdepth 3 -type f | sortdone",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_34_d4oz6xdf -maxdepth 3 -type f | sort",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_34_d4oz6xdf -maxdepth 3 \\( -type f -o -type d \\) | sort",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn -maxdepth 4 -type f | grep -Ei 'operational|efficiency|eurogrid|analysis|csv|json|txt|md|xlsx' | sort | head -200"
+      ],
+      "model": "openai/gpt-5.4"
+    },
+    {
+      "task_id": "task_f9f2907c268c44f686496a4934f1fc15",
+      "task_idx": 37,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_37_oggvaak9",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_37_oggvaak9 -maxdepth 5 -type f",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -maxdepth 3 -type f | grep -Ei 'renew|load|forecast|queue|connection|csv|xlsx|json'",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T -maxdepth 4 \\( -name '*.csv' -o -name '*.xlsx' -o -name '*.xls' -o -name '*.json' -o -name '*.parquet' \\) 2>/dev/null",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn -maxdepth 5 \\( -name '*.csv' -o -name '*.xlsx' -o -name '*.xls' -o -name '*.json' -o -name '*.parquet' \\) 2>/dev/null | head -200"
+      ],
+      "model": "openai/gpt-5.4"
+    }
+  ]
+}

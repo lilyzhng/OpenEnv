@@ -1,0 +1,1439 @@
+[
+  {
+    "task_id": 13,
+    "domain": "Legal",
+    "prompt_length": 1901,
+    "rubric_length": 12062,
+    "rubric_criteria_count": 10,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "writing"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "Our client, Alex Jones, was involved in an automobile collision on July 15, 2025.  The other vehicle involved was operated by Stephanie Smith.  Mr. Jones is insured by ABC Insurance.  Ms. Smith is ins"
+  },
+  {
+    "task_id": 845,
+    "domain": "Legal",
+    "prompt_length": 3027,
+    "rubric_length": 12292,
+    "rubric_criteria_count": 8,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "medical",
+      "pdf",
+      "writing"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "A renowned art collective calling themselves \u201cThe Roamers\u201d has been touring the country with a pop-up art exhibit called \u201cCircus Circus\u201d that takes place under a circus tent erected overnight and is r"
+  },
+  {
+    "task_id": 942,
+    "domain": "Legal",
+    "prompt_length": 1061,
+    "rubric_length": 8604,
+    "rubric_criteria_count": 7,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "pdf",
+      "research",
+      "writing"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "On January 11th, 2025, in Compton, California, Christy Rothschild, aged 24, was babysitting Jontae Rodriguez, aged 15. Jontae finished showering and came out of the bathroom wearing a towel. As she pa"
+  },
+  {
+    "task_id": 1022,
+    "domain": "Legal",
+    "prompt_length": 2714,
+    "rubric_length": 16658,
+    "rubric_criteria_count": 16,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "research",
+      "writing"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "Our client has been arrested and charged in connection with a series of thefts at a gas station where he works. The manager of the gas station noticed that the cash register had been short on numerous"
+  },
+  {
+    "task_id": 1031,
+    "domain": "Legal",
+    "prompt_length": 757,
+    "rubric_length": 9609,
+    "rubric_criteria_count": 8,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "research",
+      "writing"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "A defendant was arrested in Puerto Rico and charged with illegal possession of a firearm and ammunition as a felon, in violation of 18 U.S.C. \u00a7 922(g)(1). The defendant moved to suppress evidence of t"
+  },
+  {
+    "task_id": 1041,
+    "domain": "Legal",
+    "prompt_length": 608,
+    "rubric_length": 9596,
+    "rubric_criteria_count": 13,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "John was a member of the Navajo Nation. John died while living with his daughter Penny in his house on the reservation. A year prior to his death, John executed a handwritten will that left all of his"
+  },
+  {
+    "task_id": 1078,
+    "domain": "Legal",
+    "prompt_length": 1594,
+    "rubric_length": 7531,
+    "rubric_criteria_count": 6,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "research"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "Steven Smith was driving on Route 53 in Indianapolis, Indiana on June 28, 2025.  Route 53 is a rural road, surrounded by farms, with one lane going in each direction.  The speed limit is 55 MPH. \n\nSte"
+  },
+  {
+    "task_id": 1148,
+    "domain": "Legal",
+    "prompt_length": 754,
+    "rubric_length": 16660,
+    "rubric_criteria_count": 7,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document",
+      "medical",
+      "pdf",
+      "research",
+      "writing"
+    ],
+    "tool_count": 6,
+    "prompt_snippet": "Frank Bader is a claimant for Social Security Disability Insurance benefits. His claim has been denied twice, and he has appealed the latest denial. He has submitted a new Medical Opinion Statement fr"
+  },
+  {
+    "task_id": 1167,
+    "domain": "Legal",
+    "prompt_length": 1241,
+    "rubric_length": 7872,
+    "rubric_criteria_count": 6,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "Mr. B is seeking legal representation for a capital murder in Fulton County, Georgia. Mr. B was diagnosed with auditory hallucination as a teenager. He has been in and out of mental health facilities "
+  },
+  {
+    "task_id": 1184,
+    "domain": "Legal",
+    "prompt_length": 2595,
+    "rubric_length": 9738,
+    "rubric_criteria_count": 8,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical",
+      "pdf",
+      "research",
+      "writing"
+    ],
+    "tool_count": 5,
+    "prompt_snippet": "The US Environmental Protection Agency (EPA) is conducting a remedial action under the Comprehensive Environmental Response, Compensation and Liability Act (CERCLA) to remove contaminated soil from a "
+  },
+  {
+    "task_id": 1189,
+    "domain": "Legal",
+    "prompt_length": 887,
+    "rubric_length": 12357,
+    "rubric_criteria_count": 10,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "research"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "Chen operates an immigration consulting firm in California through an LLC. She is the sole owner. The business generates $1 million in annual revenue, with a net income of $550,000 after deducting off"
+  },
+  {
+    "task_id": 1226,
+    "domain": "Legal",
+    "prompt_length": 1851,
+    "rubric_length": 11057,
+    "rubric_criteria_count": 12,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "writing"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "The client is a Virginia logistics and packaging company (\"Company\") that specializes in designing and manufacturing custom crates for fragile and high-value goods. Company was recently contacted by a"
+  },
+  {
+    "task_id": 1230,
+    "domain": "Legal",
+    "prompt_length": 5239,
+    "rubric_length": 10277,
+    "rubric_criteria_count": 8,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "email",
+      "pdf",
+      "research",
+      "writing"
+    ],
+    "tool_count": 5,
+    "prompt_snippet": "Our client, Homes, a large international residential property ownership group, has come to us seeking advice. Homes owns 11 single-family residential properties within the Eagle Trace Homeowners' Asso"
+  },
+  {
+    "task_id": 1246,
+    "domain": "Legal",
+    "prompt_length": 2349,
+    "rubric_length": 14698,
+    "rubric_criteria_count": 7,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "writing"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "Erika lives with her roommate and their two dogs in a condo next to a community park owned by the local parks district in a suburb in Southern California. The park has tennis courts, a basketball cour"
+  },
+  {
+    "task_id": 1318,
+    "domain": "Legal",
+    "prompt_length": 991,
+    "rubric_length": 13448,
+    "rubric_criteria_count": 6,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "email",
+      "medical",
+      "pdf",
+      "writing"
+    ],
+    "tool_count": 5,
+    "prompt_snippet": "Jenn Castro has been one of the firm\u2019s clients for Supplemental Security Income (SSI) benefits since September 2023 when she had a car accident. The Social Security Administration (SSA) denied her Req"
+  },
+  {
+    "task_id": 1319,
+    "domain": "Legal",
+    "prompt_length": 2013,
+    "rubric_length": 10810,
+    "rubric_criteria_count": 12,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "writing"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "The client is a Virginia-based sanitation services contractor (\"Company\") that provides portable restroom and hand-wash station rentals for outdoor events, including county fairs, athletic tournaments"
+  },
+  {
+    "task_id": 1323,
+    "domain": "Legal",
+    "prompt_length": 2751,
+    "rubric_length": 20231,
+    "rubric_criteria_count": 14,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical",
+      "pdf",
+      "writing"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "On October 20, 2025, in Vista, California, Beatrice Restrepo, aged 21, parked in front of the apartment complex where her girlfriend, Sherranda Ricard, aged 27, was living. Ms. Restrepo and Ms. Ricard"
+  },
+  {
+    "task_id": 1346,
+    "domain": "Legal",
+    "prompt_length": 1196,
+    "rubric_length": 28369,
+    "rubric_criteria_count": 11,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "pdf",
+      "writing"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "On October 19th, 2024, our client, Gerald Jefferson, aged 54, was found guilty of a violation of Penal Code (PC) section 415(2), as an infraction, based on his causing a disturbance in the Okee-Dokee "
+  },
+  {
+    "task_id": 1361,
+    "domain": "Legal",
+    "prompt_length": 2247,
+    "rubric_length": 19212,
+    "rubric_criteria_count": 12,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "email",
+      "writing"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "Our client, BackUp, is a boutique IT services firm specializing in backup and disaster recovery. On March 10, 2024, BackUp agreed with ReGrid Renewables, a seller and refurbisher of hardware, to purch"
+  },
+  {
+    "task_id": 1366,
+    "domain": "Legal",
+    "prompt_length": 2152,
+    "rubric_length": 10734,
+    "rubric_criteria_count": 8,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical",
+      "pdf",
+      "research"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "Angela Brown was driving home from college on July 5, 2025 in Andover, Connecticut, when her vehicle was struck by a semi-truck.  The semi-truck was owned by our client, Acme Trucking, and was operate"
+  },
+  {
+    "task_id": 1367,
+    "domain": "Legal",
+    "prompt_length": 2131,
+    "rubric_length": 16494,
+    "rubric_criteria_count": 17,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "pdf",
+      "writing"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "The client is a Virginia biotechnology company (\"Company\") that develops proprietary hemp seed genetics used in producing low-THC varieties grown for extraction into concentrates for wellness and indu"
+  },
+  {
+    "task_id": 1371,
+    "domain": "Legal",
+    "prompt_length": 1952,
+    "rubric_length": 17185,
+    "rubric_criteria_count": 15,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "writing"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "On May 23, 2025, at about 3:40 p.m., Jim, carrying a black handgun, entered the front door of a Wells Fargo Bank in Richmond, Virginia. He was wearing a mask covering his nose and mouth, a gray hoodie"
+  },
+  {
+    "task_id": 1382,
+    "domain": "Legal",
+    "prompt_length": 744,
+    "rubric_length": 8837,
+    "rubric_criteria_count": 8,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "email",
+      "research",
+      "writing"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "Belgium and Spain are both Contracting Parties to the attached \u201cConvention on Conduct of Fishing Operations in the North Atlantic\u201d (the \u201cConvention\u201d). Authorized officers from Belgium, upon seeing tha"
+  },
+  {
+    "task_id": 1398,
+    "domain": "Legal",
+    "prompt_length": 1010,
+    "rubric_length": 12030,
+    "rubric_criteria_count": 9,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document",
+      "email",
+      "medical",
+      "pdf",
+      "research",
+      "writing"
+    ],
+    "tool_count": 7,
+    "prompt_snippet": "Lily Strum is a potential client with a pending claim for Social Security Disability Insurance (SSDI) Benefits. Without the help of an attorney, Ms. Strum submitted an Initial Application as well as a"
+  },
+  {
+    "task_id": 1757,
+    "domain": "Legal",
+    "prompt_length": 684,
+    "rubric_length": 8350,
+    "rubric_criteria_count": 9,
+    "has_file_attachments": true,
+    "inferred_tools": [],
+    "tool_count": 0,
+    "prompt_snippet": "Berry met with his attorney in 2015 and executed two wills. Berry wanted to make two so that in case one got lost, he\u2019d still have the other for probate. Berry kept one in his NY apartment and the oth"
+  },
+  {
+    "task_id": 1155,
+    "domain": "Medicine",
+    "prompt_length": 1252,
+    "rubric_length": 5890,
+    "rubric_criteria_count": 9,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical",
+      "pdf"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "Note: For the following clinical scenario, please refer to the most up to date American Academy of Pediatrics Immunizations schedule as of September 17, 2025.\n\nA 13-month-old male presents to the clin"
+  },
+  {
+    "task_id": 1340,
+    "domain": "Medicine",
+    "prompt_length": 479,
+    "rubric_length": 10080,
+    "rubric_criteria_count": 12,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "A middle-aged man presents to the ER with abdominal pain and fever. He is admitted under the internist team for sepsis. \n\n36 hours after admission, he is recovering well but reports redness and discom"
+  },
+  {
+    "task_id": 1344,
+    "domain": "Medicine",
+    "prompt_length": 411,
+    "rubric_length": 7271,
+    "rubric_criteria_count": 12,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "During an esophagogastroduodenoscopy (EGD), the endoscopist\u2014accompanied by a medical student\u2014describes two gastric ulcers (see attached document) while testing the student\u2019s knowledge of the Forrest c"
+  },
+  {
+    "task_id": 1345,
+    "domain": "Medicine",
+    "prompt_length": 254,
+    "rubric_length": 18714,
+    "rubric_criteria_count": 22,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "medical",
+      "pdf"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "A patient presents with right lower extremity pain as described in the attached history and physical (1345_historyAndPhysical.pdf).\n\nWhat is the most specific screening study that may have prevented t"
+  },
+  {
+    "task_id": 1352,
+    "domain": "Medicine",
+    "prompt_length": 407,
+    "rubric_length": 8886,
+    "rubric_criteria_count": 14,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "A patient recently underwent a prostate MRI that is still pending formal reporting. He presents today feeling anxious and wishes to understand his likelihood of prostate cancer based on the preliminar"
+  },
+  {
+    "task_id": 1368,
+    "domain": "Medicine",
+    "prompt_length": 373,
+    "rubric_length": 9577,
+    "rubric_criteria_count": 15,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "medical"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "A 75-year-old male patient presents to the primary care clinic for new onset skin dryness and pruritus. Please refer to the attached patient case to answer the following questions: \n- What is the most"
+  },
+  {
+    "task_id": 1354,
+    "domain": "Medicine",
+    "prompt_length": 901,
+    "rubric_length": 12111,
+    "rubric_criteria_count": 18,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "An 18-year-old male presents with chronic fatigue, muscle cramps, and intermittent perioral tingling one year after undergoing total thyroidectomy for papillary thyroid carcinoma. Please refer to the "
+  },
+  {
+    "task_id": 1389,
+    "domain": "Medicine",
+    "prompt_length": 841,
+    "rubric_length": 11888,
+    "rubric_criteria_count": 17,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical",
+      "pdf"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "A 66-year-old man with history of hypertension presents to clinic for follow up after a witnessed syncopal episode while gardening 1 week ago. He describes feeling lightheaded before losing consciousn"
+  },
+  {
+    "task_id": 1359,
+    "domain": "Medicine",
+    "prompt_length": 549,
+    "rubric_length": 13678,
+    "rubric_criteria_count": 22,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "For the following clinical scenario, please refer to the attached documents: American Academy of Pediatrics (AAP) immunization schedule and the patient's immunization record.\n\nA 3-year-old male presen"
+  },
+  {
+    "task_id": 1407,
+    "domain": "Medicine",
+    "prompt_length": 222,
+    "rubric_length": 9901,
+    "rubric_criteria_count": 14,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "A patient whose medical information is in the attached document comes to your clinic. Her most recent liver tests are stable. \n\nWhat changes, if any, should be made to the patient\u2019s resmetirom dose? E"
+  },
+  {
+    "task_id": 1415,
+    "domain": "Medicine",
+    "prompt_length": 946,
+    "rubric_length": 9458,
+    "rubric_criteria_count": 16,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical",
+      "pdf"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "A 45-year-old man presents with 4 weeks of non-bloody, watery diarrhea, occurring 4 to 5 times daily. He reports that the diarrhea started after returning from a business trip to Mexico. He has also b"
+  },
+  {
+    "task_id": 1426,
+    "domain": "Medicine",
+    "prompt_length": 1401,
+    "rubric_length": 12118,
+    "rubric_criteria_count": 14,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical",
+      "pdf",
+      "research"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "A 32-year-old woman from Puerto Rico with a history of systemic lupus erythematosus (previously treated with hydroxychloroquine) presents to the emergency department complaining of diarrhea. \n\nShe was"
+  },
+  {
+    "task_id": 1431,
+    "domain": "Medicine",
+    "prompt_length": 999,
+    "rubric_length": 9922,
+    "rubric_criteria_count": 17,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical",
+      "pdf",
+      "research"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "Note: Please refer to the attached document, Patient info for task 1431.pdf to answer this task.\n\nA 14-year-old teen presents to the clinic for obesity follow-up. According to her mother, she has alwa"
+  },
+  {
+    "task_id": 1436,
+    "domain": "Medicine",
+    "prompt_length": 197,
+    "rubric_length": 12307,
+    "rubric_criteria_count": 11,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "Note: refer to the attached General Practitioner (GP) home visit document for the following task.\n\nBased on the GP home visit report, give the most likely diagnosis in this case with justification."
+  },
+  {
+    "task_id": 1439,
+    "domain": "Medicine",
+    "prompt_length": 461,
+    "rubric_length": 21454,
+    "rubric_criteria_count": 25,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "medical",
+      "pdf"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "A 7-year-old male with asthma comes to the clinic to recheck his asthma. Please refer to History details.pdf for further details on the patient's history. \n\n\nWhat is the likely reason for the patient'"
+  },
+  {
+    "task_id": 1452,
+    "domain": "Medicine",
+    "prompt_length": 1092,
+    "rubric_length": 5973,
+    "rubric_criteria_count": 9,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "medical",
+      "pdf",
+      "research"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "A 37-year-old farmer presents to the clinic for management of seborrheic dermatitis. For the past 3 months, he has experienced significant scalp itch. He has tried several over-the-counter anti-dandru"
+  },
+  {
+    "task_id": 1476,
+    "domain": "Medicine",
+    "prompt_length": 886,
+    "rubric_length": 18549,
+    "rubric_criteria_count": 22,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "medical",
+      "pdf"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "An 8-year-old female presents to a pediatric clinic with concerns of a possible UTI. Her symptoms include pain on urination for 2 days and frequent urination without fever, vomiting, abdominal pain or"
+  },
+  {
+    "task_id": 1477,
+    "domain": "Medicine",
+    "prompt_length": 383,
+    "rubric_length": 21306,
+    "rubric_criteria_count": 25,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical",
+      "pdf"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "Hematoxylin and Eosin (H&E) sections of a brain tumour from a 48-year-old man are submitted for pathological examination. The patient presents with a 5-year history of seizures. MRI brain revealed a l"
+  },
+  {
+    "task_id": 1481,
+    "domain": "Medicine",
+    "prompt_length": 842,
+    "rubric_length": 16283,
+    "rubric_criteria_count": 21,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical",
+      "pdf"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "A CSF sample is sent to you from a 59-year-old man with a 4-month history of metastatic lung adenocarcinoma. The patient presented with a 3-day history of headache. On examination there was papilledem"
+  },
+  {
+    "task_id": 1494,
+    "domain": "Medicine",
+    "prompt_length": 543,
+    "rubric_length": 13380,
+    "rubric_criteria_count": 19,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical",
+      "pdf",
+      "research"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "A 45-year-old male with psoriasis was getting a knee injection at his orthopedic office. He was noted to have scaly plaques on his knees and was referred back to his primary doctor to further evaluate"
+  },
+  {
+    "task_id": 1495,
+    "domain": "Medicine",
+    "prompt_length": 323,
+    "rubric_length": 17580,
+    "rubric_criteria_count": 20,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "medical",
+      "pdf"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "A 5-year-old previously healthy male is admitted to the hospital. \nLabs showed elevated DHEAS. \nImaging confirmed the diagnosis. \nPlease refer to the attachment (Attachment 1495.pdf) for further infor"
+  },
+  {
+    "task_id": 1501,
+    "domain": "Medicine",
+    "prompt_length": 835,
+    "rubric_length": 10366,
+    "rubric_criteria_count": 16,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "pdf"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "A 58\u2011year\u2011old woman with invasive ductal carcinoma of the right breast undergoes planned breast\u2011conserving surgery (lumpectomy). Pre-operative imaging demonstrates a 1.8\u202fcm lesion without axillary nod"
+  },
+  {
+    "task_id": 1508,
+    "domain": "Medicine",
+    "prompt_length": 300,
+    "rubric_length": 5743,
+    "rubric_criteria_count": 9,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "A 30-year-old female is brought in by paramedics for a suicide attempt. What blood test should be checked that is a highly accurate predictor of death, having been shown to be seen almost exclusively "
+  },
+  {
+    "task_id": 1513,
+    "domain": "Medicine",
+    "prompt_length": 1309,
+    "rubric_length": 13736,
+    "rubric_criteria_count": 17,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical",
+      "pdf",
+      "research"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "Note: For the following clinical scenario, refer to the latest and most appropriate clinical practice guidelines as of October 2025.\n\nA 3-month-old male infant presents to the emergency room with his "
+  },
+  {
+    "task_id": 1555,
+    "domain": "Medicine",
+    "prompt_length": 1406,
+    "rubric_length": 17972,
+    "rubric_criteria_count": 23,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document",
+      "medical",
+      "pdf"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "Charles is a 63-year-old man with a past medical history of hypertension, type 2 diabetes, and hyperlipidemia who presents to his primary care doctor for continued bilateral ear discomfort.\n\nThe patie"
+  },
+  {
+    "task_id": 145,
+    "domain": "Consulting",
+    "prompt_length": 802,
+    "rubric_length": 11456,
+    "rubric_criteria_count": 7,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "I'm making a plan for our client\u2019s next campaign cycle using the attached data, where Payment ($) is equivalent to the unit price associated with the payment method of the specific campaign. Could you"
+  },
+  {
+    "task_id": 283,
+    "domain": "Consulting",
+    "prompt_length": 2300,
+    "rubric_length": 13113,
+    "rubric_criteria_count": 14,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "research"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "Our client, a food delivery app focused on Mexican food, is requesting assistance using the enclosed dataset on all of their merchants to determine which Size category of merchant they should focus th"
+  },
+  {
+    "task_id": 352,
+    "domain": "Consulting",
+    "prompt_length": 1150,
+    "rubric_length": 9513,
+    "rubric_criteria_count": 11,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document",
+      "research"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "The COO of my client, an apparel e-commerce website, has raised questions about the high turnaround time reported by multiple customers and is requesting a review of the enclosed last nine months of d"
+  },
+  {
+    "task_id": 772,
+    "domain": "Consulting",
+    "prompt_length": 1689,
+    "rubric_length": 10034,
+    "rubric_criteria_count": 10,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "research"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "A large consumer goods company is launching a new plant-based snack box. The Board wants to see a more structured market sizing analysis from the leadership team, as well as considerations around limi"
+  },
+  {
+    "task_id": 804,
+    "domain": "Consulting",
+    "prompt_length": 1151,
+    "rubric_length": 5370,
+    "rubric_criteria_count": 7,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document",
+      "research",
+      "writing"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "My client, Paw Prints, is a B2B manufacturer of digital pet portraits that is looking for an assessment of its productivity after transitioning 25% of its production team to offshore resources in week"
+  },
+  {
+    "task_id": 828,
+    "domain": "Consulting",
+    "prompt_length": 1787,
+    "rubric_length": 7956,
+    "rubric_criteria_count": 7,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "research"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "I'm working to optimize the distribution of marketing spend for my client for the next cycle to better fit their Family Man target group. They want to focus on campaigns that they have experience with"
+  },
+  {
+    "task_id": 1080,
+    "domain": "Consulting",
+    "prompt_length": 1455,
+    "rubric_length": 9570,
+    "rubric_criteria_count": 9,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "medical"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "A US-based private medical practice business would like to understand the financial performance of the 'Offices of Physicians' industry. The attached dataset contains a summary of aggregated tax retur"
+  },
+  {
+    "task_id": 1091,
+    "domain": "Consulting",
+    "prompt_length": 825,
+    "rubric_length": 7575,
+    "rubric_criteria_count": 7,
+    "has_file_attachments": true,
+    "inferred_tools": [],
+    "tool_count": 0,
+    "prompt_snippet": "The Company operates in the Aerospace industry with focus on 4 categories: propulsion, materials, mechanics, and controls, the last of which has been identified as a weak spot. The company is now eval"
+  },
+  {
+    "task_id": 1122,
+    "domain": "Consulting",
+    "prompt_length": 682,
+    "rubric_length": 5169,
+    "rubric_criteria_count": 7,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "writing"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "The client is a fast-casual Mexican-style restaurant chain. They have collected detailed customer feedback across demographics, menu items, perceptions, likelihood to recommend, and overall satisfacti"
+  },
+  {
+    "task_id": 1150,
+    "domain": "Consulting",
+    "prompt_length": 1317,
+    "rubric_length": 17087,
+    "rubric_criteria_count": 10,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "Our client, a multi-specialty retailer called BudgetBuy, wants to launch a new promotional campaign focused on only one product category, with the intention of choosing the category that will allow th"
+  },
+  {
+    "task_id": 1149,
+    "domain": "Consulting",
+    "prompt_length": 2145,
+    "rubric_length": 13047,
+    "rubric_criteria_count": 7,
+    "has_file_attachments": true,
+    "inferred_tools": [],
+    "tool_count": 0,
+    "prompt_snippet": "One View Bank is a European card issuer with 3 flagship cards: \"One View Standard\", \"One View Premium\", and \"One View Advantage\". One View Standard has an annual fee of $0 per user in the first year a"
+  },
+  {
+    "task_id": 1166,
+    "domain": "Consulting",
+    "prompt_length": 1221,
+    "rubric_length": 6487,
+    "rubric_criteria_count": 6,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "research"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "My client is a grocery chain based in the US that is trying to evaluate their scope 1 and scope 3 greenhouse gas (GHG) emissions across various suppliers in their key departments based on the attached"
+  },
+  {
+    "task_id": 1169,
+    "domain": "Consulting",
+    "prompt_length": 1240,
+    "rubric_length": 10004,
+    "rubric_criteria_count": 10,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "research"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "My client, a small airline company, is looking to expand its geographic reach. Based on the enclosed data, could you recommend the top 2 most attractive geo regions for them to enter, providing your s"
+  },
+  {
+    "task_id": 1170,
+    "domain": "Consulting",
+    "prompt_length": 880,
+    "rubric_length": 11475,
+    "rubric_criteria_count": 13,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "Our client, ABC Incorporation, manufactures spare parts for automobiles. The CEO has reached out stating that the rejection rate has increased from 2023 to 2025 (inclusive) and he wants to control it."
+  },
+  {
+    "task_id": 1171,
+    "domain": "Consulting",
+    "prompt_length": 1360,
+    "rubric_length": 10757,
+    "rubric_criteria_count": 12,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "The attached file contains the data of a sedan manufacturing firm. The sedan assembly line consists of five dedicated workstations (Tasks 1-5) operating in a continuous flow configuration to produce a"
+  },
+  {
+    "task_id": 1172,
+    "domain": "Consulting",
+    "prompt_length": 1405,
+    "rubric_length": 4629,
+    "rubric_criteria_count": 6,
+    "has_file_attachments": true,
+    "inferred_tools": [],
+    "tool_count": 0,
+    "prompt_snippet": "My client, a large toy company, wants to develop a new product to compete with Lego, focusing on the US market in 2032. Could you estimate for them the Total Addressable Market (TAM) and Serviceable A"
+  },
+  {
+    "task_id": 1384,
+    "domain": "Consulting",
+    "prompt_length": 1023,
+    "rubric_length": 6022,
+    "rubric_criteria_count": 8,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "research"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "We want to optimize workforce deployment, compensation, and retention. Leadership wants a fact-based analysis to answer which employee segments drive the most business value, where pay and performance"
+  },
+  {
+    "task_id": 1188,
+    "domain": "Consulting",
+    "prompt_length": 1042,
+    "rubric_length": 8945,
+    "rubric_criteria_count": 9,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "research",
+      "writing"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "Our insurance carrier partner has entered into a PoC agreement with Scribe, a vendor that is utilizing generative AI to assist claim managers with their outgoing DI claim letters. They just wrapped up"
+  },
+  {
+    "task_id": 1191,
+    "domain": "Consulting",
+    "prompt_length": 1276,
+    "rubric_length": 16603,
+    "rubric_criteria_count": 16,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "research"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "A European supermarket chain is considering expanding into Africa and wants your help choosing the target countries using 2022 data. Could you help me with the following please? \n\nFirst, determine cul"
+  },
+  {
+    "task_id": 1192,
+    "domain": "Consulting",
+    "prompt_length": 1861,
+    "rubric_length": 13978,
+    "rubric_criteria_count": 14,
+    "has_file_attachments": true,
+    "inferred_tools": [],
+    "tool_count": 0,
+    "prompt_snippet": "The client is a big food delivery app that is analyzing merchant loyalty and performance in the Mexican food industry. As part of their merchant strategy, they want to classify the merchants in their "
+  },
+  {
+    "task_id": 1242,
+    "domain": "Consulting",
+    "prompt_length": 1063,
+    "rubric_length": 16734,
+    "rubric_criteria_count": 13,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "research"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "The CHRO of a multinational investment bank wants to determine which employee grade levels (M1, M2, M3, M4, M5) give them the best returns based on the enclosed dataset. Can you calculate the weighted"
+  },
+  {
+    "task_id": 1259,
+    "domain": "Consulting",
+    "prompt_length": 1717,
+    "rubric_length": 20583,
+    "rubric_criteria_count": 9,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "medical"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "Our client is a health insurance payer in the US looking to reprice their insurance policy for this subset of existing customers with dependents to account for the impact of having dependents on a cus"
+  },
+  {
+    "task_id": 1265,
+    "domain": "Consulting",
+    "prompt_length": 1461,
+    "rubric_length": 13910,
+    "rubric_criteria_count": 13,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "Titan Capital Partners is preparing to launch a late-stage PE fund targeting high-growth unicorns and has asked our firm to identify which regions and industries offer the best combination of scale, d"
+  },
+  {
+    "task_id": 1269,
+    "domain": "Consulting",
+    "prompt_length": 1177,
+    "rubric_length": 6573,
+    "rubric_criteria_count": 8,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "research"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "An international surfing company is planning on expanding into the USA and wants to begin by launching its surfboard products in California in 2030 based on the enclosed county-level population data i"
+  },
+  {
+    "task_id": 1288,
+    "domain": "Consulting",
+    "prompt_length": 1494,
+    "rubric_length": 7759,
+    "rubric_criteria_count": 9,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document",
+      "research"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "Our Healthcare system client\u2019s internal analytics team is reporting strong performance from its CDI pilot, indicating benchmark achievement across all KPIs with a recommendation to proceed with enterp"
+  },
+  {
+    "task_id": 1588,
+    "domain": "Finance",
+    "prompt_length": 1854,
+    "rubric_length": 11101,
+    "rubric_criteria_count": 10,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "TPG is currently in conversations to acquire a wholesale distributor of HVAC supplies in Europe. Management has shared company projections, which the investment team has used to build out an LBO model"
+  },
+  {
+    "task_id": 2107,
+    "domain": "Finance",
+    "prompt_length": 1348,
+    "rubric_length": 11053,
+    "rubric_criteria_count": 15,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "spreadsheet"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "Mariner Cloud plc (acquirer) plans to acquire Orion Metrics AG (Target). All figures and inputs are in the CSV \u201cOrion_Target.csv\u201d. \n\nRequirements:\nPurchase price allocation and opening balance sheet i"
+  },
+  {
+    "task_id": 2108,
+    "domain": "Finance",
+    "prompt_length": 2092,
+    "rubric_length": 3954,
+    "rubric_criteria_count": 6,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "pdf",
+      "research",
+      "spreadsheet"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "Using Nike Inc\u2019s 2025 Form 10-K and the assumptions below, conduct a 3 year DCF analysis, and calculate: Nike\u2019s Enterprise Value based on the 3-year DCF, Enterprise Value / Revenue (using 2025 Revenue"
+  },
+  {
+    "task_id": 2120,
+    "domain": "Finance",
+    "prompt_length": 922,
+    "rubric_length": 7930,
+    "rubric_criteria_count": 9,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "spreadsheet"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "To allocate funds to relatively low-risk investments while still achieving a decent return, refer to the \u2018S&P500\u2019 and \u2018Nikkei225\u2019 excel source files that contain the closing ETF prices from Yahoo Fina"
+  },
+  {
+    "task_id": 2121,
+    "domain": "Finance",
+    "prompt_length": 1745,
+    "rubric_length": 5512,
+    "rubric_criteria_count": 5,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document",
+      "pdf",
+      "writing"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "Investment Banking firm BLT is advising fund ART with a whole loan bid for a pool of reperforming (\"RPL\") and nonperforming (\"NPL\") non-agency mortgage loans. The loans are segmented across six differ"
+  },
+  {
+    "task_id": 2145,
+    "domain": "Finance",
+    "prompt_length": 1833,
+    "rubric_length": 6205,
+    "rubric_criteria_count": 10,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "pdf",
+      "research",
+      "spreadsheet"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "We are doing Discounted Cash Flow Analysis (\u201cDCF\u201d) on Coupang (NYSE: CPNG) as they are a competitor to one of our clients.  \n\nTo complete the analysis, please first identify the Weighted Average Cost "
+  },
+  {
+    "task_id": 2157,
+    "domain": "Finance",
+    "prompt_length": 1923,
+    "rubric_length": 8721,
+    "rubric_criteria_count": 7,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "spreadsheet"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "A well-known U.S. PE firm is evaluating a leveraged buyout (LBO) of Summit Outdoor Gear, Inc. Build a 5-year LBO model and answer six questions. Assumptions are provided in the attached CSV (LBO_Assum"
+  },
+  {
+    "task_id": 2186,
+    "domain": "Finance",
+    "prompt_length": 910,
+    "rubric_length": 3560,
+    "rubric_criteria_count": 5,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "pdf",
+      "research"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "Produce an EV to Equity Bridge that would be used in a Locked Box Paper for a regulated, asset and wealth management company based in the UK with \u00a31bn of assets under management with the key assumptio"
+  },
+  {
+    "task_id": 2192,
+    "domain": "Finance",
+    "prompt_length": 1851,
+    "rubric_length": 3552,
+    "rubric_criteria_count": 5,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "pdf",
+      "spreadsheet"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "Italian bank UniCredit S.p.A. (Ticker: UCGIM) is evaluating a cash tender offer for one of its outstanding EUR senior unsecured notes due 2029. The objective is to optimize funding costs and smooth th"
+  },
+  {
+    "task_id": 2205,
+    "domain": "Finance",
+    "prompt_length": 1042,
+    "rubric_length": 4173,
+    "rubric_criteria_count": 6,
+    "has_file_attachments": true,
+    "inferred_tools": [],
+    "tool_count": 0,
+    "prompt_snippet": "On 08 October 2025, rating agency upgraded its rating on Dutch beer maker Heineken (Ticker: HEIANA) from BBB+ to A- by S&P. Heineken has one EUR 1.5bn 3.250% 17/09/2034 bond outstanding and the treasu"
+  },
+  {
+    "task_id": 2217,
+    "domain": "Finance",
+    "prompt_length": 2283,
+    "rubric_length": 11583,
+    "rubric_criteria_count": 10,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document",
+      "pdf",
+      "research"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "Build a fully diluted market capitalization and an enterprise value valuation analysis for Coinbase. Use only the attached Form 10-Q, attached Form 10-K, attached Coinbase share trading data, and the "
+  },
+  {
+    "task_id": 2228,
+    "domain": "Finance",
+    "prompt_length": 3263,
+    "rubric_length": 5529,
+    "rubric_criteria_count": 5,
+    "has_file_attachments": true,
+    "inferred_tools": [],
+    "tool_count": 0,
+    "prompt_snippet": "A Real Estate Private Equity company (LP) is teaming up with a real estate developer to acquire a property for $25 million with a mix of debt and equity at the end of 2024. \n\nAcquisition Assumptions:\n"
+  },
+  {
+    "task_id": 2230,
+    "domain": "Finance",
+    "prompt_length": 3169,
+    "rubric_length": 9089,
+    "rubric_criteria_count": 8,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "research",
+      "spreadsheet"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "Albion Technologies plc (a UK company, GBP as the functional currency) will acquire Horizone Sistemas S.A. (a Brazilian company, with BRL as the functional currency) for a USD denominated headline pri"
+  },
+  {
+    "task_id": 2232,
+    "domain": "Finance",
+    "prompt_length": 4710,
+    "rubric_length": 11159,
+    "rubric_criteria_count": 10,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "writing"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "A developer (Operating Partner), along with a Private Equity firm (LP), wants to acquire a property for $25 million with a mix of debt and equity at the end of 2024. \n\nAcquisition Assumptions:\nThe pro"
+  },
+  {
+    "task_id": 2261,
+    "domain": "Finance",
+    "prompt_length": 2425,
+    "rubric_length": 11849,
+    "rubric_criteria_count": 10,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "document",
+      "research"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "As part of Lloyd's liquidity review in relation to a potential M&A transaction, you have been tasked with assessing the bank's balance sheet to evaluate post-transaction funding resilience and regulat"
+  },
+  {
+    "task_id": 2266,
+    "domain": "Finance",
+    "prompt_length": 617,
+    "rubric_length": 3684,
+    "rubric_criteria_count": 5,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "spreadsheet"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "A company is considered \"efficient\" if it has a waste recycled percentage greater than 45%. \u201cCountry_data.csv\u201d, attached, contains data on publicly traded comparable companies across the world. \n\nWhat"
+  },
+  {
+    "task_id": 2269,
+    "domain": "Finance",
+    "prompt_length": 3034,
+    "rubric_length": 13235,
+    "rubric_criteria_count": 13,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document",
+      "email",
+      "pdf",
+      "research",
+      "writing"
+    ],
+    "tool_count": 6,
+    "prompt_snippet": "Hermion plc. Loan request\nA new loan request from a IT infrastructure company Hermion plc.  just arrived via email to your boss. They are looking to obtain a new loan to finance a new development proj"
+  },
+  {
+    "task_id": 2287,
+    "domain": "Finance",
+    "prompt_length": 686,
+    "rubric_length": 11074,
+    "rubric_criteria_count": 11,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "KatNip Co. (\"KatNip\" or the \"Company\") was granted a patent to generate a unique animal feeding device (the \"Product\"). Use the information in the attachment to determine the following:\n1. The IRR and"
+  },
+  {
+    "task_id": 2288,
+    "domain": "Finance",
+    "prompt_length": 2500,
+    "rubric_length": 13989,
+    "rubric_criteria_count": 12,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document",
+      "pdf",
+      "research"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "Build a fully diluted market capitalization and an enterprise value valuation analysis for Ford Motor Company, excluding the Ford Credit segment. Use only the attached filings and the following assump"
+  },
+  {
+    "task_id": 2294,
+    "domain": "Finance",
+    "prompt_length": 2452,
+    "rubric_length": 11398,
+    "rubric_criteria_count": 16,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document",
+      "pdf",
+      "spreadsheet"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "Borealis Components, Inc. is undergoing a court-supervised balance-sheet restructuring with emergence this quarter.\nInformation about the restructuring is provided in the attached file Borealis.csv\nRe"
+  },
+  {
+    "task_id": 2302,
+    "domain": "Finance",
+    "prompt_length": 3724,
+    "rubric_length": 6843,
+    "rubric_criteria_count": 10,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "writing"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "Prepare a five-year forecast of the company's balance sheet that will be used to perform a Free Cash Flow to Firm (FCFF) valuation. The forecast should be based on the existing five years of historica"
+  },
+  {
+    "task_id": 2308,
+    "domain": "Finance",
+    "prompt_length": 1497,
+    "rubric_length": 11985,
+    "rubric_criteria_count": 13,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document",
+      "research"
+    ],
+    "tool_count": 3,
+    "prompt_snippet": "An Equity Capital Markets (ECM) syndicate desk of a major investment bank is exploring a pro rata allocation or an allocation aimed at reducing flips on an upcoming equity offering. The desk is lookin"
+  },
+  {
+    "task_id": 2315,
+    "domain": "Finance",
+    "prompt_length": 2845,
+    "rubric_length": 16319,
+    "rubric_criteria_count": 10,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "pdf"
+    ],
+    "tool_count": 2,
+    "prompt_snippet": "The securitization capital markets team at SPO Capital has been actively working with rating agencies on an upcoming securitization issuance of a pool of performing residential transition loans (\"RTL\""
+  },
+  {
+    "task_id": 2317,
+    "domain": "Finance",
+    "prompt_length": 1980,
+    "rubric_length": 9799,
+    "rubric_criteria_count": 10,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "pdf"
+    ],
+    "tool_count": 1,
+    "prompt_snippet": "In June 2020, Telefonica Deutschland sold its portfolio of communication sites to Telxius. \nAssume Telefonica Deutschland, as a core tenant, is on average responsible for 75% of Telxius incremental EB"
+  },
+  {
+    "task_id": 2333,
+    "domain": "Finance",
+    "prompt_length": 3050,
+    "rubric_length": 9199,
+    "rubric_criteria_count": 11,
+    "has_file_attachments": true,
+    "inferred_tools": [
+      "calculation",
+      "document",
+      "pdf",
+      "research"
+    ],
+    "tool_count": 4,
+    "prompt_snippet": "Objective: Assess whether a sponsor should pursue a Nasdaq Global Market IPO or a same-day underwritten Term Loan B (TLB).\nSources: Nasdaq Initial Listing Guide (March 2025) (Nasdaq); U.S. Leveraged L"
+  }
+]

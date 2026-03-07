@@ -1,0 +1,271 @@
+{
+  "model": "qwen/qwen3-coder-next",
+  "results": [
+    {
+      "task_id": "task_6fa5694c8bbe434e944d76e6782369b1",
+      "task_idx": 8,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "I'll start by exploring the workspace to understand the data structure and find information about the Kenvue deal.",
+        "<function=bash>",
+        "<function=bash>",
+        "<function=bash>",
+        "<function=bash>"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_68a8fbc9544640cf9a20db80dd845d85",
+      "task_idx": 9,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_9_hcw123fd",
+        "find / -name \"*kvue*\" -o -name \"*KVUE*\" 2>/dev/null | head -20",
+        "find / -type f \\( -name \"*.csv\" -o -name \"*.json\" -o -name \"*.txt\" -o -name \"*.xlsx\" \\) 2>/dev/null | head -30",
+        "env | grep -i finance",
+        "python3 -c \"import yfinance; print('yfinance available')\" 2>/dev/null || echo \"yfinance not available\""
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_16c0324b442841ec86f8ae24cbde119e",
+      "task_idx": 10,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_10_hag_5dpo",
+        "find / -name \"*.xlsx\" -o -name \"*.csv\" -o -name \"*.json\" -o -name \"*.py\" 2>/dev/null | head -50",
+        "find / -type f \\( -name \"*kvue*\" -o -name \"*DCF*\" -o -name \"*valuation*\" \\) 2>/dev/null | head -20",
+        "find / -type f \\( -name \"*.xlsx\" -o -name \"*.xls\" -o -name \"*.xlsm\" \\) 2>/dev/null | head -20",
+        "ls -la /tmp/ && ls -la ~/ 2>/dev/null | head -20"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_1fb84d7682dc43138ad220b203ed5b22",
+      "task_idx": 11,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_11_j9zt0s1e",
+        "find /var/folders -name \"*.csv\" -o -name \"*.xlsx\" -o -name \"*.json\" -o -name \"*.txt\" 2>/dev/null | head -20",
+        "find / -type f \\( -name \"*dcf*\" -o -name \"*valuation*\" -o -name \"*cash*flow*\" \\) 2>/dev/null | grep -v \".app\" | head -20",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/ | grep -E \"apex|eval\"",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_8_azo7s1lj/"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_7c394865481b40cdbdd577a039825679",
+      "task_idx": 12,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "I'll start by exploring the workspace to understand the structure and find the DCF model file.",
+        "<function=bash>",
+        "<function=bash>",
+        "Let me try a different approach:",
+        "<function=bash>"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_7d11f0f8a4ac415599f715647d2a09e4",
+      "task_idx": 14,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "I'll start by exploring the workspace to understand the structure and locate the DCF model files.",
+        "function=bash",
+        "function=bash",
+        "function=bash",
+        "function=bash"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_0097f20dd1744647a5a6e76db215a467",
+      "task_idx": 1,
+      "domain": "Law",
+      "reward": 0.0,
+      "num_turns": 3,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_1_2xpxx1jp",
+        "echo \"No. Under IEEPA, courts generally defer to the President's determination of a national emergency, and the 25% tariff on Chinese goods was based on a formal national emergency declaration regarding China's technology policies, which courts have historically upheld unless completely irrational or pretextual.\"",
+        "done"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_2b5df2b5a0eb423e998099a9fcd8e262",
+      "task_idx": 3,
+      "domain": "Law",
+      "reward": 0.0,
+      "num_turns": 3,
+      "actions": [
+        "echo \"Analyzing jurisdictional issues for tariff challenges\"",
+        "grep -r \"Court of International Trade\" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_3_05faarqk 2>/dev/null || echo \"No existing files found\"",
+        "grep -r \"28 U.S.C. \u00a7 1581\" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_3_05faarqk 2>/dev/null || echo \"No existing files\""
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_58d04f83ddee4c01bf89a4a1ca0b933a",
+      "task_idx": 6,
+      "domain": "Law",
+      "reward": 0.41666666666666663,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_6_l24gvvsa",
+        "echo \"Based on general legal principles and historical court rulings on IEEPA and APA challenges to presidential tariffs, the answer is No.\"",
+        "echo \"No. Courts have generally deferred to the President's broad authority under IEEPA to declare national emergencies and impose economic sanctions, and such actions are typically not subject to APA procedural requirements as they are considered presidential, not agency, actions.\" > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_6_l24gvvsa/answer.txt",
+        "cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_6_l24gvvsa/answer.txt",
+        "done"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_f868a55db35a4add998e12e09056b96a",
+      "task_idx": 59,
+      "domain": "Law",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "I'll help you find the maximum total potential liability for Black Lodge Petroleum Logistics LLC under the Oil Pollution Act. Let me start by exploring the workspace and understanding what resources are available.",
+        "function=bash",
+        "function=bash",
+        "function=bash",
+        "function=bash"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_410408825872453bacd57f4ba8a3ae0a",
+      "task_idx": 60,
+      "domain": "Law",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "I'll start by exploring the workspace to understand the structure and locate the relevant documents for this task.",
+        "<function=bash>",
+        "<function=bash>",
+        "Let me try a different approach without using the function wrapper:",
+        "<function=bash>"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_ee25ae5557074bbaac24113f0412275d",
+      "task_idx": 61,
+      "domain": "Law",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "I'll start by exploring the workspace to understand the structure and find relevant insurance policy documents.",
+        "function=bash",
+        "function=bash",
+        "function=bash",
+        "function=bash"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_699ea5ca3b0243a5852ad33e33043f12",
+      "task_idx": 27,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "python3",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_27_jq7nn8go",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_27_jq7nn8go -type f -name \"*.csv\" -o -name \"*.xlsx\" -o -name \"*.json\" 2>/dev/null | head -20",
+        "find / -type f \\( -name \"*.csv\" -o -name \"*.xlsx\" -o -name \"*.json\" \\) 2>/dev/null | grep -v proc | head -30",
+        "find / -type f \\( -name \"*.csv\" -o -name \"*.xlsx\" \\) 2>/dev/null | grep -v \"/usr\" | head -30"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_4b3c2dfc4d164a25831e8787397766c3",
+      "task_idx": 28,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_28_fx79xjxx",
+        "find /var/folders -name \"*.csv\" -o -name \"*.json\" -o -name \"*.xlsx\" 2>/dev/null | head -20",
+        "find / -type f \\( -name \"*.csv\" -o -name \"*.json\" -o -name \"*.xlsx\" -o -name \"*.xls\" \\) 2>/dev/null | grep -v \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/AppTranslocation\" | head -30",
+        "pwd && ls -la / | grep -E \"data|input|task\"",
+        "find / -maxdepth 3 -type f \\( -name \"*.csv\" -o -name \"*.json\" \\) 2>/dev/null | grep -v \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/AppTranslocation\" | grep -v \"/usr\" | head -20"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_7acc98cded8b49de972ee79b0461107e",
+      "task_idx": 31,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "I'll start by exploring the workspace to understand the available data files and their structure.",
+        "function=bash",
+        "function=bash",
+        "function=bash",
+        "function=bash"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_f32cf6dbffac45eea7454b4f3a62eaf9",
+      "task_idx": 33,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_33_weyvhgk7",
+        "The workspace directory is empty. Let me check if there are any files elsewhere or if I need to look in a different location.",
+        "find / -name \"*.csv\" -o -name \"*.json\" -o -name \"*.xlsx\" 2>/dev/null | head -50",
+        "The system files don't seem relevant. Let me check if there's a data directory or if the files might be in a different location specific to this task.",
+        "find /var -type f \\( -name \"*.csv\" -o -name \"*.json\" -o -name \"*.xlsx\" \\) 2>/dev/null | head -20"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_ec97a505112645f9b266df1954f2738d",
+      "task_idx": 34,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_34_z9le1_c5",
+        "find / -name \"*.txt\" -o -name \"*.csv\" -o -name \"*.json\" -o -name \"*.md\" 2>/dev/null | head -20",
+        "find / -type f \\( -name \"*eurogrid*\" -o -name \"*operational*\" -o -name \"*efficiency*\" -o -name \"*staff*\" -o -name \"*manager*\" \\) 2>/dev/null | grep -v \"/usr\"",
+        "ls -la /tmp/ /home/ /Users/ 2>/dev/null | head -30",
+        "cat /tmp/analysis.md"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_f9f2907c268c44f686496a4934f1fc15",
+      "task_idx": 37,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "I'll start by exploring the workspace to understand the data structure and locate the relevant files for this task.",
+        "Let me try a simpler approach to explore the workspace:",
+        "Let me try a different approach:",
+        "Let me try listing the workspace directory directly:",
+        "Let me try a simpler command:"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    }
+  ]
+}
