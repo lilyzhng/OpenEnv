@@ -239,7 +239,7 @@ def run_episode(task: dict, executor: BashExecutor, model: str, api_key: str, ma
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Tiered eval: easy vs medium vs hard")
+    parser = argparse.ArgumentParser(description="Tiered eval: easy vs hard")
     parser.add_argument("--model", default="openai/gpt-4o-mini")
     parser.add_argument("--per-tier", type=int, default=3, help="Tasks per tier")
     parser.add_argument("--max-turns", type=int, default=5)
@@ -268,12 +268,12 @@ def main():
     loader = TaskLoader(dataset_name="mercor/APEX-v1-extended")
     tiers = loader.get_tasks_by_tier()
 
-    for tier in ["easy", "medium", "hard"]:
+    for tier in ["easy", "hard"]:
         print(f"  {tier}: {len(tiers[tier])} tasks")
 
     # Select tasks per tier (spread across domains)
     selected = {}
-    for tier in ["easy", "medium", "hard"]:
+    for tier in ["easy", "hard"]:
         pool = tiers[tier]
         # Sort by domain for diversity
         by_domain = defaultdict(list)
@@ -303,7 +303,7 @@ def main():
     executor = BashExecutor()
     all_results = []
 
-    for tier in ["easy", "medium", "hard"]:
+    for tier in ["easy", "hard"]:
         tasks = selected[tier]
         print(f"\n--- {tier.upper()} TIER ({len(tasks)} tasks) ---")
 
@@ -323,7 +323,7 @@ def main():
     print(f"TIERED EVAL RESULTS — {args.model}")
     print("=" * 70)
 
-    for tier in ["easy", "medium", "hard"]:
+    for tier in ["easy", "hard"]:
         tier_results = [r for r in all_results if r["tier"] == tier]
         if not tier_results:
             continue
@@ -343,7 +343,7 @@ def main():
     print("\n" + "-" * 70)
     print("PERFORMANCE GAP SUMMARY:")
     tier_avgs = {}
-    for tier in ["easy", "medium", "hard"]:
+    for tier in ["easy", "hard"]:
         rewards = [r["reward"] for r in all_results if r["tier"] == tier]
         if rewards:
             tier_avgs[tier] = sum(rewards) / len(rewards)

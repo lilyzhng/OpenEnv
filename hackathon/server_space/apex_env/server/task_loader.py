@@ -1,23 +1,24 @@
 """Load APEX tasks from HuggingFace dataset with difficulty tiers."""
+from __future__ import annotations
 
 import json
 import random
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 
 
-DifficultyTier = Literal["easy", "medium", "hard"]
+DifficultyTier = Literal["easy", "hard"]
 
-# Thresholds derived from APEX-v1-extended analysis (see s2_findings_apex_analysis.md)
-# Score = rubric_count * 2 + file_count * 1.5 + (2 if has_files else 0)
-_EASY_THRESHOLD = 23.0
-_HARD_THRESHOLD = 29.5
+# Binary split: rubric_count <= threshold = easy, > threshold = hard
+# Threshold = median rubric_count in APEX-v1-extended (empirically ~10)
+_RUBRIC_THRESHOLD = 10
 
 
 def compute_difficulty_score(task: dict[str, Any]) -> float:
-    """Compute difficulty score from rubric criteria count and file attachments.
+    """Compute difficulty score = rubric criteria count.
 
-    Based on 2D curriculum analysis: rubric complexity (reasoning depth)
-    and file count (information gathering complexity) are independent dimensions.
+    Rubric count is the purest proxy for task difficulty: more criteria =
+    more things the agent must get right. File count was removed because
+    files are resources (help the agent), not difficulty.
     """
     rubric_raw = task.get("Rubric JSON", task.get("rubric", "{}"))
     if isinstance(rubric_raw, str):
@@ -29,32 +30,17 @@ def compute_difficulty_score(task: dict[str, Any]) -> float:
         rubric = rubric_raw
 
     if isinstance(rubric, dict):
-        rubric_count = len(rubric)
+        return float(len(rubric))
     elif isinstance(rubric, list):
-        rubric_count = len(rubric)
-    else:
-        rubric_count = 0
-
-    files_raw = task.get("File Attachments", task.get("file_attachments", ""))
-    if isinstance(files_raw, str):
-        file_list = [f for f in files_raw.strip().split("\n") if f.strip()]
-    elif isinstance(files_raw, list):
-        file_list = files_raw
-    else:
-        file_list = []
-    file_count = len(file_list)
-    has_files = file_count > 0
-
-    return rubric_count * 2 + file_count * 1.5 + (2 if has_files else 0)
+        return float(len(rubric))
+    return 0.0
 
 
 def get_difficulty_tier(task: dict[str, Any]) -> DifficultyTier:
-    """Classify a task into easy/medium/hard based on difficulty score."""
+    """Classify a task into easy/hard based on rubric criteria count."""
     score = compute_difficulty_score(task)
-    if score <= _EASY_THRESHOLD:
+    if score <= _RUBRIC_THRESHOLD:
         return "easy"
-    elif score <= _HARD_THRESHOLD:
-        return "medium"
     else:
         return "hard"
 
@@ -63,8 +49,8 @@ class TaskLoader:
     """Loads tasks from mercor/APEX-v1-extended (100 trainable tasks with rubrics).
 
     Supports difficulty-based filtering for curriculum learning:
-        loader.get_task(difficulty="easy")   # simple tasks (few rubric criteria, few files)
-        loader.get_task(difficulty="hard")   # complex tasks (many criteria, many files)
+        loader.get_task(difficulty="easy")   # simple tasks (few rubric criteria)
+        loader.get_task(difficulty="hard")   # complex tasks (many rubric criteria)
         loader.get_tasks_by_tier()           # get all tasks grouped by tier
     """
 
@@ -89,7 +75,7 @@ class TaskLoader:
         assert self._tasks is not None
 
         cache: dict[DifficultyTier, list[dict[str, Any]]] = {
-            "easy": [], "medium": [], "hard": [],
+            "easy": [], "hard": [],
         }
         for t in self._tasks:
             tier = get_difficulty_tier(t)
