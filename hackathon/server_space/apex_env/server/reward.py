@@ -1,13 +1,36 @@
-"""Rubric-based reward computation for APEX tasks."""
+"""Rubric-based reward computation for APEX tasks.
+
+Uses OpenEnv's Rubric API (RFC 004) for composable, introspectable reward signals.
+Each rubric is a leaf that scores one dimension; they compose via WeightedSum.
+"""
 
 import json
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, List
+
+try:
+    from openenv.core.rubrics.base import Rubric
+    from openenv.core.rubrics.containers import Gate, Sequential, WeightedSum
+except ImportError:
+    Rubric = None
+    Gate = None
+    Sequential = None
+    WeightedSum = None
 
 
 READABLE_SUFFIXES = {".txt", ".md", ".csv", ".json", ".py", ".sh", ".html", ".xml"}
 
+_TALK_PREFIXES = (
+    "I ", "I'", "Let me", "Now ", "First", "Next", "The ", "This ",
+    "Here", "Sure", "OK", "Okay", "Great", "Note", "Since ", "To ",
+    "We ", "My ", "After", "Before", "Based", "Looking", "There ",
+)
+
+
+# ---------------------------------------------------------------------------
+# Helper functions (unchanged)
+# ---------------------------------------------------------------------------
 
 def collect_workspace_text(workspace_dir: Path) -> str:
     """Read all readable files in the workspace and concatenate their text."""
@@ -22,15 +45,9 @@ def collect_workspace_text(workspace_dir: Path) -> str:
 
 
 def extract_keywords_from_rubric(rubric: list[dict[str, Any]]) -> list[str]:
-    """Extract checkable keywords directly from rubric criteria text.
-
-    Instead of regex-guessing keywords, extract the parts that actually matter:
-    numbers, percentages, proper nouns, and specific values that the rubric
-    says should appear in the answer.
-    """
+    """Extract checkable keywords directly from rubric criteria text."""
     keywords = []
     for criterion in rubric:
-        # Handle all known field names across datasets
         text = " ".join([
             criterion.get("criteria", ""),
             criterion.get("criterion", ""),
@@ -39,29 +56,22 @@ def extract_keywords_from_rubric(rubric: list[dict[str, Any]]) -> list[str]:
         if not text:
             continue
 
-        # Numbers with optional units/symbols (e.g., "24.9x", "$926", "243,275.56 MWh", "7.0%")
         numbers = re.findall(r"\$?[\d,]+\.?\d*[xX%]?\s*(?:million|billion|MWh|GWh)?", text)
         keywords.extend(n.strip() for n in numbers if len(n.strip()) > 1)
 
-        # Hyphenated compound terms (e.g., "Germany-North")
         hyphenated = re.findall(r"\b[A-Z][a-z]+-[A-Z][a-z]+\b", text)
         keywords.extend(hyphenated)
 
-        # Multi-word proper nouns (e.g., "Thermal Overload", "Voltage Violations")
         proper_nouns = re.findall(r"\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+\b", text)
         keywords.extend(proper_nouns)
 
-        # Acronyms (e.g., "EBIT", "EBITDA", "FCF", "OpFCF", "LBO")
         acronyms = re.findall(r"\b[A-Z][A-Z0-9a-z]{1,10}\b", text)
-        # Filter out common words that look like acronyms
         noise = {"States", "Yes", "No", "The", "Act", "Does"}
         keywords.extend(a for a in acronyms if a not in noise)
 
-        # Quoted terms
         quoted = re.findall(r'"([^"]+)"', text)
         keywords.extend(quoted)
 
-    # Deduplicate, keep only meaningful ones
     seen = set()
     result = []
     for kw in keywords:
@@ -72,24 +82,193 @@ def extract_keywords_from_rubric(rubric: list[dict[str, Any]]) -> list[str]:
     return result
 
 
-def compute_reward(task: dict[str, Any], workspace_dir: Path) -> float:
+def is_talk_action(action_str: str) -> bool:
+    """Return True if an action string is natural-language talk, not a bash command."""
+    s = action_str.strip()
+    if not s:
+        return True
+    if any(s.startswith(p) for p in _TALK_PREFIXES):
+        return True
+    if s.endswith(".") and not any(c in s for c in "|>&;$`"):
+        return True
+    return False
+
+
+# ---------------------------------------------------------------------------
+# Leaf Rubrics
+# ---------------------------------------------------------------------------
+
+class FileExistenceRubric(Rubric):
+    """Score 1.0 if the agent created any output files, 0.0 otherwise.
+
+    This is a gate-style check: did the agent actually produce artifacts?
     """
-    Compute reward from rubric criteria using keyword matching + file existence.
+
+    def forward(self, action: Any, observation: Any) -> float:
+        workspace_dir = self._get_workspace(observation)
+        if workspace_dir is None:
+            return 0.0
+        output_files = [
+            f for f in workspace_dir.iterdir()
+            if f.is_file() and f.suffix in READABLE_SUFFIXES
+        ]
+        return 1.0 if output_files else 0.0
+
+    def _get_workspace(self, observation: Any) -> Path | None:
+        metadata = getattr(observation, "metadata", {}) or {}
+        ws = metadata.get("workspace")
+        if ws:
+            p = Path(ws)
+            return p if p.exists() else None
+        return None
+
+
+class KeywordCoverageRubric(Rubric):
+    """Score based on how many rubric keywords appear in the agent's output files.
+
+    Extracts keywords from the task rubric (numbers, acronyms, proper nouns)
+    and checks what fraction appear in the workspace files.
+    """
+
+    def forward(self, action: Any, observation: Any) -> float:
+        metadata = getattr(observation, "metadata", {}) or {}
+        task = metadata.get("task", {})
+        workspace_dir = self._get_workspace(observation)
+        if workspace_dir is None or not task:
+            return 0.0
+
+        rubric_data = task.get("rubric", [])
+        if isinstance(rubric_data, str):
+            try:
+                rubric_data = json.loads(rubric_data)
+            except (json.JSONDecodeError, TypeError):
+                rubric_data = []
+
+        if not rubric_data:
+            return 0.0
+
+        agent_text = collect_workspace_text(workspace_dir)
+        keywords = extract_keywords_from_rubric(rubric_data)
+        if not keywords:
+            return 0.0
+
+        matched = sum(1 for k in keywords if k.lower() in agent_text.lower())
+        return matched / len(keywords)
+
+    def _get_workspace(self, observation: Any) -> Path | None:
+        metadata = getattr(observation, "metadata", {}) or {}
+        ws = metadata.get("workspace")
+        if ws:
+            p = Path(ws)
+            return p if p.exists() else None
+        return None
+
+
+class TalkPenaltyRubric(Rubric):
+    """Penalize agents that waste turns with natural-language filler.
+
+    Scores 1.0 for pure action (0% talk), linearly down to 0.0 at 100% talk.
+    Used as a multiplier in the final composition.
+    """
+
+    def forward(self, action: Any, observation: Any) -> float:
+        metadata = getattr(observation, "metadata", {}) or {}
+        actions = metadata.get("actions", [])
+        if not actions:
+            return 1.0
+        talk_count = sum(1 for a in actions if is_talk_action(a))
+        talk_ratio = talk_count / len(actions)
+        # 1.0 at 0% talk, 0.8 at 100% talk (max 20% penalty)
+        return 1.0 - 0.2 * talk_ratio
+
+
+class EfficiencyBonusRubric(Rubric):
+    """Bonus for completing tasks in fewer turns.
+
+    Scores 0.0-1.0 based on how few turns were used relative to max.
+    Only meaningful when combined (weighted) with task reward.
+    """
+
+    def __init__(self, max_turns: int = 10):
+        super().__init__()
+        self._max_turns = max_turns
+
+    def forward(self, action: Any, observation: Any) -> float:
+        metadata = getattr(observation, "metadata", {}) or {}
+        step_count = metadata.get("step", 0)
+        return max(0.0, 1.0 - step_count / self._max_turns)
+
+
+# ---------------------------------------------------------------------------
+# Composite Rubric — the full APEX scoring pipeline
+# ---------------------------------------------------------------------------
+
+class ApexRubric(Rubric):
+    """Full APEX reward: gate on file existence, then weighted keyword + efficiency.
+
+    Architecture (following RFC 004 patterns):
+        Sequential(
+            Gate(FileExistence) → must create files or score = 0
+            WeightedSum(
+                KeywordCoverage (0.7),
+                EfficiencyBonus (0.1),
+            ) × TalkPenalty multiplier
+        )
+
+    Introspectable via named_rubrics():
+        for name, r in apex_rubric.named_rubrics():
+            print(f"{name}: {r.last_score}")
+    """
+
+    def __init__(self, max_turns: int = 10):
+        super().__init__()
+        self.file_existence = FileExistenceRubric()
+        self.keyword_coverage = KeywordCoverageRubric()
+        self.talk_penalty = TalkPenaltyRubric()
+        self.efficiency_bonus = EfficiencyBonusRubric(max_turns=max_turns)
+
+    def forward(self, action: Any, observation: Any) -> float:
+        # Gate: must have created output files
+        file_score = self.file_existence(action, observation)
+        if file_score == 0.0:
+            return 0.0
+
+        # Core task score: keyword coverage (primary signal)
+        keyword_score = self.keyword_coverage(action, observation)
+
+        # Efficiency bonus (secondary signal)
+        eff_score = self.efficiency_bonus(action, observation)
+
+        # Weighted combination: 0.875 keyword + 0.125 efficiency (normalized from 0.7/0.1)
+        task_score = 0.3 * file_score + 0.7 * keyword_score
+
+        # Talk penalty as multiplier
+        talk_mult = self.talk_penalty(action, observation)
+
+        # Efficiency bonus additive (up to +0.1)
+        final = task_score * talk_mult + 0.1 * eff_score
+
+        return max(0.0, min(1.0, final))
+
+
+# ---------------------------------------------------------------------------
+# Backward-compatible function API (used by baseline_eval.py)
+# ---------------------------------------------------------------------------
+
+def compute_reward(task: dict[str, Any], workspace_dir: Path) -> float:
+    """Compute reward from rubric criteria using keyword matching + file existence.
 
     Returns float in [0, 1].
     """
     score = 0.0
 
-    # 1. Did agent create any output files? (0.3)
     output_files = [
-        f
-        for f in workspace_dir.iterdir()
+        f for f in workspace_dir.iterdir()
         if f.is_file() and f.suffix in READABLE_SUFFIXES
     ]
     if output_files:
         score += 0.3
 
-    # 2. Keyword coverage from rubric (0.7)
     rubric = task.get("rubric", [])
     if isinstance(rubric, str):
         try:
@@ -98,7 +277,6 @@ def compute_reward(task: dict[str, Any], workspace_dir: Path) -> float:
             rubric = []
 
     if not rubric:
-        # No rubric available — reward based on output existence only
         return min(score, 1.0)
 
     agent_text = collect_workspace_text(workspace_dir)
@@ -111,29 +289,6 @@ def compute_reward(task: dict[str, Any], workspace_dir: Path) -> float:
     return min(score, 1.0)
 
 
-# ---------------------------------------------------------------------------
-# Action Efficiency — "Spend Less, Do More"
-# ---------------------------------------------------------------------------
-
-_TALK_PREFIXES = (
-    "I ", "I'", "Let me", "Now ", "First", "Next", "The ", "This ",
-    "Here", "Sure", "OK", "Okay", "Great", "Note", "Since ", "To ",
-    "We ", "My ", "After", "Before", "Based", "Looking", "There ",
-)
-
-
-def is_talk_action(action: str) -> bool:
-    """Return True if an action string is natural-language talk, not a bash command."""
-    s = action.strip()
-    if not s:
-        return True
-    if any(s.startswith(p) for p in _TALK_PREFIXES):
-        return True
-    if s.endswith(".") and not any(c in s for c in "|>&;$`"):
-        return True
-    return False
-
-
 def compute_efficiency_reward(
     actions: list[str],
     task_reward: float,
@@ -141,11 +296,7 @@ def compute_efficiency_reward(
 ) -> dict[str, float]:
     """Compute action efficiency metrics for "Spend Less, Do More" scoring.
 
-    Components:
-    - talk_penalty: up to -0.2 for high talk ratio (wasted tokens)
-    - efficiency_bonus: up to +0.1 for completing in fewer turns (only if task_reward > 0)
-
-    Returns dict with individual components and combined final reward.
+    Backward-compatible function API. The Rubric-based equivalent is ApexRubric.
     """
     if not actions:
         return {
@@ -157,11 +308,8 @@ def compute_efficiency_reward(
 
     talk_count = sum(1 for a in actions if is_talk_action(a))
     talk_ratio = talk_count / len(actions)
-
-    # Talk penalty: linearly scale, max -0.2 when 100% talk
     talk_penalty = -0.2 * talk_ratio
 
-    # Efficiency bonus: only if the model actually produced useful output
     efficiency_bonus = 0.0
     if task_reward > 0:
         turns_used = len(actions)

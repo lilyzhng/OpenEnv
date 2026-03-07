@@ -10,7 +10,7 @@ from openenv.core.env_server.interfaces import Action, Environment
 from apex_env.models import ApexObservation, ApexState, BashAction
 
 from .bash_executor import BashExecutor
-from .reward import compute_reward
+from .reward import ApexRubric
 from .task_loader import TaskLoader
 
 
@@ -21,7 +21,17 @@ class ApexEnvironment(Environment):
     1. reset() picks a task and creates an isolated workspace
     2. Agent executes bash commands via step()
     3. Episode ends at step limit or when agent sends "done"
-    4. Reward computed from rubric at episode end
+    4. Reward computed via OpenEnv Rubric API (RFC 004) at episode end
+
+    Rubric architecture:
+        ApexRubric(
+            Gate(FileExistence) → must create files or score = 0
+            WeightedSum(KeywordCoverage, EfficiencyBonus) × TalkPenalty
+        )
+
+    Introspect rubric components:
+        for name, r in env.rubric.named_rubrics():
+            print(f"{name}: {r.last_score}")
     """
 
     SUPPORTS_CONCURRENT_SESSIONS = True
@@ -29,18 +39,22 @@ class ApexEnvironment(Environment):
     def __init__(self):
         self._executor = BashExecutor()
         self._task_loader = TaskLoader()
+        self.rubric = ApexRubric()
         self._state = ApexState()
         self._current_task: dict | None = None
         self._workspace_dir: Path | None = None
+        self._actions: list[str] = []
 
     def reset(self, seed=None, episode_id=None, **kwargs) -> ApexObservation:
         """Load a task, create workspace, return instruction."""
         # Clean up previous workspace
         self._cleanup_workspace()
 
-        # Pick task
+        # Pick task (supports difficulty-based curriculum)
         task = self._task_loader.get_task(
-            seed=seed, task_id=kwargs.get("task_id")
+            seed=seed,
+            task_id=kwargs.get("task_id"),
+            difficulty=kwargs.get("difficulty"),
         )
         self._current_task = task
 
@@ -50,6 +64,8 @@ class ApexEnvironment(Environment):
         )
 
         # Reset state
+        self._actions = []
+        self.rubric.reset()
         self._state = ApexState(
             episode_id=episode_id or str(uuid4()),
             step_count=0,
@@ -90,12 +106,13 @@ class ApexEnvironment(Environment):
             raise RuntimeError("Must call reset() before step()")
 
         self._state.step_count += 1
+        self._actions.append(action.command)
 
         # Check if agent is signaling done
         agent_said_done = action.command.strip().lower() == "done"
 
         if agent_said_done:
-            reward = self._compute_reward()
+            reward = self._compute_rubric_reward()
             return ApexObservation(
                 stdout="Episode finished.",
                 stderr="",
@@ -118,7 +135,7 @@ class ApexEnvironment(Environment):
 
         reward = None
         if is_done:
-            reward = self._compute_reward()
+            reward = self._compute_rubric_reward()
 
         # Update file list
         self._state.files_in_workspace = [
@@ -136,10 +153,23 @@ class ApexEnvironment(Environment):
             metadata={"step": self._state.step_count},
         )
 
-    def _compute_reward(self) -> float:
+    def _compute_rubric_reward(self) -> float:
+        """Compute reward using OpenEnv Rubric API."""
         if self._current_task is None or self._workspace_dir is None:
             return 0.0
-        return compute_reward(self._current_task, self._workspace_dir)
+
+        # Build observation with metadata the rubric needs
+        obs = ApexObservation(
+            stdout="", stderr="", exit_code=0, done=True, reward=None,
+            metadata={
+                "workspace": str(self._workspace_dir),
+                "task": self._current_task,
+                "actions": self._actions,
+                "step": self._state.step_count,
+            },
+        )
+        action = BashAction(command="done")
+        return self.rubric(action, obs)
 
     @property
     def state(self) -> ApexState:
