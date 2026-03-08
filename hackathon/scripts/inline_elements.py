@@ -38,6 +38,15 @@ function drawSpark(rc, svg, x, y, len, angle, ink) {
 function drawArc(rc, svg, x1, y1, x2, y2, rx, ry, opts) {
   svg.appendChild(rc.path('M '+x1+' '+y1+' A '+rx+' '+ry+' 0 0 1 '+x2+' '+y2, opts));
 }
+function drawCurve(rc, svg, points, opts) {
+  svg.appendChild(rc.curve(points, opts));
+}
+function drawPath(rc, svg, pathData, opts) {
+  svg.appendChild(rc.path(pathData, opts));
+}
+function drawEllipse(rc, svg, cx, cy, width, height, opts) {
+  svg.appendChild(rc.ellipse(cx, cy, width, height, opts));
+}
 """
 
 html_dir = Path(__file__).parent.parent / "data" / "handdraw_v6" / "html"
