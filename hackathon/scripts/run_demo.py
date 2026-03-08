@@ -20,24 +20,43 @@ _project_root = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_project_root / "server_space" / "apex_env" / "server"))
 
 from building_block_env import BuildingBlockEnvironment
+from handdraw_env import HandDrawEnvironment
 
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
-SYSTEM_PROMPT = (
-    "You are an IB analyst. You solve tasks by executing bash commands one at a time.\n"
-    "You have access to: python3, numpy, grep, find, cat, and standard unix tools.\n"
-    "Each response should contain EXACTLY ONE bash command to execute.\n"
-    "Do NOT wrap commands in markdown code blocks. Just output the raw command.\n"
-    "For Python code, write a .py file first, then run it with python3 IN A SEPARATE STEP.\n"
-    "IMPORTANT: numpy.irr is removed. For IRR, use scipy.optimize.brentq or Newton's method.\n"
-    "IMPORTANT: After writing ANY file, you MUST run it — unexecuted scripts produce nothing.\n"
-    "Explore your workspace to find the data you need — not everything is relevant.\n"
-    "Check the tools/ directory for utility scripts that may help.\n"
-    "Pay attention to [Progress] feedback — it tells you how many criteria you've met.\n"
-    "Write all final answers to analysis.txt with the actual computed numbers.\n"
-    "When finished, respond with exactly: done"
-)
+SYSTEM_PROMPTS = {
+    "ib": (
+        "You are an IB analyst. You solve tasks by executing bash commands one at a time.\n"
+        "You have access to: python3, numpy, grep, find, cat, and standard unix tools.\n"
+        "Each response should contain EXACTLY ONE bash command to execute.\n"
+        "Do NOT wrap commands in markdown code blocks. Just output the raw command.\n"
+        "For Python code, write a .py file first, then run it with python3 IN A SEPARATE STEP.\n"
+        "IMPORTANT: numpy.irr is removed. For IRR, use scipy.optimize.brentq or Newton's method.\n"
+        "IMPORTANT: After writing ANY file, you MUST run it — unexecuted scripts produce nothing.\n"
+        "Explore your workspace to find the data you need — not everything is relevant.\n"
+        "Check the tools/ directory for utility scripts that may help.\n"
+        "Pay attention to [Progress] feedback — it tells you how many criteria you've met.\n"
+        "Write all final answers to analysis.txt with the actual computed numbers.\n"
+        "When finished, respond with exactly: done"
+    ),
+    "handdraw": (
+        "You are an illustrator. You create SVG illustrations using Rough.js by composing basic elements.\n"
+        "You solve tasks by executing bash commands one at a time.\n"
+        "You have access to: cat, ls, grep, find, and standard unix tools.\n"
+        "Each response should contain EXACTLY ONE bash command to execute.\n"
+        "Do NOT wrap commands in markdown code blocks. Just output the raw command.\n"
+        "Explore your workspace to discover what elements and examples are available.\n"
+        "Study the examples to understand how basic elements compose into illustrations.\n"
+        "Use the template.html as your starting point.\n"
+        "Write your output as a complete HTML file.\n"
+        "Pay attention to [Progress] feedback — it tells you how many criteria you've met.\n"
+        "When finished, respond with exactly: done"
+    ),
+}
+
+# Backward compat
+SYSTEM_PROMPT = SYSTEM_PROMPTS["ib"]
 
 
 def get_api_key() -> str:
@@ -168,6 +187,8 @@ def main():
     parser = argparse.ArgumentParser(description="Run agent through phased KatNip environment")
     parser.add_argument("--model", default="qwen/qwen3-coder-30b-a3b-instruct")
     parser.add_argument("--max-turns", type=int, default=30)
+    parser.add_argument("--task", choices=["ib", "handdraw"], default="ib",
+                        help="Task: ib (KatNip financial analysis) or handdraw (SVG composition)")
     parser.add_argument("--sandbox", action="store_true")
     args = parser.parse_args()
 
@@ -177,10 +198,14 @@ def main():
         sys.exit(1)
 
     print(f"Model: {args.model}")
+    print(f"Task: {args.task}")
     print(f"Max turns: {args.max_turns}")
     print("=" * 70)
 
-    env = BuildingBlockEnvironment()
+    if args.task == "handdraw":
+        env = HandDrawEnvironment()
+    else:
+        env = BuildingBlockEnvironment()
     obs = env.reset()
 
     print(f"\n{'='*70}")
@@ -189,7 +214,7 @@ def main():
     print(obs["stdout"][:1000])
 
     messages = [
-        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "system", "content": SYSTEM_PROMPTS.get(args.task, SYSTEM_PROMPT)},
         {"role": "user", "content": obs["stdout"]},
     ]
 
