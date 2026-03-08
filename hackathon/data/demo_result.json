@@ -1,0 +1,22 @@
+{
+  "model": "openai/gpt-4o",
+  "max_turns": 30,
+  "final_reward": 0.364,
+  "criteria_met": 4,
+  "criteria_total": 11,
+  "steps_used": 26,
+  "criteria_breakdown": {
+    "IRR_17.9%": "PASS",
+    "MOIC_1.5x": "FAIL",
+    "NPV_10%_10.9MM": "PASS",
+    "NPV_15%_3.7MM": "PASS",
+    "NPV_20%_-2.3MM": "PASS",
+    "SaleValue_15%_2.9MM": "FAIL",
+    "SaleValue_20%_15.7MM": "FAIL",
+    "SaleValue_25%_31.6MM": "FAIL",
+    "UnitPrice_15%_140.15": "FAIL",
+    "UnitPrice_20%_157.05": "FAIL",
+    "UnitPrice_25%_174.45": "FAIL"
+  },
+  "notes": "Best run: agent discovered XIRR tool, computed IRR=17.9% and all NPVs correctly. Ran out of turns before sensitivity analysis."
+}

@@ -12,6 +12,43 @@ TASK_ID = "2287_demo"
 DOMAIN = "Finance"
 HF_FILE = "documents/2287/KatNip.pdf"
 
+# The actual financial data from the PDF, provided as plaintext so agents
+# don't need PDF extraction tooling (removes unnecessary complexity from demo)
+DATA_CONTENT = """\
+# KatNip Co. — Financial Data
+
+## Investment
+- Capital expenditure (capex) on machinery: $50.0MM on 03/03/2024
+
+## Revenue Schedule
+- Machinery ready to manufacture starting Q3 2024
+- Units sold: 50,000 every 6 months, increasing by 5,000 each period
+- Per-unit profit: $150 ("Unit Profit Price")
+- First cash flow distribution: 12/31/2024 (for units sold 7/1/2024 to 12/31/2024)
+
+## Cash Flow Schedule (semi-annual)
+
+| Date       | Period | Units Sold | Revenue ($M) | Other ($M)         | Net Cash Flow ($M) |
+|------------|--------|------------|---------------|--------------------|---------------------|
+| 03/03/2024 | 0      | —          | —             | -50.0 (capex)      | -50.0               |
+| 12/31/2024 | 1      | 50,000     | 7.5           |                    | 7.5                 |
+| 06/30/2025 | 2      | 55,000     | 8.25          |                    | 8.25                |
+| 12/31/2025 | 3      | 60,000     | 9.0           |                    | 9.0                 |
+| 06/30/2026 | 4      | 65,000     | 9.75          |                    | 9.75                |
+| 08/12/2026 | —      | —          | —             | -10.0 (maintenance)| -10.0               |
+| 12/31/2026 | 5      | 70,000     | 10.5          |                    | 10.5                |
+| 06/30/2027 | 6      | 75,000     | 11.25         |                    | 11.25               |
+| 12/31/2027 | 7      | 80,000     | 12.0          |                    | 12.0                |
+| 06/30/2028 | 8      | 85,000     | 12.75         |                    | 12.75               |
+| 12/31/2028 | —      | —          | —             | 10.0 (sale value)  | 10.0                |
+
+## Key Assumptions
+- Date format: MM/DD/YYYY
+- Patent expires after ~4 years (last revenue distribution 06/30/2028)
+- Company sells assets ("Sale Value") on 12/31/2028 for $10.0MM
+- One-time maintenance expense of $10.0MM on 08/12/2026
+"""
+
 # Phase definitions — each phase has a brief, unlock condition, and criteria group
 PHASES = [
     {
@@ -34,11 +71,11 @@ PHASES = [
         "name": "Extract Financial Data",
         "brief": (
             "Good — you've reviewed the brief. Now you need the financial data.\n"
-            "The company's financial details are in `KatNip.pdf`.\n"
-            "Extract the cash flow schedule and key assumptions.\n"
+            "The company's financial details are in `data.txt`.\n"
+            "Review the cash flow schedule and key assumptions.\n"
         ),
-        "files_to_release": ["KatNip.pdf"],
-        "unlock_hint": "Extract the cash flows and investment amounts from the PDF.",
+        "files_to_release": ["data.txt"],
+        "unlock_hint": "Read data.txt to see the cash flows and investment amounts.",
         "criteria_range": [],  # Data extraction, no final answers yet
     },
     {
@@ -110,9 +147,10 @@ Using the financial data (which will be provided), determine:
 ## Deliverable
 Write all results to `analysis.txt` in your workspace.
 
-## Note
-You will receive the financial data after reviewing this brief.
-Request it when you're ready.
+## Next Step
+After reviewing this brief, start working — the environment will provide
+the financial data (data.txt) once you're ready.
+Use python3 to analyze the data. Write scripts to .py files, then run them.
 """
 
 # Criteria list (extracted from rubric, in order)

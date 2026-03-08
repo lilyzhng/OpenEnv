@@ -33,9 +33,9 @@ _TALK_PREFIXES = (
 # ---------------------------------------------------------------------------
 
 def collect_workspace_text(workspace_dir: Path) -> str:
-    """Read all readable files in the workspace and concatenate their text."""
+    """Read all readable files in the workspace (recursively) and concatenate their text."""
     parts = []
-    for f in sorted(workspace_dir.iterdir()):
+    for f in sorted(workspace_dir.rglob("*")):
         if f.is_file() and f.suffix in READABLE_SUFFIXES:
             try:
                 parts.append(f.read_text(errors="replace"))
