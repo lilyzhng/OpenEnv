@@ -292,6 +292,99 @@ def llm_criterion_check(
         return False
 
 
+def screenshot_html(html_path: str | Path, output_png: str | Path | None = None) -> str | None:
+    """Render an HTML file to a PNG screenshot using Playwright.
+
+    Returns the path to the PNG file, or None on failure.
+    """
+    import tempfile
+    html_path = Path(html_path)
+    if not html_path.exists():
+        return None
+
+    if output_png is None:
+        output_png = Path(tempfile.mktemp(suffix=".png"))
+    else:
+        output_png = Path(output_png)
+
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page(viewport={"width": 400, "height": 400})
+            page.goto(f"file://{html_path.resolve()}")
+            page.wait_for_timeout(1000)  # let Rough.js render
+            page.screenshot(path=str(output_png))
+            browser.close()
+        return str(output_png) if output_png.exists() else None
+    except Exception:
+        return None
+
+
+def vlm_visual_check(
+    image_path: str,
+    concept: str,
+    model: str = "anthropic/claude-sonnet-4",
+) -> bool:
+    """Use a VLM to check if a rendered image depicts the expected concept.
+
+    Uses Claude Sonnet with chain-of-thought: first describe what you see,
+    then classify. This gives much better accuracy than a direct PASS/FAIL.
+    """
+    import base64
+    api_key = _get_openrouter_key()
+    if not api_key:
+        return False
+
+    try:
+        with open(image_path, "rb") as f:
+            img_b64 = base64.b64encode(f.read()).decode("utf-8")
+
+        resp = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": model,
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": (
+                                    f"This image shows a hand-drawn illustration. "
+                                    f"First, describe the shape: where is it widest? "
+                                    f"Where is it narrowest? "
+                                    f"Then determine: does this depict a {concept}? "
+                                    f"End with exactly PASS or FAIL on the last line."
+                                ),
+                            },
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/png;base64,{img_b64}",
+                                },
+                            },
+                        ],
+                    }
+                ],
+                "max_tokens": 250,
+                "temperature": 0.0,
+            },
+            timeout=20,
+        )
+        resp.raise_for_status()
+        answer = resp.json()["choices"][0]["message"]["content"].strip()
+        # Check last line for PASS/FAIL
+        last_line = answer.strip().split("\n")[-1].upper()
+        return "PASS" in last_line
+    except Exception:
+        return False
+
+
 def check_criterion_hybrid(
     criterion: dict[str, Any],
     agent_text: str,

@@ -17,13 +17,19 @@ from pathlib import Path
 
 try:
     from .bash_executor import BashExecutor
-    from .reward import collect_workspace_text, check_criterion_hybrid
+    from .reward import (
+        collect_workspace_text, check_criterion_hybrid,
+        screenshot_html, vlm_visual_check,
+    )
     from .demo_task_handdraw import (
         CRITERIA, ELEMENTS, EXAMPLES, TEMPLATE, DISTRACTORS, SPEC_CONTENT,
     )
 except ImportError:
     from bash_executor import BashExecutor
-    from reward import collect_workspace_text, check_criterion_hybrid
+    from reward import (
+        collect_workspace_text, check_criterion_hybrid,
+        screenshot_html, vlm_visual_check,
+    )
     from demo_task_handdraw import (
         CRITERIA, ELEMENTS, EXAMPLES, TEMPLATE, DISTRACTORS, SPEC_CONTENT,
     )
@@ -213,6 +219,30 @@ class HandDrawEnvironment:
         self._last_hint = hint
         return hint
 
+    def _check_criterion(self, criterion: dict, agent_text: str, use_llm: bool = False) -> bool:
+        """Check a single criterion, dispatching by check_type."""
+        check_type = criterion.get("check_type", "")
+
+        if check_type == "file_exists":
+            fname = criterion["file_name"]
+            return (self._workspace / fname).exists()
+
+        if check_type == "visual_check":
+            # Only run VLM check when use_llm=True (final scoring)
+            if not use_llm:
+                return False
+            fname = criterion["file_name"]
+            html_path = self._workspace / fname
+            if not html_path.exists():
+                return False
+            png_path = screenshot_html(html_path)
+            if not png_path:
+                return False
+            concept = criterion.get("concept", "")
+            return vlm_visual_check(png_path, concept)
+
+        return check_criterion_hybrid(criterion, agent_text, use_llm=use_llm)
+
     def _count_criteria_met(self, use_llm: bool = False) -> int:
         if not self._workspace or not self._workspace.exists():
             return 0
@@ -222,13 +252,7 @@ class HandDrawEnvironment:
 
         count = 0
         for criterion in CRITERIA:
-            # Special check: file existence
-            if criterion.get("check_type") == "file_exists":
-                fname = criterion["file_name"]
-                if (self._workspace / fname).exists():
-                    count += 1
-                continue
-            if check_criterion_hybrid(criterion, agent_text, use_llm=use_llm):
+            if self._check_criterion(criterion, agent_text, use_llm=use_llm):
                 count += 1
         return count
 
@@ -237,10 +261,7 @@ class HandDrawEnvironment:
         criteria_results = []
         criteria_met = 0
         for c in CRITERIA:
-            if c.get("check_type") == "file_exists":
-                met = (self._workspace / c["file_name"]).exists()
-            else:
-                met = check_criterion_hybrid(c, agent_text, use_llm=True)
+            met = self._check_criterion(c, agent_text, use_llm=True)
             criteria_results.append((c, met))
             if met:
                 criteria_met += 1

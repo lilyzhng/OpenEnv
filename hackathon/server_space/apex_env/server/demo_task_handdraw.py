@@ -228,4 +228,11 @@ CRITERIA = [
         "description": "Contains outline style (fill: 'none' or fill:'none')",
         "check_keywords": ["fill: 'none'", "fill:'none'", 'fill: "none"'],
     },
+    {
+        "id": 8,
+        "description": "Rendered illustration visually depicts an hourglass",
+        "check_type": "visual_check",
+        "file_name": "hourglass.html",
+        "concept": "hourglass",
+    },
 ]
