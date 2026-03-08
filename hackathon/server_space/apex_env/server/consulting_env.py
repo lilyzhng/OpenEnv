@@ -110,13 +110,16 @@ class ConsultingEnvironment:
             DISTRACTOR_FILES["macroeconomic_forecast.json"]
         )
 
-        # Minimal README
+        # Minimal README — teaches meta-strategy but not specific answers
         (self._workspace / "README.md").write_text(
             "# Task: NovaTech — Latin America Market Entry Strategy\n\n"
             "You are a strategy consultant. Analyze the LatAm market opportunity "
             "and write your strategy to `strategy.txt`.\n"
             "Your workspace contains market data, frameworks, and tools. "
-            "Figure out what you need.\n"
+            "Figure out what you need.\n\n"
+            "## Tip\n"
+            "Study the completed analysis in `examples/` to see how it uses "
+            "frameworks from `tools/` and market data to produce a strategy.\n"
         )
 
         # Track original files so criteria only check agent-created files

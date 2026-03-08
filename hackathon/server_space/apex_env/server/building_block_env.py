@@ -215,11 +215,14 @@ class BuildingBlockEnvironment:
             DISTRACTOR_FILES["memo_template.md"]
         )
 
-        # Minimal README — doesn't tell agent which files to read
+        # Minimal README — teaches meta-strategy but not specific answers
         (self._workspace / "README.md").write_text(
             "# Task: KatNip Co. Financial Analysis\n\n"
             "You are an IB analyst. Analyze KatNip Co. and write results to `analysis.txt`.\n"
-            "Your workspace contains briefs, data, and templates. Figure out what you need.\n"
+            "Your workspace contains briefs, data, and templates. Figure out what you need.\n\n"
+            "## Tip\n"
+            "Study the completed analysis in `examples/` to see how it uses "
+            "tools from `tools/` and data from `data/` to produce results.\n"
         )
 
         # Track original files so tool signals only check agent-created files

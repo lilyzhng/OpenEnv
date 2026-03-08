@@ -115,8 +115,13 @@ class HandDrawEnvironment:
         for name, content in DISTRACTORS.items():
             (self._workspace / "notes" / name).write_text(content)
 
-        # Task spec — MINIMAL, no decomposition hints
-        (self._workspace / "specs.md").write_text(self._task["spec"])
+        # Task spec — minimal, but teaches meta-strategy via example reference
+        meta_tip = (
+            "\n## Tip\n"
+            "Study the example in `examples/` to see how illustrations are "
+            "composed from building blocks in `elements/`.\n"
+        )
+        (self._workspace / "specs.md").write_text(self._task["spec"] + meta_tip)
 
         # Track original files so tool signals only check agent-created files
         self._original_files = set()

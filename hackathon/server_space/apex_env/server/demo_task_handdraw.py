@@ -88,6 +88,32 @@ function drawArc(rc, svg, x1, y1, x2, y2, rx, ry, opts) {
   svg.appendChild(rc.path('M '+x1+' '+y1+' A '+rx+' '+ry+' 0 0 1 '+x2+' '+y2, opts));
 }
 """,
+    "curve.js": """\
+// Building Block: Smooth Curve (multi-point)
+// Import via <script src="elements/curve.js"></script>
+// Then call: drawCurve(rc, svg, points, opts)
+// points is an array of [x, y] pairs — Rough.js draws a smooth curve through them
+function drawCurve(rc, svg, points, opts) {
+  svg.appendChild(rc.curve(points, opts));
+}
+""",
+    "path.js": """\
+// Building Block: Custom SVG Path
+// Import via <script src="elements/path.js"></script>
+// Then call: drawPath(rc, svg, pathData, opts)
+// pathData is an SVG path string like 'M 50 50 Q 100 20 150 50'
+function drawPath(rc, svg, pathData, opts) {
+  svg.appendChild(rc.path(pathData, opts));
+}
+""",
+    "ellipse.js": """\
+// Building Block: Ellipse
+// Import via <script src="elements/ellipse.js"></script>
+// Then call: drawEllipse(rc, svg, cx, cy, width, height, opts)
+function drawEllipse(rc, svg, cx, cy, width, height, opts) {
+  svg.appendChild(rc.ellipse(cx, cy, width, height, opts));
+}
+""",
 }
 
 # === Reference composition — always available in examples/ ===
@@ -139,6 +165,9 @@ TEMPLATE = """\
 <!-- <script src="elements/rectangle.js"></script> -->
 <!-- <script src="elements/line.js"></script> -->
 <!-- <script src="elements/arc.js"></script> -->
+<!-- <script src="elements/curve.js"></script> -->
+<!-- <script src="elements/path.js"></script> -->
+<!-- <script src="elements/ellipse.js"></script> -->
 <script>
 const INK = '#1a1a1a';
 const svg = document.getElementById('art');
@@ -297,6 +326,200 @@ TASK_FAMILY = {
             {"id": 6, "description": "Rendered illustration visually depicts a temple",
              "check_type": "visual_check", "file_name": "temple.html",
              "concept": "temple"},
+        ],
+    },
+
+    # ========== COMPLEX COMPOSITIONS (harder) ==========
+
+    "flower": {
+        "task_id": "handdraw_flower",
+        "concept": "flower",
+        "output_file": "flower.html",
+        "transfer_distance": "far",
+        "spec": (
+            "# Task: Compose a FLOWER illustration\n\n"
+            "Create a flower illustration using Rough.js.\n"
+            "The flower should have petals, a center, a stem, and a leaf.\n\n"
+            "## Requirements\n"
+            "- Output file: `flower.html`\n"
+            "- Must use the HTML template from `template.html`\n"
+            "- Must use Rough.js (loaded via script tag)\n\n"
+            "Write the complete HTML file to `flower.html` in your workspace.\n"
+        ),
+        "criteria": [
+            {"id": 1, "description": "Output file flower.html exists",
+             "check_type": "file_exists", "file_name": "flower.html"},
+            {"id": 2, "description": "Uses Rough.js script tag",
+             "check_keywords": ["rough.js", "roughjs"]},
+            {"id": 3, "description": "Uses SVG paths or curves for organic shapes",
+             "check_keywords": ["rc.path", "rc.curve", "drawPath", "drawCurve"]},
+            {"id": 4, "description": "Uses circle element for flower center",
+             "check_keywords": ["rc.circle", "drawCircle", "drawDot"]},
+            {"id": 5, "description": "Has multiple petal shapes (at least 3)",
+             "check_keywords": ["path", "petal", "Q "]},
+            {"id": 6, "description": "Rendered illustration visually depicts a flower",
+             "check_type": "visual_check", "file_name": "flower.html",
+             "concept": "flower with petals and stem"},
+        ],
+    },
+
+    "balanced_scale": {
+        "task_id": "handdraw_balanced_scale",
+        "concept": "balanced scale",
+        "output_file": "balanced_scale.html",
+        "transfer_distance": "far",
+        "spec": (
+            "# Task: Compose a BALANCED SCALE illustration\n\n"
+            "Create a balanced scale (scales of justice) illustration using Rough.js.\n"
+            "It should have a vertical post, a horizontal beam, and two hanging pans.\n\n"
+            "## Requirements\n"
+            "- Output file: `balanced_scale.html`\n"
+            "- Must use the HTML template from `template.html`\n"
+            "- Must use Rough.js (loaded via script tag)\n\n"
+            "Write the complete HTML file to `balanced_scale.html` in your workspace.\n"
+        ),
+        "criteria": [
+            {"id": 1, "description": "Output file balanced_scale.html exists",
+             "check_type": "file_exists", "file_name": "balanced_scale.html"},
+            {"id": 2, "description": "Uses Rough.js script tag",
+             "check_keywords": ["rough.js", "roughjs"]},
+            {"id": 3, "description": "Uses line elements for post and beam",
+             "check_keywords": ["rc.line", "drawLine"]},
+            {"id": 4, "description": "Uses arc or path for pan curves",
+             "check_keywords": ["rc.path", "rc.curve", "drawArc", "drawPath", "A "]},
+            {"id": 5, "description": "Has symmetric structure (two pans)",
+             "check_keywords": ["line", "circle", "polygon", "path"]},
+            {"id": 6, "description": "Rendered illustration visually depicts a balanced scale",
+             "check_type": "visual_check", "file_name": "balanced_scale.html",
+             "concept": "balanced scale or scales of justice"},
+        ],
+    },
+
+    "cherry_blossom": {
+        "task_id": "handdraw_cherry_blossom",
+        "concept": "cherry blossom tree",
+        "output_file": "cherry_blossom.html",
+        "transfer_distance": "very_far",
+        "spec": (
+            "# Task: Compose a CHERRY BLOSSOM TREE illustration\n\n"
+            "Create a cherry blossom tree illustration using Rough.js.\n"
+            "It should have a trunk, branching limbs, and blossom nodes at the tips.\n\n"
+            "## Requirements\n"
+            "- Output file: `cherry_blossom.html`\n"
+            "- Must use the HTML template from `template.html`\n"
+            "- Must use Rough.js (loaded via script tag)\n\n"
+            "Write the complete HTML file to `cherry_blossom.html` in your workspace.\n"
+        ),
+        "criteria": [
+            {"id": 1, "description": "Output file cherry_blossom.html exists",
+             "check_type": "file_exists", "file_name": "cherry_blossom.html"},
+            {"id": 2, "description": "Uses Rough.js script tag",
+             "check_keywords": ["rough.js", "roughjs"]},
+            {"id": 3, "description": "Uses paths or curves for branches",
+             "check_keywords": ["rc.path", "rc.curve", "drawPath", "drawCurve"]},
+            {"id": 4, "description": "Uses circles for blossom nodes",
+             "check_keywords": ["rc.circle", "drawCircle", "drawDot"]},
+            {"id": 5, "description": "Has multiple branches (at least 4 path/curve calls)",
+             "check_keywords": ["path", "curve", "branch"]},
+            {"id": 6, "description": "Rendered illustration visually depicts a cherry blossom tree",
+             "check_type": "visual_check", "file_name": "cherry_blossom.html",
+             "concept": "cherry blossom tree with trunk and branches"},
+        ],
+    },
+
+    "fish": {
+        "task_id": "handdraw_fish",
+        "concept": "fish",
+        "output_file": "fish.html",
+        "transfer_distance": "very_far",
+        "spec": (
+            "# Task: Compose a FISH illustration\n\n"
+            "Create a fish illustration using Rough.js.\n"
+            "It should have a body, eye, tail fin, and dorsal fin.\n\n"
+            "## Requirements\n"
+            "- Output file: `fish.html`\n"
+            "- Must use the HTML template from `template.html`\n"
+            "- Must use Rough.js (loaded via script tag)\n\n"
+            "Write the complete HTML file to `fish.html` in your workspace.\n"
+        ),
+        "criteria": [
+            {"id": 1, "description": "Output file fish.html exists",
+             "check_type": "file_exists", "file_name": "fish.html"},
+            {"id": 2, "description": "Uses Rough.js script tag",
+             "check_keywords": ["rough.js", "roughjs"]},
+            {"id": 3, "description": "Uses path for body outline",
+             "check_keywords": ["rc.path", "drawPath", "Q ", "C "]},
+            {"id": 4, "description": "Has eye element",
+             "check_keywords": ["rc.circle", "drawCircle", "drawDot", "eye"]},
+            {"id": 5, "description": "Has tail and fin shapes",
+             "check_keywords": ["path", "tail", "fin", "polygon"]},
+            {"id": 6, "description": "Rendered illustration visually depicts a fish",
+             "check_type": "visual_check", "file_name": "fish.html",
+             "concept": "fish with body, tail, and fins"},
+        ],
+    },
+
+    "stacking_stones": {
+        "task_id": "handdraw_stacking_stones",
+        "concept": "stacking stones",
+        "output_file": "stacking_stones.html",
+        "transfer_distance": "far",
+        "spec": (
+            "# Task: Compose a STACKING STONES illustration\n\n"
+            "Create a stacking stones (zen balance) illustration using Rough.js.\n"
+            "It should show organic, rounded stones balanced on top of each other.\n\n"
+            "## Requirements\n"
+            "- Output file: `stacking_stones.html`\n"
+            "- Must use the HTML template from `template.html`\n"
+            "- Must use Rough.js (loaded via script tag)\n\n"
+            "Write the complete HTML file to `stacking_stones.html` in your workspace.\n"
+        ),
+        "criteria": [
+            {"id": 1, "description": "Output file stacking_stones.html exists",
+             "check_type": "file_exists", "file_name": "stacking_stones.html"},
+            {"id": 2, "description": "Uses Rough.js script tag",
+             "check_keywords": ["rough.js", "roughjs"]},
+            {"id": 3, "description": "Uses curves or ellipses for organic stone shapes",
+             "check_keywords": ["rc.curve", "rc.ellipse", "rc.path", "drawCurve", "drawEllipse", "drawPath"]},
+            {"id": 4, "description": "Has multiple stacked shapes (at least 3)",
+             "check_keywords": ["curve", "ellipse", "path"]},
+            {"id": 5, "description": "Uses SVG element with viewBox",
+             "check_keywords": ["viewBox"]},
+            {"id": 6, "description": "Rendered illustration visually depicts stacking stones",
+             "check_type": "visual_check", "file_name": "stacking_stones.html",
+             "concept": "stacking stones or balanced zen rocks"},
+        ],
+    },
+
+    "neural_net": {
+        "task_id": "handdraw_neural_net",
+        "concept": "neural network",
+        "output_file": "neural_net.html",
+        "transfer_distance": "very_far",
+        "spec": (
+            "# Task: Compose a NEURAL NETWORK illustration\n\n"
+            "Create a neural network diagram illustration using Rough.js.\n"
+            "It should show nodes (circles) connected by lines/edges in a network topology.\n\n"
+            "## Requirements\n"
+            "- Output file: `neural_net.html`\n"
+            "- Must use the HTML template from `template.html`\n"
+            "- Must use Rough.js (loaded via script tag)\n\n"
+            "Write the complete HTML file to `neural_net.html` in your workspace.\n"
+        ),
+        "criteria": [
+            {"id": 1, "description": "Output file neural_net.html exists",
+             "check_type": "file_exists", "file_name": "neural_net.html"},
+            {"id": 2, "description": "Uses Rough.js script tag",
+             "check_keywords": ["rough.js", "roughjs"]},
+            {"id": 3, "description": "Uses circles for nodes",
+             "check_keywords": ["rc.circle", "drawCircle", "drawDot"]},
+            {"id": 4, "description": "Uses lines for connections",
+             "check_keywords": ["rc.line", "drawLine"]},
+            {"id": 5, "description": "Has multiple nodes and connections (network structure)",
+             "check_keywords": ["circle", "line"]},
+            {"id": 6, "description": "Rendered illustration visually depicts a neural network",
+             "check_type": "visual_check", "file_name": "neural_net.html",
+             "concept": "neural network diagram with connected nodes"},
         ],
     },
 }

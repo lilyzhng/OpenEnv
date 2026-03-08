@@ -566,6 +566,51 @@ tr.wrong td.shape { color: var(--red); }
   </div>
 </div>
 
+<!-- Part B2: Meta-Strategy Table — same structure, different domains -->
+<div class="panel" style="margin-top: 28px;">
+  <div class="panel-title">How the environment teaches meta-strategy</div>
+  <p style="color:var(--text-dim); font-size:13px; margin-bottom:16px; line-height:1.6;">
+    Each domain has a <strong style="color:var(--text-light)">worked example</strong> showing how to compose building blocks into a finished output.
+    The agent learns the method &mdash; <em>decompose &rarr; find blocks &rarr; compose</em> &mdash; not the specific answer.
+  </p>
+  <table style="font-size:12px;">
+    <thead>
+      <tr>
+        <th>Domain</th>
+        <th>Worked Example</th>
+        <th>Building Blocks</th>
+        <th>Meta-Strategy Tip</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:var(--green); font-weight:600;">Hand-Draw</td>
+        <td><code style="color:var(--text-light);">diamond.html</code> <span style="color:var(--text-dim)">&mdash; 2 triangles &rarr; diamond</span></td>
+        <td><code style="color:var(--cyan);">elements/*.js</code></td>
+        <td style="color:var(--text-dim); font-style:italic;">&ldquo;See how illustrations compose from building blocks&rdquo;</td>
+      </tr>
+      <tr>
+        <td style="color:var(--amber); font-weight:600;">Law</td>
+        <td><code style="color:var(--text-light);">precedent_memo.txt</code> <span style="color:var(--text-dim)">&mdash; case &rarr; tool &rarr; memo</span></td>
+        <td><code style="color:var(--cyan);">tools/royalty_calc.py</code></td>
+        <td style="color:var(--text-dim); font-style:italic;">&ldquo;See how memo uses tools and case data&rdquo;</td>
+      </tr>
+      <tr>
+        <td style="color:#c084fc; font-weight:600;">Consulting</td>
+        <td><code style="color:var(--text-light);">market_analysis.txt</code> <span style="color:var(--text-dim)">&mdash; data &rarr; framework &rarr; strategy</span></td>
+        <td><code style="color:var(--cyan);">tools/tam_tool.py</code></td>
+        <td style="color:var(--text-dim); font-style:italic;">&ldquo;See how strategy uses frameworks and market data&rdquo;</td>
+      </tr>
+      <tr>
+        <td style="color:var(--cyan); font-weight:600;">Investment Banking</td>
+        <td><code style="color:var(--text-light);">alpha_analysis.txt</code> <span style="color:var(--text-dim)">&mdash; brief &rarr; tool &rarr; result</span></td>
+        <td><code style="color:var(--cyan);">tools/xirr_tool.py</code></td>
+        <td style="color:var(--text-dim); font-style:italic;">&ldquo;See how analysis uses tools and data&rdquo;</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <!-- Part C: Cross-Domain Leaderboard — 4 columns matching domain order -->
 <div class="lb-grid-4">
   <!-- Hand-Draw -->
