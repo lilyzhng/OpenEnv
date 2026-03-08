@@ -10,7 +10,7 @@ from openenv.core.env_server.interfaces import Action, Environment
 from apex_env.models import ApexObservation, ApexState, BashAction
 
 from .bash_executor import BashExecutor
-from .reward import ApexRubric
+from .reward import ApexRubric, check_criteria_progress
 from .task_loader import TaskLoader
 
 
@@ -87,6 +87,10 @@ class ApexEnvironment(Environment):
             domain=task.get("domain", ""),
         )
 
+        # Count rubric criteria for progress feedback
+        progress = check_criteria_progress(task, self._workspace_dir)
+        self._criteria_total = progress["criteria_total"]
+
         # Build instruction text
         prompt = task.get("prompt", task.get("instruction", ""))
         instruction = (
@@ -94,6 +98,7 @@ class ApexEnvironment(Environment):
             f"# Domain: {task.get('domain', 'unknown')}\n\n"
             f"{prompt}\n\n"
             f"Your workspace is: {self._workspace_dir}\n"
+            f"This task has {self._criteria_total} evaluation criteria.\n"
             f"Create your output files in the workspace directory.\n"
             f"When finished, send the command: done"
         )
@@ -127,13 +132,19 @@ class ApexEnvironment(Environment):
 
         if agent_said_done:
             reward = self._compute_rubric_reward()
+            progress = check_criteria_progress(self._current_task, self._workspace_dir)
             return ApexObservation(
-                stdout="Episode finished.",
+                stdout=f"Episode finished. Final: {progress['criteria_met']}/{progress['criteria_total']} criteria met.",
                 stderr="",
                 exit_code=0,
                 done=True,
                 reward=reward,
-                metadata={"step": self._state.step_count},
+                metadata={
+                    "step": self._state.step_count,
+                    "criteria_met": progress["criteria_met"],
+                    "criteria_total": progress["criteria_total"],
+                    "files_created": progress["files_created"],
+                },
             )
 
         # Execute in workspace
@@ -158,13 +169,32 @@ class ApexEnvironment(Environment):
             if f.is_file()
         ]
 
+        # Per-step progress feedback — the environment responds to agent actions
+        progress = check_criteria_progress(self._current_task, self._workspace_dir)
+        criteria_met = progress["criteria_met"]
+        criteria_total = progress["criteria_total"]
+        files = progress["files_created"]
+
+        progress_line = f"\n[Progress: {criteria_met}/{criteria_total} criteria met"
+        if files:
+            progress_line += f" | Files: {', '.join(files)}"
+        progress_line += "]"
+
+        # Append progress to stdout so agent sees it as environment feedback
+        enriched_stdout = result.stdout + progress_line
+
         return ApexObservation(
-            stdout=result.stdout,
+            stdout=enriched_stdout,
             stderr=result.stderr,
             exit_code=result.exit_code,
             done=is_done,
             reward=reward,
-            metadata={"step": self._state.step_count},
+            metadata={
+                "step": self._state.step_count,
+                "criteria_met": criteria_met,
+                "criteria_total": criteria_total,
+                "files_created": files,
+            },
         )
 
     def _compute_rubric_reward(self) -> float:

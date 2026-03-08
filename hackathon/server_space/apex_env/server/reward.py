@@ -82,6 +82,68 @@ def extract_keywords_from_rubric(rubric: list[dict[str, Any]]) -> list[str]:
     return result
 
 
+def check_criteria_progress(task: dict[str, Any], workspace_dir: Path) -> dict[str, Any]:
+    """Check how many rubric criteria are currently satisfied in the workspace.
+
+    Returns a dict with progress info for per-step feedback:
+        - criteria_total: total number of rubric criteria
+        - criteria_met: how many are currently satisfied
+        - has_output_files: whether any output files exist
+        - files_created: list of files in workspace
+    """
+    rubric_data = task.get("rubric", task.get("Rubric JSON", "{}"))
+    if isinstance(rubric_data, str):
+        try:
+            rubric_data = json.loads(rubric_data)
+        except (json.JSONDecodeError, TypeError):
+            rubric_data = {}
+
+    # Normalize to list of criteria dicts
+    if isinstance(rubric_data, dict):
+        criteria_list = [
+            {"description": v.get("description", ""), "criteria": v.get("description", "")}
+            for v in rubric_data.values()
+        ]
+    elif isinstance(rubric_data, list):
+        criteria_list = rubric_data
+    else:
+        criteria_list = []
+
+    # Check files
+    output_files = [
+        f.name for f in workspace_dir.iterdir()
+        if f.is_file() and f.suffix in READABLE_SUFFIXES
+    ] if workspace_dir.exists() else []
+
+    if not criteria_list:
+        return {
+            "criteria_total": 0,
+            "criteria_met": 0,
+            "has_output_files": len(output_files) > 0,
+            "files_created": output_files,
+        }
+
+    # For each criterion, extract its keywords and check if ANY appear in workspace
+    agent_text = collect_workspace_text(workspace_dir).lower() if output_files else ""
+    criteria_met = 0
+
+    for criterion in criteria_list:
+        # Extract keywords for this single criterion
+        kws = extract_keywords_from_rubric([criterion])
+        if not kws:
+            continue
+        # Criterion is "met" if at least one keyword from it appears
+        if any(k.lower() in agent_text for k in kws):
+            criteria_met += 1
+
+    return {
+        "criteria_total": len(criteria_list),
+        "criteria_met": criteria_met,
+        "has_output_files": len(output_files) > 0,
+        "files_created": output_files,
+    }
+
+
 def is_talk_action(action_str: str) -> bool:
     """Return True if an action string is natural-language talk, not a bash command."""
     s = action_str.strip()
