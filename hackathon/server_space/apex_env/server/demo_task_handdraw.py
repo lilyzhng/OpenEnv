@@ -114,12 +114,51 @@ function drawEllipse(rc, svg, cx, cy, width, height, opts) {
   svg.appendChild(rc.ellipse(cx, cy, width, height, opts));
 }
 """,
+    "animate.css": """\
+/* Building Block: Reusable CSS Animations
+   Import via <link rel="stylesheet" href="elements/animate.css">
+   Then add animation classes to SVG groups via id or class selectors.
+
+   Available animations:
+   - spin: continuous rotation (good for wheels, gears)
+   - bounce: gentle up-down motion (good for floating objects)
+   - sway: slight rotation back and forth (good for plants, pendulums)
+   - pulse: scale breathing effect (good for hearts, glowing objects)
+   - streak: horizontal slide with fade (good for speed lines, wind)
+*/
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-# === Reference composition — always available in examples/ ===
-# Diamond is the COMPLETED sibling task. Agent studies this to learn
-# how basic elements compose into illustrations.
-# NOTE: No other examples. Agent has ONE reference point.
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+@keyframes streak {
+  0% { opacity: 0.3; transform: translateX(0); }
+  100% { opacity: 0.8; transform: translateX(-4px); }
+}
+""",
+}
+
+# === Reference compositions — always available in examples/ ===
+# Two worked examples showing increasing composition complexity:
+# 1. diamond.html — static: building blocks → illustration
+# 2. moving_car.html — animated: building blocks + CSS animation → living illustration
+# Agent studies these to learn the meta-strategy at each level.
 
 EXAMPLES = {
     "diamond.html": """\
@@ -144,6 +183,73 @@ drawTriangle(rc, svg, 150, 200, 130, 'down', opts);
 // Sparkle accents
 drawSpark(rc, svg, 55, 58, 15, -135, INK);
 drawSpark(rc, svg, 48, 68, 12, -170, INK);
+</script>
+</body>
+</html>
+""",
+    "moving_car.html": """\
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Moving Car</title>
+<link rel="stylesheet" href="../elements/animate.css">
+<style>
+  #car-body { transform-origin: 155px 210px; animation: bounce 0.6s ease-in-out infinite; }
+  #wheel-front { transform-origin: 108px 215px; animation: spin 0.4s linear infinite; }
+  #wheel-rear { transform-origin: 208px 215px; animation: spin 0.5s linear infinite; }
+  #speed-lines { animation: streak 0.8s ease-in-out infinite alternate; }
+</style>
+</head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#e8dcc8;">
+<svg id="art" viewBox="0 0 300 300" width="300" height="300" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="https://unpkg.com/roughjs/bundled/rough.js"></script>
+<script src="../elements/circle.js"></script>
+<script src="../elements/line.js"></script>
+<script src="../elements/path.js"></script>
+<script src="../elements/curve.js"></script>
+<script>
+const INK = '#1a1a1a';
+const svg = document.getElementById('art');
+const rc = rough.svg(svg);
+const ns = 'http://www.w3.org/2000/svg';
+
+// Speed lines group (uses streak animation from animate.css)
+var speedG = document.createElementNS(ns, 'g');
+speedG.id = 'speed-lines';
+svg.appendChild(speedG);
+speedG.appendChild(rc.line(18, 158, 48, 158, { stroke: INK, strokeWidth: 2, roughness: 1.2 }));
+speedG.appendChild(rc.line(12, 172, 52, 173, { stroke: INK, strokeWidth: 2, roughness: 1.2 }));
+speedG.appendChild(rc.line(22, 188, 45, 187, { stroke: INK, strokeWidth: 2, roughness: 1.2 }));
+
+// Car body group (uses bounce animation from animate.css)
+var bodyG = document.createElementNS(ns, 'g');
+bodyG.id = 'car-body';
+svg.appendChild(bodyG);
+bodyG.appendChild(rc.path(
+    'M 52 190 Q 55 208 78 213 Q 140 218 210 212 Q 272 206 275 188 Q 276 175 270 168 Q 260 160 52 165 Q 45 172 52 190',
+    { stroke: INK, strokeWidth: 3.5, fill: 'none', roughness: 0.7 }
+));
+bodyG.appendChild(rc.path(
+    'M 102 165 Q 106 132 148 96 Q 188 98 232 165',
+    { stroke: INK, strokeWidth: 3.5, fill: 'none', roughness: 0.8 }
+));
+drawCircle(rc, svg, 268, 175, 12, { stroke: INK, strokeWidth: 2.5, fill: 'none', roughness: 0.6 });
+
+// Front wheel (uses spin animation from animate.css)
+var wf = document.createElementNS(ns, 'g');
+wf.id = 'wheel-front';
+svg.appendChild(wf);
+wf.appendChild(rc.circle(108, 215, 38, { stroke: INK, strokeWidth: 3.5, fill: 'none', roughness: 0.7 }));
+wf.appendChild(rc.circle(108, 215, 14, { stroke: INK, strokeWidth: 2, fill: INK, fillStyle: 'solid' }));
+
+// Rear wheel (uses spin animation from animate.css)
+var wr = document.createElementNS(ns, 'g');
+wr.id = 'wheel-rear';
+svg.appendChild(wr);
+wr.appendChild(rc.circle(208, 215, 38, { stroke: INK, strokeWidth: 3.5, fill: 'none', roughness: 0.7 }));
+wr.appendChild(rc.circle(208, 215, 14, { stroke: INK, strokeWidth: 2, fill: INK, fillStyle: 'solid' }));
+
+// Ground
+drawCurve(rc, svg, [[25, 238], [150, 237], [285, 237]], { stroke: INK, strokeWidth: 2.5, roughness: 1 });
 </script>
 </body>
 </html>
@@ -520,6 +626,117 @@ TASK_FAMILY = {
             {"id": 6, "description": "Rendered illustration visually depicts a neural network",
              "check_type": "visual_check", "file_name": "neural_net.html",
              "concept": "neural network diagram with connected nodes"},
+        ],
+    },
+
+    # ========== ANIMATED COMPOSITIONS (recursive: static + animation) ==========
+
+    "swaying_flower": {
+        "task_id": "handdraw_swaying_flower",
+        "concept": "swaying flower",
+        "output_file": "swaying_flower.html",
+        "transfer_distance": "recursive",
+        "spec": (
+            "# Task: Compose a SWAYING FLOWER illustration with animation\n\n"
+            "Create an animated flower illustration using Rough.js.\n"
+            "The flower should have petals, a center, a stem, and a leaf.\n"
+            "Add CSS animations to bring it to life: petals should sway,\n"
+            "the stem should gently move, or leaves should flutter.\n\n"
+            "## Requirements\n"
+            "- Output file: `swaying_flower.html`\n"
+            "- Must use the HTML template from `template.html`\n"
+            "- Must use Rough.js (loaded via script tag)\n"
+            "- Must include CSS @keyframes animations\n\n"
+            "Write the complete HTML file to `swaying_flower.html` in your workspace.\n"
+        ),
+        "criteria": [
+            {"id": 1, "description": "Output file swaying_flower.html exists",
+             "check_type": "file_exists", "file_name": "swaying_flower.html"},
+            {"id": 2, "description": "Uses Rough.js script tag",
+             "check_keywords": ["rough.js", "roughjs"]},
+            {"id": 3, "description": "Uses circle element for flower center",
+             "check_keywords": ["rc.circle", "drawCircle", "drawDot"]},
+            {"id": 4, "description": "Has petal shapes (paths or curves)",
+             "check_keywords": ["rc.path", "rc.curve", "drawPath", "drawCurve", "petal"]},
+            {"id": 5, "description": "Includes CSS @keyframes animation",
+             "check_keywords": ["@keyframes", "animation"]},
+            {"id": 6, "description": "Uses SVG group elements for animation targets",
+             "check_keywords": ["createElementNS", "getElementById", ".id ="]},
+            {"id": 7, "description": "Rendered illustration visually depicts an animated flower",
+             "check_type": "visual_check", "file_name": "swaying_flower.html",
+             "concept": "flower with petals and stem"},
+        ],
+    },
+
+    "spinning_windmill": {
+        "task_id": "handdraw_spinning_windmill",
+        "concept": "spinning windmill",
+        "output_file": "windmill.html",
+        "transfer_distance": "recursive",
+        "spec": (
+            "# Task: Compose a SPINNING WINDMILL illustration with animation\n\n"
+            "Create an animated windmill illustration using Rough.js.\n"
+            "The windmill should have a tower, blades, and a landscape.\n"
+            "The blades should spin continuously using CSS animation.\n\n"
+            "## Requirements\n"
+            "- Output file: `windmill.html`\n"
+            "- Must use the HTML template from `template.html`\n"
+            "- Must use Rough.js (loaded via script tag)\n"
+            "- Must include CSS @keyframes animations\n\n"
+            "Write the complete HTML file to `windmill.html` in your workspace.\n"
+        ),
+        "criteria": [
+            {"id": 1, "description": "Output file windmill.html exists",
+             "check_type": "file_exists", "file_name": "windmill.html"},
+            {"id": 2, "description": "Uses Rough.js script tag",
+             "check_keywords": ["rough.js", "roughjs"]},
+            {"id": 3, "description": "Has tower structure (lines or rectangles)",
+             "check_keywords": ["rc.line", "rc.rectangle", "drawLine", "drawRectangle"]},
+            {"id": 4, "description": "Has blade shapes (paths or polygons)",
+             "check_keywords": ["rc.path", "rc.polygon", "drawPath", "blade"]},
+            {"id": 5, "description": "Includes CSS spin or rotate animation",
+             "check_keywords": ["@keyframes", "rotate", "spin", "animation"]},
+            {"id": 6, "description": "Uses SVG group elements for animation targets",
+             "check_keywords": ["createElementNS", "getElementById", ".id ="]},
+            {"id": 7, "description": "Rendered illustration visually depicts an animated windmill",
+             "check_type": "visual_check", "file_name": "windmill.html",
+             "concept": "windmill with spinning blades"},
+        ],
+    },
+
+    "bouncing_ball": {
+        "task_id": "handdraw_bouncing_ball",
+        "concept": "bouncing ball",
+        "output_file": "bouncing_ball.html",
+        "transfer_distance": "recursive",
+        "spec": (
+            "# Task: Compose a BOUNCING BALL illustration with animation\n\n"
+            "Create an animated bouncing ball illustration using Rough.js.\n"
+            "The ball should bounce up and down, with a shadow that stretches\n"
+            "when the ball is high and compresses when the ball is low.\n\n"
+            "## Requirements\n"
+            "- Output file: `bouncing_ball.html`\n"
+            "- Must use the HTML template from `template.html`\n"
+            "- Must use Rough.js (loaded via script tag)\n"
+            "- Must include CSS @keyframes animations\n\n"
+            "Write the complete HTML file to `bouncing_ball.html` in your workspace.\n"
+        ),
+        "criteria": [
+            {"id": 1, "description": "Output file bouncing_ball.html exists",
+             "check_type": "file_exists", "file_name": "bouncing_ball.html"},
+            {"id": 2, "description": "Uses Rough.js script tag",
+             "check_keywords": ["rough.js", "roughjs"]},
+            {"id": 3, "description": "Has ball shape (circle)",
+             "check_keywords": ["rc.circle", "drawCircle"]},
+            {"id": 4, "description": "Has shadow element (ellipse or circle)",
+             "check_keywords": ["rc.ellipse", "rc.circle", "shadow", "drawEllipse"]},
+            {"id": 5, "description": "Includes CSS bounce or translate animation",
+             "check_keywords": ["@keyframes", "translateY", "bounce", "animation"]},
+            {"id": 6, "description": "Uses SVG group elements for animation targets",
+             "check_keywords": ["createElementNS", "getElementById", ".id ="]},
+            {"id": 7, "description": "Rendered illustration visually depicts a bouncing ball",
+             "check_type": "visual_check", "file_name": "bouncing_ball.html",
+             "concept": "ball bouncing with shadow"},
         ],
     },
 }

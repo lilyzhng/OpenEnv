@@ -118,8 +118,10 @@ class HandDrawEnvironment:
         # Task spec — minimal, but teaches meta-strategy via example reference
         meta_tip = (
             "\n## Tip\n"
-            "Study the example in `examples/` to see how illustrations are "
+            "Study the examples in `examples/` to see how illustrations are "
             "composed from building blocks in `elements/`.\n"
+            "The `diamond.html` shows static composition. "
+            "The `moving_car.html` shows how to add CSS animation on top.\n"
         )
         (self._workspace / "specs.md").write_text(self._task["spec"] + meta_tip)
 
@@ -345,6 +347,12 @@ class HandDrawEnvironment:
                 criteria_met += 1
 
         correctness = criteria_met / len(self._criteria) if self._criteria else 0.0
+
+        # Visual gate: if visual check fails, keywords are meaningless
+        for c, met in criteria_results:
+            if c.get("check_type") == "visual_check" and not met:
+                correctness = 0.0
+                break
 
         # Process signals — file-diff based, not keyword based
         tool_use, tool_composition, tool_creation = self._detect_tool_signals()

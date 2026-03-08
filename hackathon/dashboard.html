@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SuperGeneral — Recursive Tool-Centric Environments for General Agents</title>
+<title>SuperGeneral — Compositional Tool Environments for Long-Horizon Agents</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -367,7 +367,7 @@ tr.wrong td.shape { color: var(--red); }
       <div class="hero-left">
         <div class="hero-label">OpenEnv Hackathon 2026</div>
         <h1 class="hero-title">SuperGeneral</h1>
-        <div class="hero-subtitle">Recursive Tool-Centric Environments for General Agents</div>
+        <div class="hero-subtitle">Compositional Tool Environments for Long-Horizon Agents</div>
       </div>
 
       <div class="hero-card">
@@ -1002,35 +1002,6 @@ function showHeroFinalState() {
 // ══════════════════════════════════════════════════
 var modelData = [
   {
-    name: 'OpenAI GPT-5.4',
-    result: 'pass',
-    resultLabel: '\u2713 HOURGLASS',
-    shape: 'hourglass',
-    iframe: 'data/handdraw_v1/html/gpt54_hourglass.html',
-    criteria: '5/6',
-    reward: '0.833',
-    method: 'Read ALL files in one command. Used python3 to generate from internal knowledge.',
-    toolUse: { used: false, label: 'Knowledge-based. No analogical reasoning, no building block reuse.' },
-    blocks: [],
-    phases: [
-      { name: 'Discover', dim: '(explore workspace)', items: [
-        { cmd: 'ls -la', cls: '' },
-        { cmd: 'find . -maxdepth 2 -type f | sort', cls: '' }
-      ]},
-      { name: 'Find Nearest', dim: '(read example)', items: [
-        { cmd: 'cat specs.md template.html', cls: '' },
-        { cmd: 'cat examples/diamond.html', cls: 'example' },
-        { cmd: 'cat elements/*.js notes/*.md', cls: '' }
-      ]},
-      { name: 'Recompose', dim: '(generate)', items: [
-        { cmd: 'python3 > hourglass.html', cls: '' },
-        { cmd: 'grep + review output', cls: 'talk' },
-        { cmd: 'python3 > hourglass.html (rewrite)', cls: 'talk' }
-      ]},
-      { name: 'done', dim: '', items: [] }
-    ]
-  },
-  {
     name: 'Claude Sonnet 4',
     result: 'pass',
     resultLabel: '\u2713 HOURGLASS',
@@ -1059,6 +1030,35 @@ var modelData = [
       { name: 'Recompose', dim: '(adapt & write)', items: [
         { cmd: 'cat > hourglass.html \u2190 adapted!', cls: 'done' },
         { cmd: 'rewrites (add caps, sand)...', cls: 'talk' }
+      ]},
+      { name: 'done', dim: '', items: [] }
+    ]
+  },
+  {
+    name: 'OpenAI GPT-5.4',
+    result: 'pass',
+    resultLabel: '\u2713 HOURGLASS',
+    shape: 'hourglass',
+    iframe: 'data/handdraw_v1/html/gpt54_hourglass.html',
+    criteria: '5/6',
+    reward: '0.833',
+    method: 'Read ALL files in one command. Used python3 to generate from internal knowledge.',
+    toolUse: { used: false, label: 'Knowledge-based. No analogical reasoning, no building block reuse.' },
+    blocks: [],
+    phases: [
+      { name: 'Discover', dim: '(explore workspace)', items: [
+        { cmd: 'ls -la', cls: '' },
+        { cmd: 'find . -maxdepth 2 -type f | sort', cls: '' }
+      ]},
+      { name: 'Find Nearest', dim: '(read example)', items: [
+        { cmd: 'cat specs.md template.html', cls: '' },
+        { cmd: 'cat examples/diamond.html', cls: 'example' },
+        { cmd: 'cat elements/*.js notes/*.md', cls: '' }
+      ]},
+      { name: 'Recompose', dim: '(generate)', items: [
+        { cmd: 'python3 > hourglass.html', cls: '' },
+        { cmd: 'grep + review output', cls: 'talk' },
+        { cmd: 'python3 > hourglass.html (rewrite)', cls: 'talk' }
       ]},
       { name: 'done', dim: '', items: [] }
     ]
