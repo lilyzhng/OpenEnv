@@ -153,10 +153,73 @@ the financial data (data.txt) once you're ready.
 Use python3 to analyze the data. Write scripts to .py files, then run them.
 """
 
+# === Layer 2: Composition Example ===
+# A completed simple analysis that shows the full workflow pattern:
+#   read brief → read data → use tools/ → compute → write results
+# Agent sees HOW a complete analysis is composed, then must recompose for KatNip.
+
+EXAMPLE_BRIEF = """\
+# Project Alpha — Quick NPV Check
+
+## Company
+Alpha Corp invested $20.0MM on 01/15/2024 in a small manufacturing line.
+
+## Cash Flows
+| Date       | Cash Flow ($M) |
+|------------|----------------|
+| 01/15/2024 | -20.0          |
+| 07/15/2024 | 4.0            |
+| 01/15/2025 | 5.0            |
+| 07/15/2025 | 6.0            |
+| 01/15/2026 | 8.0            |
+
+## Assignment
+1. IRR for the investment
+2. NPV at 10% discount rate
+"""
+
+EXAMPLE_CALC = """\
+#!/usr/bin/env python3
+\"\"\"Project Alpha — IRR and NPV calculation.
+
+Workflow:
+1. Read the brief to understand what's needed
+2. Use xirr_tool from tools/ for irregular cash flow dates
+3. Compute IRR and NPV
+4. Write results to analysis.txt
+\"\"\"
+import sys
+sys.path.insert(0, "tools")
+from xirr_tool import xirr, xnpv
+
+# Data from alpha_brief.md
+dates = ["01/15/2024", "07/15/2024", "01/15/2025", "07/15/2025", "01/15/2026"]
+cash_flows = [-20.0, 4.0, 5.0, 6.0, 8.0]
+
+# Calculate
+irr = xirr(dates, cash_flows)
+npv_10 = xnpv(0.10, dates, cash_flows)
+
+# Write results
+with open("alpha_analysis.txt", "w") as f:
+    f.write("Project Alpha — Analysis Results\\n")
+    f.write(f"IRR: {irr*100:.1f}%\\n")
+    f.write(f"NPV at 10%: ${npv_10:.1f}MM\\n")
+
+print(f"IRR: {irr*100:.1f}%")
+print(f"NPV at 10%: ${npv_10:.1f}MM")
+"""
+
+EXAMPLE_ANALYSIS = """\
+Project Alpha — Analysis Results
+IRR: 10.0%
+NPV at 10%: $0.2MM
+"""
+
 # Criteria list (extracted from rubric, in order)
 CRITERIA = [
     {"id": 1, "description": "IRR = 17.9%", "check_keywords": ["17.9%", "17.9", "17.8%", "18.0%"]},
-    {"id": 2, "description": "MOIC = 1.5x", "check_keywords": ["1.5x", "1.5X", "1.5 x"]},
+    {"id": 2, "description": "MOIC = 1.5x", "check_keywords": ["1.5x", "1.5X", "1.5 x", " 1.5", ": 1.5"]},
     {"id": 3, "description": "NPV at 10% = $10.9MM", "check_keywords": ["10.9", "$10.9"]},
     {"id": 4, "description": "NPV at 15% = $3.7MM", "check_keywords": ["3.7", "$3.7"]},
     {"id": 5, "description": "NPV at 20% = -$2.3MM", "check_keywords": ["-2.3", "-$2.3", "($2.3"]},

@@ -17,11 +17,17 @@ from pathlib import Path
 try:
     from .bash_executor import BashExecutor
     from .reward import collect_workspace_text, check_criterion_hybrid
-    from .demo_task import CRITERIA, DATA_CONTENT, BRIEF_CONTENT
+    from .demo_task import (
+        CRITERIA, DATA_CONTENT, BRIEF_CONTENT,
+        EXAMPLE_BRIEF, EXAMPLE_CALC, EXAMPLE_ANALYSIS,
+    )
 except ImportError:
     from bash_executor import BashExecutor
     from reward import collect_workspace_text, check_criterion_hybrid
-    from demo_task import CRITERIA, DATA_CONTENT, BRIEF_CONTENT
+    from demo_task import (
+        CRITERIA, DATA_CONTENT, BRIEF_CONTENT,
+        EXAMPLE_BRIEF, EXAMPLE_CALC, EXAMPLE_ANALYSIS,
+    )
 
 
 # Distractor files — agent must figure out which are relevant
@@ -123,22 +129,27 @@ class BuildingBlockEnvironment:
 
     Workspace layout (agent must discover what's relevant):
         /work/
+        ├── examples/                       ← Layer 2: composition example
+        │   ├── alpha_brief.md              ← completed simple analysis
+        │   ├── alpha_calc.py               ← workflow: brief→data→tools→compute
+        │   └── alpha_analysis.txt          ← final output
         ├── briefs/
-        │   ├── katnip_brief.md          ← relevant
-        │   └── project_beta_summary.md  ← distractor
+        │   ├── katnip_brief.md             ← relevant
+        │   └── project_beta_summary.md     ← distractor
         ├── data/
-        │   ├── katnip_financials.txt    ← relevant
-        │   ├── market_comps.csv         ← distractor
-        │   └── historical_rates.json    ← distractor
+        │   ├── katnip_financials.txt       ← relevant
+        │   ├── market_comps.csv            ← distractor
+        │   └── historical_rates.json       ← distractor
+        ├── tools/
+        │   └── xirr_tool.py                ← building block
         ├── templates/
-        │   └── memo_template.md         ← distractor
-        └── README.md                    ← minimal: "analyze KatNip"
+        │   └── memo_template.md            ← distractor
+        └── README.md                       ← minimal: "analyze KatNip"
 
-    Agent must:
-    - Explore workspace to find relevant files
-    - Read and understand the data
-    - Write python scripts to compute answers
-    - Write results to analysis.txt
+    Three-layer structure (inspired by hand-draw skill):
+    - Layer 1: Building blocks (data, tools, briefs)
+    - Layer 2: Composition example (examples/ — completed simple analysis)
+    - Layer 3: Meta-strategy (agent learns recomposition from example)
     """
 
     def __init__(self):
@@ -151,6 +162,7 @@ class BuildingBlockEnvironment:
         self._scripts_run: set[str] = set()
         self._has_read_briefs: bool = False   # Layer 3: behavior blind spots
         self._has_explored_tools: bool = False
+        self._has_explored_examples: bool = False
         self._last_hint: str | None = None  # avoid repeating same hint
 
     def reset(self) -> dict:
@@ -166,13 +178,21 @@ class BuildingBlockEnvironment:
         self._scripts_run = set()
         self._has_read_briefs = False
         self._has_explored_tools = False
+        self._has_explored_examples = False
         self._last_hint = None
 
         # Create directory structure
+        (self._workspace / "examples").mkdir()
         (self._workspace / "briefs").mkdir()
         (self._workspace / "data").mkdir()
         (self._workspace / "templates").mkdir()
         (self._workspace / "tools").mkdir()
+
+        # Layer 2: Composition example — completed simple analysis
+        # Shows the full workflow: brief → data → tools → compute → results
+        (self._workspace / "examples" / "alpha_brief.md").write_text(EXAMPLE_BRIEF)
+        (self._workspace / "examples" / "alpha_calc.py").write_text(EXAMPLE_CALC)
+        (self._workspace / "examples" / "alpha_analysis.txt").write_text(EXAMPLE_ANALYSIS)
 
         # Relevant files
         (self._workspace / "briefs" / "katnip_brief.md").write_text(BRIEF_CONTENT)
@@ -287,6 +307,8 @@ class BuildingBlockEnvironment:
             self._has_read_briefs = True
         if any(kw in cmd for kw in ["tools/", "/tools", "ls tools"]):
             self._has_explored_tools = True
+        if any(kw in cmd for kw in ["examples/", "/examples", "ls examples"]):
+            self._has_explored_examples = True
 
     def _get_meta_feedback(self, command: str) -> str | None:
         """Hybrid coaching: outcome diagnosis + behavior blind spots.
@@ -338,7 +360,10 @@ class BuildingBlockEnvironment:
         # Says "this category exists" not "use this specific file".
 
         if hint is None and self._step_count >= 5:
-            if not self._has_read_briefs and self._progress_history[-1:] == [0]:
+            if not self._has_explored_examples and self._progress_history[-1:] == [0]:
+                hint = ("Your workspace has an examples/ directory with a completed "
+                        "analysis you can study for the workflow pattern.")
+            elif not self._has_read_briefs and self._progress_history[-1:] == [0]:
                 hint = ("Your workspace has a briefs/ directory with task requirements "
                         "you haven't looked at yet.")
             elif not self._has_explored_tools and self._step_count >= 8:
