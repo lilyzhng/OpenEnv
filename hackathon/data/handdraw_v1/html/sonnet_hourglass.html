@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Draw: HOURGLASS</title></head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#e8dcc8;">
+<svg id="art" viewBox="0 0 300 300" width="300" height="300" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="https://unpkg.com/roughjs/bundled/rough.js"></script>
+<script>
+const INK = '#1a1a1a';
+const WHITE = '#f0ebe0';
+
+const svg = document.getElementById('art');
+const rc = rough.svg(svg);
+
+// === HOURGLASS ILLUSTRATION ===
+const outlineOpts = { stroke: INK, strokeWidth: 3.5, fill: 'none', roughness: 0.8 };
+const sandOpts = { stroke: INK, strokeWidth: 2, fill: INK, fillStyle: 'solid', roughness: 0.6 };
+
+// Hourglass outline using curved paths for more traditional shape
+svg.appendChild(rc.path('M 80 60 L 220 60 L 150 150 Z', outlineOpts));
+svg.appendChild(rc.path('M 80 240 L 220 240 L 150 150 Z', outlineOpts));
+
+// Top and bottom caps
+svg.appendChild(rc.rectangle(70, 50, 160, 15, outlineOpts));
+svg.appendChild(rc.rectangle(70, 235, 160, 15, outlineOpts));
+
+// Sand in top chamber
+svg.appendChild(rc.polygon([[95, 75], [185, 75], [140, 125]], sandOpts));
+
+// Sand in bottom chamber
+svg.appendChild(rc.polygon([[95, 225], [155, 225], [125, 195]], sandOpts));
+
+// Falling sand
+svg.appendChild(rc.line(150, 145, 148, 160, { stroke: INK, strokeWidth: 2, roughness: 0.5 }));
+svg.appendChild(rc.line(151, 162, 149, 175, { stroke: INK, strokeWidth: 2, roughness: 0.5 }));
+svg.appendChild(rc.line(150, 177, 148, 190, { stroke: INK, strokeWidth: 2, roughness: 0.5 }));
+
+// Center waist detail
+svg.appendChild(rc.circle(150, 150, 8, { stroke: INK, strokeWidth: 2, fill: 'none', roughness: 0.6 }));
+
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Draw: HOURGLASS</title></head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#e8dcc8;">
+<svg id="art" viewBox="0 0 300 300" width="300" height="300" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="https://unpkg.com/roughjs/bundled/rough.js"></script>
+<script>
+const INK = '#1a1a1a';
+const WHITE = '#f0ebe0';
+
+const svg = document.getElementById('art');
+const rc = rough.svg(svg);
+
+const outline = { stroke: INK, strokeWidth: 3.5, fill: 'none', roughness: 0.9 };
+const wood = { stroke: INK, strokeWidth: 3, fill: '#8b5a2b', fillStyle: 'hachure', hachureGap: 6, roughness: 0.8 };
+const sand = { stroke: INK, strokeWidth: 2.2, fill: '#d9b36c', fillStyle: 'dots', hachureGap: 5, roughness: 0.7 };
+const detail = { stroke: INK, strokeWidth: 2.3, roughness: 0.8 };
+
+svg.appendChild(rc.rectangle(92, 32, 116, 22, wood));
+svg.appendChild(rc.rectangle(92, 246, 116, 22, wood));
+
+svg.appendChild(rc.line(104, 43, 88, 257, outline));
+svg.appendChild(rc.line(196, 43, 212, 257, outline));
+
+svg.appendChild(rc.polygon([[112, 56], [188, 56], [156, 136], [144, 136]], outline));
+svg.appendChild(rc.polygon([[144, 164], [156, 164], [188, 244], [112, 244]], outline));
+
+svg.appendChild(rc.line(144, 136, 156, 164, detail));
+svg.appendChild(rc.line(156, 136, 144, 164, detail));
+
+svg.appendChild(rc.polygon([[121, 66], [179, 66], [162, 102], [138, 102]], sand));
+svg.appendChild(rc.polygon([[124, 233], [176, 233], [150, 186]], sand));
+
+svg.appendChild(rc.line(150, 104, 150, 184, { stroke: INK, strokeWidth: 1.8, roughness: 0.5 }));
+svg.appendChild(rc.circle(150, 145, 4, { stroke: INK, strokeWidth: 1.5, fill: INK, fillStyle: 'solid', roughness: 0.4 }));
+svg.appendChild(rc.circle(150, 170, 4, { stroke: INK, strokeWidth: 1.5, fill: INK, fillStyle: 'solid', roughness: 0.4 }));
+
+svg.appendChild(rc.line(125, 78, 134, 123, { stroke: WHITE, strokeWidth: 1.8, roughness: 0.6 }));
+svg.appendChild(rc.line(172, 178, 164, 223, { stroke: WHITE, strokeWidth: 1.8, roughness: 0.6 }));
+
+svg.appendChild(rc.line(56, 76, 43, 61, detail));
+svg.appendChild(rc.line(50, 85, 35, 80, detail));
+svg.appendChild(rc.line(245, 221, 258, 207, detail));
+svg.appendChild(rc.line(250, 231, 264, 228, detail));
+</script>
+</body>
+</html>
