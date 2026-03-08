@@ -147,10 +147,9 @@ class BuildingBlockEnvironment:
         self._actions: list[str] = []
         self._step_count: int = 0
         self._progress_history: list[int] = []  # criteria_met per step
-        self._has_read_brief: bool = False
-        self._has_explored_tools: bool = False
         self._scripts_written: set[str] = set()
         self._scripts_run: set[str] = set()
+        self._last_hint: str | None = None  # avoid repeating same hint
 
     def reset(self) -> dict:
         """Create explorable workspace, return minimal instruction."""
@@ -161,10 +160,9 @@ class BuildingBlockEnvironment:
         self._actions = []
         self._step_count = 0
         self._progress_history = []
-        self._has_read_brief = False
-        self._has_explored_tools = False
         self._scripts_written = set()
         self._scripts_run = set()
+        self._last_hint = None
 
         # Create directory structure
         (self._workspace / "briefs").mkdir()
@@ -265,73 +263,77 @@ class BuildingBlockEnvironment:
         }
 
     def _track_behavior(self, command: str):
-        """Track agent behavior patterns for meta-feedback."""
-        cmd = command.strip().lower()
-
-        # Track if agent read any brief
-        if any(kw in cmd for kw in ["cat briefs/", "head briefs/", "less briefs/",
-                                     "cat ./briefs/", "briefs/katnip"]):
-            self._has_read_brief = True
-
-        # Track if agent explored tools/
-        if any(kw in cmd for kw in ["ls tools", "ls ./tools", "cat tools/",
-                                     "find . -name", "find . -type"]):
-            if "tools" in cmd:
-                self._has_explored_tools = True
-
-        # Track scripts written vs run
+        """Track observable behavior for meta-feedback."""
         import re
-        # Detect file writes: > foo.py, >> foo.py, cat > foo.py, echo ... > foo.py
+        cmd = command.strip()
+
+        # Track scripts written (> foo.py) vs run (python3 foo.py)
         write_match = re.search(r'>\s*(\S+\.py)', cmd)
         if write_match:
             self._scripts_written.add(write_match.group(1))
-
-        # Detect script runs: python3 foo.py, python foo.py
         run_match = re.search(r'python3?\s+(\S+\.py)', cmd)
         if run_match:
             self._scripts_run.add(run_match.group(1))
 
     def _get_meta_feedback(self, command: str) -> str | None:
-        """Generate meta-strategy hints based on behavior patterns.
+        """Outcome-driven coaching: diagnose from results, not behavior.
 
-        Key principle: tell agent WHAT to do differently (meta-strategy),
-        never WHERE to find the answer (specific content).
+        A good coach doesn't track "did you open the textbook".
+        She watches your performance and says "your input data looks wrong".
 
-        Like a coach saying "check the library" not "page 47, paragraph 3".
+        Three layers: exposure → learning → application.
+        We only have ground truth on application (criteria_met).
+        So we coach based on outcomes + observable patterns.
         """
-        # Stalled: no progress for 3+ consecutive turns
-        if len(self._progress_history) >= 3:
-            recent = self._progress_history[-3:]
-            if len(set(recent)) == 1 and self._step_count >= 5:
-                return "No progress in 3 turns. Consider a different approach."
+        import re
+        hint = None
 
-        # Never read any brief — doesn't know what's being asked
-        if not self._has_read_brief and self._step_count >= 4:
-            return "You haven't read any briefing documents yet."
-
-        # Never explored tools/ — missing available building blocks
-        if not self._has_explored_tools and self._step_count >= 6:
-            return "Have you explored all directories in your workspace?"
-
-        # Wrote script but didn't run it
+        # 1. Script written but not run — directly observable fact
         unrun = self._scripts_written - self._scripts_run
         if unrun:
-            return f"You wrote {', '.join(sorted(unrun))} but haven't executed it yet."
+            hint = f"You wrote {', '.join(sorted(unrun))} but haven't executed it yet."
 
-        # Repeating same command pattern (same file target 3+ times)
-        if len(self._actions) >= 3:
-            last_3 = self._actions[-3:]
-            # Check if all 3 target the same output file
-            import re
-            targets = []
-            for a in last_3:
-                m = re.search(r'>\s*(\S+)', a)
-                if m:
-                    targets.append(m.group(1))
-            if len(targets) == 3 and len(set(targets)) == 1:
-                return f"You've written to {targets[0]} 3 times in a row. Try a different approach."
+        # 2. Computing but results don't match — outcome-driven
+        #    "Your results don't match any criteria — check your inputs or method."
+        elif (self._step_count >= 8
+              and len(self._progress_history) >= 3
+              and self._progress_history[-1] == 0
+              and any("python" in a.lower() for a in self._actions[-5:])):
+            hint = ("You're computing but 0 criteria met. "
+                    "Are your inputs correct? Is your method right for this data?")
 
-        return None
+        # 3. Stalled: progress hasn't changed for 3+ turns
+        #    Diagnose WHY based on context
+        elif len(self._progress_history) >= 4:
+            recent = self._progress_history[-4:]
+            if len(set(recent)) == 1:  # same score 4 turns in a row
+                current = recent[0]
+                total = len(CRITERIA)
+                if current == 0:
+                    hint = ("No criteria met after several attempts. "
+                            "Step back — have you read all the requirements for this task?")
+                elif current < total // 2:
+                    hint = (f"{current}/{total} met. You're making progress but stalled. "
+                            "What criteria are you missing? Your workspace may have resources you haven't used.")
+                else:
+                    hint = (f"{current}/{total} met. Close! "
+                            "Review which criteria are still failing and focus there.")
+
+        # 4. Running python repeatedly with no progress — pattern detection
+        elif len(self._actions) >= 3:
+            last_3 = [a.lower() for a in self._actions[-3:]]
+            if all("python" in a for a in last_3):
+                # 3 consecutive python commands with same progress = spinning wheels
+                if (len(self._progress_history) >= 3
+                        and len(set(self._progress_history[-3:])) == 1):
+                    hint = ("You've run 3 similar computations with no progress change. "
+                            "Your workspace may have tools or docs you haven't explored yet.")
+
+        # Don't repeat the same hint consecutively
+        if hint and hint == self._last_hint:
+            return None
+        self._last_hint = hint
+        return hint
 
     def _count_criteria_met(self) -> int:
         if not self._workspace or not self._workspace.exists():
