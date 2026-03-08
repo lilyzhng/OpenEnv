@@ -377,11 +377,19 @@ class BuildingBlockEnvironment:
 
         correctness = criteria_met / len(CRITERIA) if CRITERIA else 0.0
 
-        # Efficiency: penalize wasted turns (no progress change)
+        # Efficiency: penalize stuck-in-a-loop turns, not exploration.
+        # A no-progress streak of ≤2 is normal exploration (grace period).
+        # Only turns beyond the grace period in each streak count as wasted.
+        grace = 2
         wasted = 0
+        streak = 0
         for i in range(1, len(self._progress_history)):
             if self._progress_history[i] <= self._progress_history[i - 1]:
-                wasted += 1
+                streak += 1
+                if streak > grace:
+                    wasted += 1
+            else:
+                streak = 0
         efficiency_mult = max(0.5, 1.0 - 0.05 * wasted)
         reward = correctness * efficiency_mult
 
