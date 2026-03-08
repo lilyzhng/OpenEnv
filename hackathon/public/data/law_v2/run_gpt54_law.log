@@ -1,0 +1,449 @@
+/Users/lilyzhang/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Model: openai/gpt-5.4
+Task: law
+Max turns: 30
+======================================================================
+
+======================================================================
+ENVIRONMENT → AGENT
+======================================================================
+You are a litigation analyst. Your workspace is: /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv
+Analyze the TechLoom v. DataForge dispute. Write your analysis to memo.txt.
+This task has 10 evaluation criteria.
+When finished, send: done
+
+──────────────────────────────────────────────────────────────────────
+TURN 1/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && find . -maxdepth 3 -type f | sort
+cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && ls -R
+
+
+cd /var/fold
+COMMAND: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && find . -maxdepth 3 -type f | sort
+
+ENVIRONMENT → AGENT:
+./README.md
+./briefs/techloom_brief.md
+./cases/prior_art_analysis.md
+./cases/techloom_v_dataforge.md
+./data/jurisdiction_notes.md
+./data/market_survey.csv
+./examples/alpha_brief.md
+./examples/alpha_calc.py
+./examples/alpha_memo.txt
+./templates/settlement_template.md
+./tools/royalty_calc.py
+
+
+[Progress: 0→0/10 criteria met]
+Progress: 0/10 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 2/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && cat README.md && printf '\n---FILE: cases/techloom_v_dataforge.md---\n' && cat cases/techloom_v_dataforge.md && printf '\n---FI
+COMMAND: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && cat README.md && printf '\n---FILE: cases/techloom_v_dataforge.md---\n' && cat cases/techloom_v_dataforge.md && printf '\n---FILE: briefs/techloom_brief.md---\n' && cat briefs/techloom_brief.md && printf '\n---FILE: cases/prior_art_analysis.md---\n' && cat cases/prior_art_analysis.md && printf '\n---FILE: data/jurisdiction_notes.md---\n' && cat data/jurisdiction_notes.md && printf '\n---FILE: data/market_survey.csv---\n' && cat data/market_survey.csv && printf '\n---FILE: tools/royalty_calc.py---\n' && cat tools/royalty_calc.py && printf '\n---FILE: examples/alpha_brief.md---\n' && cat examples/alpha_brief.md && printf '\n---FILE: examples/alpha_calc.py---\n' && cat examples/alpha_calc.py && printf '\n---FILE: examples/alpha_memo.txt---\n' && cat examples/alpha_memo.txt && printf '\n---FILE: templates/settlement_template.md---\n' && cat templates/settlement_template.md
+
+ENVIRONMENT → AGENT:
+# Task: TechLoom v. DataForge — Royalty Dispute Analysis
+
+You are a litigation analyst. Analyze the royalty dispute and write a legal memo to `memo.txt`.
+Your workspace contains case files, data, and tools. Figure out what you need.
+
+---FILE: cases/techloom_v_dataforge.md---
+# TechLoom Inc. v. DataForge Corp. — Case Facts
+
+## License Agreement (executed 01/01/2024)
+- Licensor: TechLoom Inc. ("TechLoom")
+- Licensee: DataForge Corp. ("DataForge")
+- Licensed IP: TechLoom Data Analytics Patent Portfolio (US Pat. 11,234,567 et al.)
+- License term: 5 years (01/01/2024 – 12/31/2028)
+- Royalty rate: 8% of net revenue from licensed products
+- Minimum annual royalty guarantee: $1,200,000
+- Late payment interest: 10% per annum, simple interest from due date
+- Payment due: within 30 days of quarter end
+- Audit rights: TechLoom may audit DataForge's books with 30 days notice
+- Termination clause: Material breach allows termination after 60-day cure period
+
+## Dispute Period: Calendar Year 2025
+
+DataForge reported the following net revenue and made the following payments:
+
+| Quarter  | Quarter End | Net Revenue   | Royalty Paid  |
+|----------|-------------|---------------|---------------|
+| Q1 2025  | 03/31/2025  | $5,500,000    | $350,000      |
+| Q2 2025  | 06/30/2025  | $6,200,000    | $380,000      |
+| Q3 2025  | 09/30/2025  | $7,100,000    | $400,000      |
+| Q4 2025  | 12/31/2025  | $7,800,000    | $420,000      |
+
+## TechLoom's Claim
+TechLoom alleges DataForge systematically underpa
+... (truncated)
+Progress: 0/10 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 3/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && sed -n '1,240p' briefs/techloom_brief.md
+COMMAND: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && sed -n '1,240p' briefs/techloom_brief.md
+
+ENVIRONMENT → AGENT:
+# TechLoom v. DataForge — Analysis Brief
+
+## Matter
+Royalty underpayment dispute under patent license agreement.
+
+## Your Assignment
+Using the case data (which will be provided), determine:
+
+1. **Per-quarter royalty owed** (8% of net revenue)
+   - Round to nearest dollar
+
+2. **Per-quarter shortfall** (owed minus paid)
+
+3. **Total unpaid royalties** across all 4 quarters
+
+4. **Interest on each quarter's shortfall**
+   - 10% per annum, simple interest
+   - Accrued from payment due date to analysis date (12/31/2025)
+   - Q1 due 04/30/2025 → 8 months to 12/31/2025
+   - Q2 due 07/30/2025 → 5 months to 12/31/2025
+   - Q3 due 10/30/2025 → 2 months to 12/31/2025
+   - Q4 due 01/30/2026 → 0 months (not yet due)
+
+5. **Total damages** (shortfall + interest)
+
+6. **Breach characterization** — is this a material breach?
+
+7. **Recommended remedies**
+
+## Deliverable
+Write all results to `memo.txt` in your workspace.
+
+## Next Step
+Review the case data in `cases/techloom_v_dataforge.md`.
+Check the tools/ directory for calculation utilities.
+Study the examples/ directory for a completed analysis pattern.
+
+
+[Progress: 0→0/10 criteria met]
+Progress: 0/10 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 4/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && cat examples/alpha_calc.py && printf '\n---\n' && cat examples/alpha_memo.txt && printf '\n---\n' && python3 tools/royalty_calc
+COMMAND: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && cat examples/alpha_calc.py && printf '\n---\n' && cat examples/alpha_memo.txt && printf '\n---\n' && python3 tools/royalty_calc.py --help 2>&1 || true
+
+ENVIRONMENT → AGENT:
+#!/usr/bin/env python3
+"""Alpha Dynamics v. SoftCore — Royalty dispute calculation.
+
+Workflow:
+1. Read the case brief to understand the dispute
+2. Use royalty_calc from tools/ to compute amounts
+3. Calculate interest on shortfalls
+4. Write legal memo with findings
+"""
+import sys
+sys.path.insert(0, "tools")
+from royalty_calc import compute_royalty, compute_interest
+
+# Data from case brief
+quarters = [
+    {"quarter": "Q3 2024", "revenue": 4_000_000, "paid": 160_000, "due_date": "07/30/2024"},
+    {"quarter": "Q4 2024", "revenue": 4_500_000, "paid": 180_000, "due_date": "10/30/2024"},
+]
+rate = 0.05
+interest_rate = 0.08
+analysis_date = "12/31/2024"
+
+total_owed = 0
+total_paid = 0
+total_shortfall = 0
+total_interest = 0
+
+for q in quarters:
+    owed = compute_royalty(q["revenue"], rate)
+    shortfall = owed - q["paid"]
+    interest = compute_interest(shortfall, interest_rate, q["due_date"], analysis_date)
+    total_owed += owed
+    total_paid += q["paid"]
+    total_shortfall += shortfall
+    total_interest += interest
+    print(f"{q['quarter']}: Owed ${owed:,.0f}, Paid ${q['paid']:,.0f}, "
+          f"Shortfall ${shortfall:,.0f}, Interest ${interest:,.0f}")
+
+print(f"\nTotal Owed: ${total_owed:,.0f}")
+print(f"Total Paid: ${total_paid:,.0f}")
+print(f"Total Shortfall: ${total_shortfall:,.0f}")
+print(f"Total Interest: ${total_interest:,.0f}")
+print(f"Total Damages: ${total_shortfall + total_interest:,.0f}")
+
+# Write memo
+with open("alpha_memo.txt", "w") as f:
+    f.write("LEGAL MEMORAND
+... (truncated)
+Progress: 0/10 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 5/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && sed -n '1,240p' tools/royalty_calc.py
+COMMAND: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && sed -n '1,240p' tools/royalty_calc.py
+
+ENVIRONMENT → AGENT:
+"""Royalty and interest calculator — compute royalties and simple interest.
+
+Usage (in your script):
+    import sys; sys.path.insert(0, "tools")
+    from royalty_calc import compute_royalty, compute_interest
+
+    owed = compute_royalty(revenue=5_500_000, rate=0.08)
+    print(f"Royalty owed: ${owed:,.0f}")
+
+    interest = compute_interest(
+        principal=90_000,
+        annual_rate=0.10,
+        from_date="04/30/2025",
+        to_date="12/31/2025",
+    )
+    print(f"Interest: ${interest:,.0f}")
+"""
+from datetime import datetime
+
+def compute_royalty(revenue: float, rate: float) -> float:
+    """Compute royalty amount.
+
+    Args:
+        revenue: net revenue for the period
+        rate: royalty rate (e.g. 0.08 for 8%)
+    Returns:
+        Royalty amount as float
+    """
+    return revenue * rate
+
+
+def compute_interest(
+    principal: float,
+    annual_rate: float,
+    from_date: str,
+    to_date: str,
+) -> float:
+    """Compute simple interest between two dates.
+
+    Args:
+        principal: amount owed
+        annual_rate: annual interest rate (e.g. 0.10 for 10%)
+        from_date: start date "MM/DD/YYYY"
+        to_date: end date "MM/DD/YYYY"
+    Returns:
+        Interest amount as float
+    """
+    d1 = datetime.strptime(from_date.strip(), "%m/%d/%Y")
+    d2 = datetime.strptime(to_date.strip(), "%m/%d/%Y")
+    days = (d2 - d1).days
+    if days <= 0:
+        return 0.0
+    return principal * annual_rate * (days / 365.0)
+
+
+def check_minimum_guarantee(total_owed: float, minim
+... (truncated)
+Progress: 0/10 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 6/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && cat > techloom_calc.py <<'PY'
+import sys
+sys.path.insert(0, "tools")
+from royalty_calc import compute_royalty, compute_interest
+COMMAND: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && cat > techloom_calc.py <<'PY'
+import sys
+sys.path.insert(0, "tools")
+from royalty_calc import compute_royalty, compute_interest, check_minimum_guarantee
+
+quarters = [
+    {"quarter": "Q1 2025", "revenue": 5_500_000, "paid": 350_000, "due_date": "04/30/2025"},
+    {"quarter": "Q2 2025", "revenue": 6_200_000, "paid": 380_000, "due_date": "07/30/2025"},
+    {"quarter": "Q3 2025", "revenue": 7_100_000, "paid": 400_000, "due_date": "10/30/2025"},
+    {"quarter": "Q4 2025", "revenue": 7_800_000, "paid": 420_000, "due_date": "01/30/2026"},
+]
+rate = 0.08
+interest_rate = 0.10
+analysis_date = "12/31/2025"
+minimum = 1_200_000
+
+total_owed = total_paid = total_shortfall = total_interest = 0.0
+rows = []
+
+for q in quarters:
+    owed = round(compute_royalty(q["revenue"], rate))
+    shortfall = round(owed - q["paid"])
+    interest = round(compute_interest(shortfall, interest_rate, q["due_date"], analysis_date))
+    rows.append((q["quarter"], owed, q["paid"], shortfall, interest))
+    total_owed += owed
+    total_paid += q["paid"]
+    total_shortfall += shortfall
+    total_interest += interest
+
+guarantee = check_minimum_guarantee(total_owed, minimum)
+
+with open("calc_output.txt", "w") as f:
+    for r in rows:
+        f.write(f"{r[0]}|{r[1]}|{r[2]}|{r[3]}|{r[4]}\n")
+    f.write(f"TOTAL_OWED|{round(total_owed)}\n")
+    f.write(f"TOTAL_PAID|{round(total_paid)}\n")
+    f.write(f"TOTAL_SHORTFALL|{round(total_shortfall)}\n")
+    f.write(f"TOTAL_INTEREST|{round(total_interest)}\n")
+    f.write(f"TOTAL_DAMAGES|{round(total_shortfall + total_interest)}\n")
+    f.write(f"GUARANTEE|{guarantee}\n")
+PY
+
+ENVIRONMENT → AGENT:
+(command executed, exit code 0)
+
+[Progress: 0→0/10 criteria met]
+[Hint: You wrote techloom_calc.py but haven't executed it yet.]
+Progress: 0/10 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 7/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && python3 techloom_calc.py && cat calc_output.txt
+COMMAND: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && python3 techloom_calc.py && cat calc_output.txt
+
+ENVIRONMENT → AGENT:
+Q1 2025|440000|350000|90000|6041
+Q2 2025|496000|380000|116000|4894
+Q3 2025|568000|400000|168000|2854
+Q4 2025|624000|420000|204000|0
+TOTAL_OWED|2128000
+TOTAL_PAID|1550000
+TOTAL_SHORTFALL|578000
+TOTAL_INTEREST|13789
+TOTAL_DAMAGES|591789
+GUARANTEE|{'exceeded': True, 'surplus': 928000.0}
+
+
+[Progress: 0→9/10 criteria met (+9)]
+Progress: 9/10 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 8/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && cat > memo.txt <<'EOF'
+LEGAL MEMORANDUM — TechLoom Inc. v. DataForge Corp.
+===================================================
+
+COMMAND: cd /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_law_5vh85hnv && cat > memo.txt <<'EOF'
+LEGAL MEMORANDUM — TechLoom Inc. v. DataForge Corp.
+===================================================
+
+Issue
+Whether DataForge underpaid royalties due under the 01/01/2024 patent license agreement during calendar year 2025, the amount of damages, whether the breach is material, and what remedies TechLoom should pursue.
+
+Key Contract Terms
+- Royalty: 8% of net revenue from licensed products.
+- Minimum annual royalty guarantee: $1,200,000.
+- Late-payment interest: 10% per annum, simple interest from due date.
+- Quarterly payments due within 30 days after quarter end.
+- Material breach permits termination after a 60-day cure period.
+
+Royalty Calculations
+Using the reported 2025 net revenue figures supplied in the case file, the royalty owed and shortfall are:
+
+- Q1 2025: revenue $5,500,000; royalty owed $440,000; paid $350,000; shortfall $90,000.
+- Q2 2025: revenue $6,200,000; royalty owed $496,000; paid $380,000; shortfall $116,000.
+- Q3 2025: revenue $7,100,000; royalty owed $568,000; paid $400,000; shortfall $168,000.
+- Q4 2025: revenue $7,800,000; royalty owed $624,000; paid $420,000; shortfall $204,000.
+
+Totals
+- Total royalty owed for 2025: $2,128,000.
+- Total royalty paid for 2025: $1,550,000.
+- Total unpaid royalties: $578,000.
+
+Minimum Guarantee
+The annual royalty owed of $2,128,000 exceeds the $1,200,000 minimum annual guarantee by $928,000. The minimum guarantee therefore does not cap or reduce TechLoom's damages claim.
+
+Interest Calculations
+Under the contract, interest accrues at 10% simple interest from each payment due date to the analysis date of 12/31/2025.
+
+- Q1 2025 shortfall: $90,000; due 04/30/2025; interest to 12/31/2025 = $6,041.
+- Q2 2025 shortfall: $116,000; due 07/30/2025; interest to 12/31/2025 = $4,894.
+- Q3 2025 shortfall: $168,000; due 10/30/2025; interest to 12/31/2025 = $2,854.
+- Q4 2025 shortfall: $204,000; due 01/30/2026; interest to 12/31/2025 = $0 because the amount was not yet due as of the analysis date.
+
+Total accrued interest through 12/31/2025: $13,789.
+
+Total Damages
+- Unpaid royalties: $578,000
+- Accrued interest: $13,789
+- Total damages as of 12/31/2025: $591,789
+
+Breach Characterization
+The record supports characterizing the conduct as a material breach. DataForge underpaid in every quarter of 2025, with cumulative unpaid royalties of $578,000, which is substantial in both absolute amount and as a repeated failure to perform a core payment obligation. TechLoom also states that DataForge disputes the revenue base but has not provided supporting documentation. Because royalty payment is the central consideration for the license, systematic quarterly underpayments and failure to substantiate exclusions from licensed revenue strongly support a finding of material breach rather than a minor or technical breach.
+
+That said, if DataForge can later prove that portions of the reported revenue were truly attributable to non-licensed products, the damages amount could be adjusted. On the current record, however, damages are proven with reasonable certainty using DataForge's own reported revenue figures, and the absence of documentary support weakens the defense.
+
+Recommended Remedies
+1. Demand immediate payment of $591,789 as of 12/31/2025, consisting of $578,000 in unpaid royalties and $13,789 in accrued interest.
+2. Continue to accrue contractual simple interest at 10% per annum on unpaid amounts after 12/31/2025, including on the Q4 shortfall once it becomes due on 01/30/2026.
+3. Invoke audit rights with prompt written notice to test DataForge's assertion that some revenue was outside the licensed product base.
+4. Serve a formal notice of material breach and provide the contractual 60-day cure period.
+5. If DataForge fails to cure, pursue termination of the license agreement and litigation or settlement for unpaid royalties, continuing interest, audit-based true-up amounts, and declaratory relief confirming breach.
+6. Seek an order requiring accurate royalty reporting and supporting documentation going forward if the relationship continues.
+
+Conclusion
+Based on the available facts, TechLoom has a strong claim that DataForge underpaid royalties throughout 2025. The presently provable damages equal $591,789 as of 12/31/2025, and the repeated underpayments likely constitute a material breach subject to cure, audit, damages, and possible termination.
+EOF
+
+ENVIRONMENT → AGENT:
+(command executed, exit code 0)
+
+[Progress: 9→10/10 criteria met (+1)]
+Progress: 10/10 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 9/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: done
+COMMAND: done
+
+======================================================================
+FINAL RESULT
+======================================================================
+Episode finished.
+Final: 10/10 criteria met.
+Correctness: 1.000
+Process: discovery=Y reference=Y building_block=Y
+Reward: 1.000 (process 0.4 + correctness 0.600)
+Steps used: 9
+
+Criteria breakdown:
+  [PASS] Total royalties owed = $2,128,000
+  [PASS] Total royalties paid = $1,550,000
+  [PASS] Total shortfall = $578,000
+  [PASS] Q1 shortfall = $90,000
+  [PASS] Q2 shortfall = $116,000
+  [PASS] Q3 shortfall = $168,000
+  [PASS] Q4 shortfall = $204,000
+  [PASS] Total interest on shortfalls approximately $13,786
+  [PASS] Total damages approximately $591,786
+  [PASS] Breach characterized as material breach
+
+Reward: 1.0
+
+Saved to data/demo_result.json

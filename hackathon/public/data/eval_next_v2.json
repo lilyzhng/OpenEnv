@@ -1,0 +1,49 @@
+{
+  "model": "qwen/qwen3-coder-next",
+  "results": [
+    {
+      "task_id": "task_6fa5694c8bbe434e944d76e6782369b1",
+      "task_idx": 8,
+      "domain": "Investment Banking",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "I'll start by exploring the workspace to understand the structure and find relevant data for the Kenvue deal.",
+        "<tool_call>",
+        "<tool_call>",
+        "Let me try a different approach:",
+        "<tool_call>"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_0097f20dd1744647a5a6e76db215a467",
+      "task_idx": 1,
+      "domain": "Law",
+      "reward": 0.41666666666666663,
+      "num_turns": 4,
+      "actions": [
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_1_3zt37n1a",
+        "echo \"No. Courts generally defer to the President's national security determinations under IEEPA, and the 25% tariff on Chinese goods would likely be upheld as a valid exercise of emergency powers if properly declared under IEEPA.\" > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_1_3zt37n1a/answer.txt",
+        "cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_1_3zt37n1a/answer.txt",
+        "done"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    },
+    {
+      "task_id": "task_699ea5ca3b0243a5852ad33e33043f12",
+      "task_idx": 27,
+      "domain": "Management Consulting",
+      "reward": 0.0,
+      "num_turns": 5,
+      "actions": [
+        "python3",
+        "ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_27_ouvikp92",
+        "find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_eval_27_ouvikp92 -type f 2>/dev/null | head -20",
+        "find /var/folders -name \"*.csv\" -o -name \"*.xlsx\" -o -name \"*.json\" 2>/dev/null | head -20",
+        "find / -name \"*.csv\" 2>/dev/null | grep -v \"/var/folders/zb\" | head -20"
+      ],
+      "model": "qwen/qwen3-coder-next"
+    }
+  ]
+}

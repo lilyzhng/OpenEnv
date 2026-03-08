@@ -1,0 +1,1181 @@
+/Users/lilyzhang/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Model: anthropic/claude-sonnet-4
+Task: ib
+Max turns: 30
+======================================================================
+
+======================================================================
+ENVIRONMENT → AGENT
+======================================================================
+You are an IB analyst. Your workspace is: /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d
+Analyze KatNip Co. Write your results to analysis.txt.
+This task has 11 evaluation criteria.
+When finished, send: done
+
+──────────────────────────────────────────────────────────────────────
+TURN 1/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: I'll start by exploring the workspace to understand what data is available for KatNip Co. analysis.
+
+find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d -type f -name "*.csv" -o -na
+COMMAND: find /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d -type f -name "*.csv" -o -name "*.xlsx" -o -name "*.txt" -o -name "*.json"
+
+ENVIRONMENT → AGENT:
+/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/examples/alpha_analysis.txt
+/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/data/market_comps.csv
+/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/data/katnip_financials.txt
+/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/data/historical_rates.json
+
+
+[Progress: 6→6/11 criteria met]
+Progress: 6/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 2/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me explore the directory structure first to see what tools are available.
+
+ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/
+COMMAND: ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/
+
+ENVIRONMENT → AGENT:
+total 8
+drwx------     8 lilyzhang  staff    256 Mar  7 20:31 .
+drwx------@ 1021 lilyzhang  staff  32672 Mar  7 20:32 ..
+-rw-r--r--     1 lilyzhang  staff    197 Mar  7 20:31 README.md
+drwxr-xr-x     4 lilyzhang  staff    128 Mar  7 20:31 briefs
+drwxr-xr-x     5 lilyzhang  staff    160 Mar  7 20:31 data
+drwxr-xr-x     5 lilyzhang  staff    160 Mar  7 20:31 examples
+drwxr-xr-x     3 lilyzhang  staff     96 Mar  7 20:31 templates
+drwxr-xr-x     3 lilyzhang  staff     96 Mar  7 20:31 tools
+
+
+[Progress: 6→6/11 criteria met]
+Progress: 6/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 3/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check the tools directory to see what utility scripts are available.
+
+ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/tools/
+COMMAND: ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/tools/
+
+ENVIRONMENT → AGENT:
+total 8
+drwxr-xr-x  3 lilyzhang  staff    96 Mar  7 20:31 .
+drwx------  8 lilyzhang  staff   256 Mar  7 20:31 ..
+-rw-r--r--  1 lilyzhang  staff  1986 Mar  7 20:31 xirr_tool.py
+
+
+[Progress: 6→6/11 criteria met]
+Progress: 6/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 4/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me examine the KatNip financials data first to understand what information is available.
+
+cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/data/katnip_financials.txt
+COMMAND: cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/data/katnip_financials.txt
+
+ENVIRONMENT → AGENT:
+# KatNip Co. — Financial Data
+
+## Investment
+- Capital expenditure (capex) on machinery: $50.0MM on 03/03/2024
+
+## Revenue Schedule
+- Machinery ready to manufacture starting Q3 2024
+- Units sold: 50,000 every 6 months, increasing by 5,000 each period
+- Per-unit profit: $150 ("Unit Profit Price")
+- First cash flow distribution: 12/31/2024 (for units sold 7/1/2024 to 12/31/2024)
+
+## Cash Flow Schedule (semi-annual)
+
+| Date       | Period | Units Sold | Revenue ($M) | Other ($M)         | Net Cash Flow ($M) |
+|------------|--------|------------|---------------|--------------------|---------------------|
+| 03/03/2024 | 0      | —          | —             | -50.0 (capex)      | -50.0               |
+| 12/31/2024 | 1      | 50,000     | 7.5           |                    | 7.5                 |
+| 06/30/2025 | 2      | 55,000     | 8.25          |                    | 8.25                |
+| 12/31/2025 | 3      | 60,000     | 9.0           |                    | 9.0                 |
+| 06/30/2026 | 4      | 65,000     | 9.75          |                    | 9.75                |
+| 08/12/2026 | —      | —          | —             | -10.0 (maintenance)| -10.0               |
+| 12/31/2026 | 5      | 70,000     | 10.5          |                    | 10.5                |
+| 06/30/2027 | 6      | 75,000     | 11.25         |                    | 11.25               |
+| 12/31/2027 | 7      | 80,000     | 12.0          |                    | 12.0                |
+| 06/30/2028 | 8      | 85,0
+... (truncated)
+Progress: 6/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 5/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check the market comparables data to understand the valuation context.
+
+cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/data/market_comps.csv
+COMMAND: cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/data/market_comps.csv
+
+ENVIRONMENT → AGENT:
+company,ev_ebitda,pe_ratio,sector
+PetFeed Inc,8.2,15.3,Consumer
+AnimalTech Co,11.5,22.1,Technology
+FarmSupply LLC,6.8,12.7,Agriculture
+
+
+[Progress: 6→6/11 criteria met]
+Progress: 6/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 6/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check the historical rates data to understand the discount rates available.
+
+cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/data/historical_rates.json
+COMMAND: cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/data/historical_rates.json
+
+ENVIRONMENT → AGENT:
+{"10yr_treasury": [3.5, 3.8, 4.1, 4.3, 4.0],
+ "fed_funds": [5.25, 5.50, 5.50, 5.25, 5.00],
+ "libor_6m": [5.1, 5.3, 5.4, 5.2, 4.9]}
+
+
+[Progress: 6→6/11 criteria met]
+Progress: 6/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 7/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check the example analysis to understand the expected format and approach.
+
+cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/examples/alpha_analysis.txt
+COMMAND: cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/examples/alpha_analysis.txt
+
+ENVIRONMENT → AGENT:
+Project Alpha — Analysis Results
+IRR: 10.0%
+NPV at 10%: $0.2MM
+
+
+[Progress: 6→6/11 criteria met]
+Progress: 6/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 8/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check the xirr_tool to understand how to calculate IRR properly.
+
+cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/tools/xirr_tool.py
+COMMAND: cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/tools/xirr_tool.py
+
+ENVIRONMENT → AGENT:
+"""XIRR calculator — compute IRR for irregular cash flows with dates.
+
+Usage (in your script):
+    import sys; sys.path.insert(0, "tools")
+    from xirr_tool import xirr, xnpv
+
+    dates = ["03/03/2024", "12/31/2024", "06/30/2025"]
+    cash_flows = [-50.0, 7.5, 8.25]
+    rate = xirr(dates, cash_flows)
+    print(f"IRR: {rate*100:.1f}%")
+
+    npv = xnpv(0.10, dates, cash_flows)
+    print(f"NPV at 10%: {npv:.1f}")
+"""
+from datetime import datetime
+
+def _parse_date(s):
+    """Parse MM/DD/YYYY date string."""
+    return datetime.strptime(s.strip(), "%m/%d/%Y")
+
+def xnpv(rate, dates, cash_flows):
+    """Net present value for irregular cash flows.
+
+    Args:
+        rate: annual discount rate (e.g. 0.10 for 10%)
+        dates: list of date strings "MM/DD/YYYY"
+        cash_flows: list of cash flow amounts (negative = outflow)
+    Returns:
+        NPV as float
+    """
+    d0 = _parse_date(dates[0])
+    total = 0.0
+    for i, (d, cf) in enumerate(zip(dates, cash_flows)):
+        dt = _parse_date(d)
+        years = (dt - d0).days / 365.25
+        total += cf / (1 + rate) ** years
+    return total
+
+def xirr(dates, cash_flows, guess=0.1, tol=1e-9, max_iter=1000):
+    """Compute IRR using Newton's method for irregular cash flows.
+
+    Args:
+        dates: list of date strings "MM/DD/YYYY"
+        cash_flows: list of cash flow amounts
+        guess: initial rate guess (default 0.1 = 10%)
+    Returns:
+        IRR as decimal (e.g. 0.12 for 12%)
+    """
+    d0 = _parse_date(dates[0])
+    year
+... (truncated)
+Progress: 6/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 9/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Now let me create a Python script to analyze KatNip Co. I need to calculate IRR and NPV based on the cash flows provided.
+
+cat > katnip_analysis.py << 'EOF'
+import sys
+sys.path.insert(0, "tools")
+from
+COMMAND: cat > katnip_analysis.py << 'EOF'
+import sys
+sys.path.insert(0, "tools")
+from xirr_tool import xirr, xnpv
+
+# Cash flow data from katnip_financials.txt
+dates = [
+    "03/03/2024",  # Initial capex
+    "12/31/2024",  # Period 1
+    "06/30/2025",  # Period 2
+    "12/31/2025",  # Period 3
+    "06/30/2026",  # Period 4
+    "08/12/2026",  # Maintenance expense
+    "12/31/2026",  # Period 5
+    "06/30/2027",  # Period 6
+    "12/31/2027",  # Period 7
+    "06/30/2028",  # Period 8
+    "12/31/2028"   # Sale value
+]
+
+cash_flows = [
+    -50.0,  # Initial capex
+    7.5,    # Period 1 revenue
+    8.25,   # Period 2 revenue
+    9.0,    # Period 3 revenue
+    9.75,   # Period 4 revenue
+    -10.0,  # Maintenance expense
+    10.5,   # Period 5 revenue
+    11.25,  # Period 6 revenue
+    12.0,   # Period 7 revenue
+    12.75,  # Period 8 revenue
+    10.0    # Sale value
+]
+
+# Calculate IRR
+irr = xirr(dates, cash_flows)
+print(f"IRR: {irr*100:.1f}%")
+
+# Calculate NPV at 10% discount rate
+npv_10 = xnpv(0.10, dates, cash_flows)
+print(f"NPV at 10%: ${npv_10:.1f}MM")
+
+# Calculate NPV at different discount rates for sensitivity analysis
+discount_rates = [0.08, 0.09, 0.10, 0.11, 0.12]
+print("\nNPV Sensitivity Analysis:")
+for rate in discount_rates:
+    npv = xnpv(rate, dates, cash_flows)
+    print(f"NPV at {rate*100:.0f}%: ${npv:.1f}MM")
+
+# Market comparables analysis
+print("\nMarket Comparables:")
+print("PetFeed Inc - EV/EBITDA: 8.2x, P/E: 15.3x")
+print("AnimalTech Co - EV/EBITDA: 11.5x, P/E: 22.1x") 
+print("FarmSupply LLC - EV/EBITDA: 6.8x, P/E: 12.7x")
+
+# Calculate average multiples
+avg_ev_ebitda = (8.2 + 11.5 + 6.8) / 3
+avg_pe = (15.3 + 22.1 + 12.7) / 3
+print(f"Average EV/EBITDA: {avg_ev_ebitda:.1f}x")
+print(f"Average P/E: {avg_pe:.1f}x")
+
+# Write results to analysis.txt
+with open('analysis.txt', 'w') as f:
+    f.write("KatNip Co. — Analysis Results\n")
+    f.write(f"IRR: {irr*100:.1f}%\n")
+    f.write(f"NPV at 10%: ${npv_10:.1f}MM\n")
+EOF
+
+ENVIRONMENT → AGENT:
+(command executed, exit code 0)
+
+[Progress: 7→7/11 criteria met]
+[Hint: You wrote katnip_analysis.py but haven't executed it yet.]
+Progress: 7/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 10/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: python3 katnip_analysis.py
+COMMAND: python3 katnip_analysis.py
+
+ENVIRONMENT → AGENT:
+IRR: 17.9%
+NPV at 10%: $10.9MM
+
+NPV Sensitivity Analysis:
+NPV at 8%: $14.3MM
+NPV at 9%: $12.6MM
+NPV at 10%: $10.9MM
+NPV at 11%: $9.4MM
+NPV at 12%: $7.9MM
+
+Market Comparables:
+PetFeed Inc - EV/EBITDA: 8.2x, P/E: 15.3x
+AnimalTech Co - EV/EBITDA: 11.5x, P/E: 22.1x
+FarmSupply LLC - EV/EBITDA: 6.8x, P/E: 12.7x
+Average EV/EBITDA: 8.8x
+Average P/E: 16.7x
+
+
+[Progress: 8→8/11 criteria met]
+[Hint: Your workspace has a briefs/ directory with task requirements you haven't looked at yet.]
+Progress: 8/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 11/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check the briefs directory to understand what additional requirements I need to meet.
+
+ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/briefs/
+COMMAND: ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/briefs/
+
+ENVIRONMENT → AGENT:
+total 16
+drwxr-xr-x   4 lilyzhang  staff  128 Mar  7 20:31 .
+drwx------  10 lilyzhang  staff  320 Mar  7 20:32 ..
+-rw-r--r--   1 lilyzhang  staff  900 Mar  7 20:31 katnip_brief.md
+-rw-r--r--   1 lilyzhang  staff  140 Mar  7 20:31 project_beta_summary.md
+
+
+[Progress: 8→8/11 criteria met]
+Progress: 8/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 12/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/briefs/katnip_brief.md
+COMMAND: cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/briefs/katnip_brief.md
+
+ENVIRONMENT → AGENT:
+# KatNip Co. — Analysis Brief
+
+## Company
+KatNip Co. ("KatNip") was granted a patent for a unique animal feeding device.
+
+## Your Assignment
+Using the financial data (which will be provided), determine:
+
+1. **IRR and MOIC** for the Company
+   - Round IRR to nearest tenth of a percentage point
+   - Round MOIC to nearest tenth
+
+2. **NPV** at 10%, 15%, and 20% discount rates
+   - Round to nearest tenth of a million
+
+3. **Required Sale Value** to achieve 15%, 20%, and 25% IRR
+   - Round to nearest tenth of a million
+
+4. **Required Unit Profit Price** to achieve 15%, 20%, and 25% IRR
+   - Round to nearest cent
+
+## Deliverable
+Write all results to `analysis.txt` in your workspace.
+
+## Next Step
+After reviewing this brief, start working — the environment will provide
+the financial data (data.txt) once you're ready.
+Use python3 to analyze the data. Write scripts to .py files, then run them.
+
+
+[Progress: 8→8/11 criteria met]
+Progress: 8/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 13/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Now I understand what's missing! I need to calculate MOIC, NPV at additional discount rates (15% and 20%), required sale values, and required unit profit prices. Let me create a comprehensive analysis
+COMMAND: cat > comprehensive_analysis.py << 'EOF'
+import sys
+sys.path.insert(0, "tools")
+from xirr_tool import xirr, xnpv
+
+# Original cash flow data
+dates = [
+    "03/03/2024",  # Initial capex
+    "12/31/2024",  # Period 1
+    "06/30/2025",  # Period 2
+    "12/31/2025",  # Period 3
+    "06/30/2026",  # Period 4
+    "08/12/2026",  # Maintenance expense
+    "12/31/2026",  # Period 5
+    "06/30/2027",  # Period 6
+    "12/31/2027",  # Period 7
+    "06/30/2028",  # Period 8
+    "12/31/2028"   # Sale value
+]
+
+cash_flows = [
+    -50.0,  # Initial capex
+    7.5,    # Period 1 revenue
+    8.25,   # Period 2 revenue
+    9.0,    # Period 3 revenue
+    9.75,   # Period 4 revenue
+    -10.0,  # Maintenance expense
+    10.5,   # Period 5 revenue
+    11.25,  # Period 6 revenue
+    12.0,   # Period 7 revenue
+    12.75,  # Period 8 revenue
+    10.0    # Sale value
+]
+
+# 1. Calculate IRR and MOIC
+irr = xirr(dates, cash_flows)
+total_inflows = sum([cf for cf in cash_flows if cf > 0])
+total_outflows = abs(sum([cf for cf in cash_flows if cf < 0]))
+moic = total_inflows / total_outflows
+
+print(f"1. IRR: {irr*100:.1f}%")
+print(f"   MOIC: {moic:.1f}x")
+
+# 2. NPV at 10%, 15%, and 20%
+npv_10 = xnpv(0.10, dates, cash_flows)
+npv_15 = xnpv(0.15, dates, cash_flows)
+npv_20 = xnpv(0.20, dates, cash_flows)
+
+print(f"\n2. NPV at 10%: ${npv_10:.1f}MM")
+print(f"   NPV at 15%: ${npv_15:.1f}MM")
+print(f"   NPV at 20%: ${npv_20:.1f}MM")
+
+# 3. Required Sale Value to achieve 15%, 20%, and 25% IRR
+def find_required_sale_value(target_irr):
+    # Binary search for sale value
+    low, high = 0, 100
+    tolerance = 0.001
+    
+    for _ in range(100):  # max iterations
+        mid = (low + high) / 2
+        test_flows = cash_flows[:-1] + [mid]  # Replace last cash flow (sale value)
+        test_irr = xirr(dates, test_flows)
+        
+        if abs(test_irr - target_irr) < tolerance:
+            return mid
+        elif test_irr < target_irr:
+            low = mid
+        else:
+            high = mid
+    return mid
+
+sale_15 = find_required_sale_value(0.15)
+sale_20 = find_required_sale_value(0.20)
+sale_25 = find_required_sale_value(0.25)
+
+print(f"\n3. Required Sale Value for 15% IRR: ${sale_15:.1f}MM")
+print(f"   Required Sale Value for 20% IRR: ${sale_20:.1f}MM")
+print(f"   Required Sale Value for 25% IRR: ${sale_25:.1f}MM")
+
+# 4. Required Unit Profit Price to achieve 15%, 20%, and 25% IRR
+def find_required_unit_price(target_irr):
+    # Binary search for unit profit price
+    low, high = 50, 500
+    tolerance = 0.001
+    
+    for _ in range(100):  # max iterations
+        mid = (low + high) / 2
+        
+        # Recalculate cash flows with new unit price
+        # Units: 50k, 55k, 60k, 65k, 70k, 75k, 80k, 85k
+        units = [50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000]
+        new_revenues = [u * mid / 1000000 for u in units]  # Convert to millions
+        
+        test_flows = [
+            -50.0,  # Initial capex
+            new_revenues[0],  # Period 1
+            new_revenues[1],  # Period 2
+            new_revenues[2],  # Period 3
+            new_revenues[3],  # Period 4
+            -10.0,  # Maintenance
+            new_revenues[4],  # Period 5
+            new_revenues[5],  # Period 6
+            new_revenues[6],  # Period 7
+            new_revenues[7],  # Period 8
+            10.0    # Sale value
+        ]
+        
+        test_irr = xirr(dates, test_flows)
+        
+        if abs(test_irr - target_irr) < tolerance:
+            return mid
+        elif test_irr < target_irr:
+            low = mid
+        else:
+            high = mid
+    return mid
+
+price_15 = find_required_unit_price(0.15)
+price_20 = find_required_unit_price(0.20)
+price_25 = find_required_unit_price(0.25)
+
+print(f"\n4. Required Unit Profit Price for 15% IRR: ${price_15:.2f}")
+print(f"   Required Unit Profit Price for 20% IRR: ${price_20:.2f}")
+print(f"   Required Unit Profit Price for 25% IRR: ${price_25:.2f}")
+
+# Write comprehensive results to analysis.txt
+with open('analysis.txt', 'w') as f:
+    f.write("KatNip Co. — Analysis Results\n")
+    f.write(f"IRR: {irr*100:.1f}%\n")
+    f.write(f"MOIC: {moic:.1f}x\n")
+    f.write(f"NPV at 10%: ${npv_10:.1f}MM\n")
+    f.write(f"NPV at 15%: ${npv_15:.1f}MM\n")
+    f.write(f"NPV at 20%: ${npv_20:.1f}MM\n")
+    f.write(f"Required Sale Value for 15% IRR: ${sale_15:.1f}MM\n")
+    f.write(f"Required Sale Value for 20% IRR: ${sale_20:.1f}MM\n")
+    f.write(f"Required Sale Value for 25% IRR: ${sale_25:.1f}MM\n")
+    f.write(f"Required Unit Profit Price for 15% IRR: ${price_15:.2f}\n")
+    f.write(f"Required Unit Profit Price for 20% IRR: ${price_20:.2f}\n")
+    f.write(f"Required Unit Profit Price for 25% IRR: ${price_25:.2f}\n")
+EOF
+
+ENVIRONMENT → AGENT:
+(command executed, exit code 0)
+
+[Progress: 8→8/11 criteria met]
+[Hint: You wrote comprehensive_analysis.py but haven't executed it yet.]
+Progress: 8/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 14/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: python3 comprehensive_analysis.py
+COMMAND: python3 comprehensive_analysis.py
+
+ENVIRONMENT → AGENT:
+1. IRR: 17.9%
+   MOIC: 1.5x
+
+2. NPV at 10%: $10.9MM
+   NPV at 15%: $3.7MM
+   NPV at 20%: $-2.3MM
+
+3. Required Sale Value for 15% IRR: $2.7MM
+   Required Sale Value for 20% IRR: $15.6MM
+   Required Sale Value for 25% IRR: $31.2MM
+
+4. Required Unit Profit Price for 15% IRR: $140.09
+   Required Unit Profit Price for 20% IRR: $157.23
+   Required Unit Profit Price for 25% IRR: $174.37
+
+
+[Progress: 10→10/11 criteria met]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 15/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check what the current analysis.txt file contains to see if there's anything missing.
+
+cat analysis.txt
+COMMAND: cat analysis.txt
+
+ENVIRONMENT → AGENT:
+KatNip Co. — Analysis Results
+IRR: 17.9%
+MOIC: 1.5x
+NPV at 10%: $10.9MM
+NPV at 15%: $3.7MM
+NPV at 20%: $-2.3MM
+Required Sale Value for 15% IRR: $2.7MM
+Required Sale Value for 20% IRR: $15.6MM
+Required Sale Value for 25% IRR: $31.2MM
+Required Unit Profit Price for 15% IRR: $140.09
+Required Unit Profit Price for 20% IRR: $157.23
+Required Unit Profit Price for 25% IRR: $174.37
+
+
+[Progress: 10→10/11 criteria met]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 16/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check the templates directory to see if there's a specific format I should follow.
+
+ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/templates/
+COMMAND: ls -la /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/templates/
+
+ENVIRONMENT → AGENT:
+total 8
+drwxr-xr-x   3 lilyzhang  staff   96 Mar  7 20:31 .
+drwx------  11 lilyzhang  staff  352 Mar  7 20:32 ..
+-rw-r--r--   1 lilyzhang  staff  112 Mar  7 20:31 memo_template.md
+
+
+[Progress: 10→10/11 criteria met]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 17/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/templates/memo_template.md
+COMMAND: cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/templates/memo_template.md
+
+ENVIRONMENT → AGENT:
+# Investment Memo Template
+
+## Executive Summary
+[TODO]
+
+## Financial Analysis
+[TODO]
+
+## Recommendation
+[TODO]
+
+
+[Progress: 10→10/11 criteria met]
+[Hint: 10/11 met — close! Review which criteria are still failing and focus there.]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 18/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check the README to see if there are any additional requirements I'm missing.
+
+cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/README.md
+COMMAND: cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/README.md
+
+ENVIRONMENT → AGENT:
+# Task: KatNip Co. Financial Analysis
+
+You are an IB analyst. Analyze KatNip Co. and write results to `analysis.txt`.
+Your workspace contains briefs, data, and templates. Figure out what you need.
+
+
+[Progress: 10→10/11 criteria met]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 19/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check if there are any other files in the briefs directory that I might have missed.
+
+cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/briefs/project_beta_summary.md
+COMMAND: cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/briefs/project_beta_summary.md
+
+ENVIRONMENT → AGENT:
+# Project Beta — Renewable Energy Fund
+
+This project involves a $200MM wind farm investment.
+Expected IRR: 12-15%. Not related to KatNip.
+
+
+[Progress: 10→10/11 criteria met]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 20/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me double-check my calculations by verifying the MOIC calculation. I think there might be an issue with how I'm calculating it.
+
+cat > verify_moic.py << 'EOF'
+# Verify MOIC calculation
+cash_flows 
+COMMAND: cat > verify_moic.py << 'EOF'
+# Verify MOIC calculation
+cash_flows = [
+    -50.0,  # Initial capex
+    7.5,    # Period 1 revenue
+    8.25,   # Period 2 revenue
+    9.0,    # Period 3 revenue
+    9.75,   # Period 4 revenue
+    -10.0,  # Maintenance expense
+    10.5,   # Period 5 revenue
+    11.25,  # Period 6 revenue
+    12.0,   # Period 7 revenue
+    12.75,  # Period 8 revenue
+    10.0    # Sale value
+]
+
+print("Cash flows:", cash_flows)
+
+# Total invested capital (all negative cash flows)
+total_invested = abs(sum([cf for cf in cash_flows if cf < 0]))
+print(f"Total invested capital: ${total_invested:.1f}MM")
+
+# Total cash returned (all positive cash flows)
+total_returned = sum([cf for cf in cash_flows if cf > 0])
+print(f"Total cash returned: ${total_returned:.1f}MM")
+
+# MOIC = Total returned / Total invested
+moic = total_returned / total_invested
+print(f"MOIC: {moic:.1f}x")
+
+# Update analysis.txt with corrected MOIC
+import sys
+sys.path.insert(0, "tools")
+from xirr_tool import xirr, xnpv
+
+dates = [
+    "03/03/2024", "12/31/2024", "06/30/2025", "12/31/2025", "06/30/2026",
+    "08/12/2026", "12/31/2026", "06/30/2027", "12/31/2027", "06/30/2028", "12/31/2028"
+]
+
+irr = xirr(dates, cash_flows)
+npv_10 = xnpv(0.10, dates, cash_flows)
+npv_15 = xnpv(0.15, dates, cash_flows)
+npv_20 = xnpv(0.20, dates, cash_flows)
+
+# Recalculate required sale values and unit prices
+def find_required_sale_value(target_irr):
+    low, high = 0, 100
+    tolerance = 0.001
+    
+    for _ in range(100):
+        mid = (low + high) / 2
+        test_flows = cash_flows[:-1] + [mid]
+        test_irr = xirr(dates, test_flows)
+        
+        if abs(test_irr - target_irr) < tolerance:
+            return mid
+        elif test_irr < target_irr:
+            low = mid
+        else:
+            high = mid
+    return mid
+
+def find_required_unit_price(target_irr):
+    low, high = 50, 500
+    tolerance = 0.001
+    
+    for _ in range(100):
+        mid = (low + high) / 2
+        units = [50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000]
+        new_revenues = [u * mid / 1000000 for u in units]
+        
+        test_flows = [
+            -50.0, new_revenues[0], new_revenues[1], new_revenues[2], new_revenues[3],
+            -10.0, new_revenues[4], new_revenues[5], new_revenues[6], new_revenues[7], 10.0
+        ]
+        
+        test_irr = xirr(dates, test_flows)
+        
+        if abs(test_irr - target_irr) < tolerance:
+            return mid
+        elif test_irr < target_irr:
+            low = mid
+        else:
+            high = mid
+    return mid
+
+sale_15 = find_required_sale_value(0.15)
+sale_20 = find_required_sale_value(0.20)
+sale_25 = find_required_sale_value(0.25)
+
+price_15 = find_required_unit_price(0.15)
+price_20 = find_required_unit_price(0.20)
+price_25 = find_required_unit_price(0.25)
+
+# Write final results
+with open('analysis.txt', 'w') as f:
+    f.write("KatNip Co. — Analysis Results\n")
+    f.write(f"IRR: {irr*100:.1f}%\n")
+    f.write(f"MOIC: {moic:.1f}x\n")
+    f.write(f"NPV at 10%: ${npv_10:.1f}MM\n")
+    f.write(f"NPV at 15%: ${npv_15:.1f}MM\n")
+    f.write(f"NPV at 20%: ${npv_20:.1f}MM\n")
+    f.write(f"Required Sale Value for 15% IRR: ${sale_15:.1f}MM\n")
+    f.write(f"Required Sale Value for 20% IRR: ${sale_20:.1f}MM\n")
+    f.write(f"Required Sale Value for 25% IRR: ${sale_25:.1f}MM\n")
+    f.write(f"Required Unit Profit Price for 15% IRR: ${price_15:.2f}\n")
+    f.write(f"Required Unit Profit Price for 20% IRR: ${price_20:.2f}\n")
+    f.write(f"Required Unit Profit Price for 25% IRR: ${price_25:.2f}\n")
+EOF
+
+ENVIRONMENT → AGENT:
+(command executed, exit code 0)
+
+[Progress: 10→10/11 criteria met]
+[Hint: You wrote verify_moic.py but haven't executed it yet.]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 21/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: python3 verify_moic.py
+COMMAND: python3 verify_moic.py
+
+ENVIRONMENT → AGENT:
+Cash flows: [-50.0, 7.5, 8.25, 9.0, 9.75, -10.0, 10.5, 11.25, 12.0, 12.75, 10.0]
+Total invested capital: $60.0MM
+Total cash returned: $91.0MM
+MOIC: 1.5x
+
+
+[Progress: 10→10/11 criteria met]
+[Hint: 10/11 met — close! Review which criteria are still failing and focus there.]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 22/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check the final analysis.txt file to see if there's a formatting issue or missing element.
+
+cat analysis.txt
+COMMAND: cat analysis.txt
+
+ENVIRONMENT → AGENT:
+KatNip Co. — Analysis Results
+IRR: 17.9%
+MOIC: 1.5x
+NPV at 10%: $10.9MM
+NPV at 15%: $3.7MM
+NPV at 20%: $-2.3MM
+Required Sale Value for 15% IRR: $2.7MM
+Required Sale Value for 20% IRR: $15.6MM
+Required Sale Value for 25% IRR: $31.2MM
+Required Unit Profit Price for 15% IRR: $140.09
+Required Unit Profit Price for 20% IRR: $157.23
+Required Unit Profit Price for 25% IRR: $174.37
+
+
+[Progress: 10→10/11 criteria met]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 23/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check if there's a specific format requirement by looking at all the files again to see if I missed something. Let me also verify the exact wording in the brief.
+
+grep -n "Round" /var/folders/z
+COMMAND: grep -n "Round" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/briefs/katnip_brief.md
+
+ENVIRONMENT → AGENT:
+10:   - Round IRR to nearest tenth of a percentage point
+11:   - Round MOIC to nearest tenth
+14:   - Round to nearest tenth of a million
+17:   - Round to nearest tenth of a million
+20:   - Round to nearest cent
+
+
+[Progress: 10→10/11 criteria met]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 24/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: I notice that the brief mentions rounding requirements. Let me check if my rounding is exactly correct and ensure all values are properly formatted according to the specifications.
+
+cat > final_analys
+COMMAND: cat > final_analysis.py << 'EOF'
+import sys
+sys.path.insert(0, "tools")
+from xirr_tool import xirr, xnpv
+
+# Cash flow data
+dates = [
+    "03/03/2024", "12/31/2024", "06/30/2025", "12/31/2025", "06/30/2026",
+    "08/12/2026", "12/31/2026", "06/30/2027", "12/31/2027", "06/30/2028", "12/31/2028"
+]
+
+cash_flows = [
+    -50.0, 7.5, 8.25, 9.0, 9.75, -10.0, 10.5, 11.25, 12.0, 12.75, 10.0
+]
+
+# 1. IRR and MOIC
+irr = xirr(dates, cash_flows)
+total_invested = abs(sum([cf for cf in cash_flows if cf < 0]))
+total_returned = sum([cf for cf in cash_flows if cf > 0])
+moic = total_returned / total_invested
+
+# 2. NPV calculations
+npv_10 = xnpv(0.10, dates, cash_flows)
+npv_15 = xnpv(0.15, dates, cash_flows)
+npv_20 = xnpv(0.20, dates, cash_flows)
+
+# 3. Required Sale Values
+def find_required_sale_value(target_irr):
+    low, high = 0, 100
+    tolerance = 0.0001
+    
+    for _ in range(200):
+        mid = (low + high) / 2
+        test_flows = cash_flows[:-1] + [mid]
+        test_irr = xirr(dates, test_flows)
+        
+        if abs(test_irr - target_irr) < tolerance:
+            return mid
+        elif test_irr < target_irr:
+            low = mid
+        else:
+            high = mid
+    return mid
+
+# 4. Required Unit Prices
+def find_required_unit_price(target_irr):
+    low, high = 50, 500
+    tolerance = 0.0001
+    
+    for _ in range(200):
+        mid = (low + high) / 2
+        units = [50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000]
+        new_revenues = [u * mid / 1000000 for u in units]
+        
+        test_flows = [
+            -50.0, new_revenues[0], new_revenues[1], new_revenues[2], new_revenues[3],
+            -10.0, new_revenues[4], new_revenues[5], new_revenues[6], new_revenues[7], 10.0
+        ]
+        
+        test_irr = xirr(dates, test_flows)
+        
+        if abs(test_irr - target_irr) < tolerance:
+            return mid
+        elif test_irr < target_irr:
+            low = mid
+        else:
+            high = mid
+    return mid
+
+sale_15 = find_required_sale_value(0.15)
+sale_20 = find_required_sale_value(0.20)
+sale_25 = find_required_sale_value(0.25)
+
+price_15 = find_required_unit_price(0.15)
+price_20 = find_required_unit_price(0.20)
+price_25 = find_required_unit_price(0.25)
+
+# Write results with exact rounding as specified
+with open('analysis.txt', 'w') as f:
+    f.write("KatNip Co. — Analysis Results\n")
+    f.write(f"IRR: {round(irr*100, 1):.1f}%\n")  # Round to nearest tenth of percentage
+    f.write(f"MOIC: {round(moic, 1):.1f}x\n")    # Round to nearest tenth
+    f.write(f"NPV at 10%: ${round(npv_10, 1):.1f}MM\n")  # Round to nearest tenth of million
+    f.write(f"NPV at 15%: ${round(npv_15, 1):.1f}MM\n")
+    f.write(f"NPV at 20%: ${round(npv_20, 1):.1f}MM\n")
+    f.write(f"Required Sale Value for 15% IRR: ${round(sale_15, 1):.1f}MM\n")
+    f.write(f"Required Sale Value for 20% IRR: ${round(sale_20, 1):.1f}MM\n")
+    f.write(f"Required Sale Value for 25% IRR: ${round(sale_25, 1):.1f}MM\n")
+    f.write(f"Required Unit Profit Price for 15% IRR: ${round(price_15, 2):.2f}\n")  # Round to nearest cent
+    f.write(f"Required Unit Profit Price for 20% IRR: ${round(price_20, 2):.2f}\n")
+    f.write(f"Required Unit Profit Price for 25% IRR: ${round(price_25, 2):.2f}\n")
+
+print("Analysis complete. Results written to analysis.txt")
+EOF
+
+ENVIRONMENT → AGENT:
+(command executed, exit code 0)
+
+[Progress: 10→10/11 criteria met]
+[Hint: You wrote final_analysis.py but haven't executed it yet.]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 25/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: python3 final_analysis.py
+COMMAND: python3 final_analysis.py
+
+ENVIRONMENT → AGENT:
+Analysis complete. Results written to analysis.txt
+
+
+[Progress: 10→10/11 criteria met]
+[Hint: 10/11 met — close! Review which criteria are still failing and focus there.]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 26/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check the final analysis.txt to see the exact output and verify all requirements are met.
+
+cat analysis.txt
+COMMAND: cat analysis.txt
+
+ENVIRONMENT → AGENT:
+KatNip Co. — Analysis Results
+IRR: 17.9%
+MOIC: 1.5x
+NPV at 10%: $10.9MM
+NPV at 15%: $3.7MM
+NPV at 20%: $-2.3MM
+Required Sale Value for 15% IRR: $2.8MM
+Required Sale Value for 20% IRR: $15.6MM
+Required Sale Value for 25% IRR: $31.5MM
+Required Unit Profit Price for 15% IRR: $140.09
+Required Unit Profit Price for 20% IRR: $157.01
+Required Unit Profit Price for 25% IRR: $174.37
+
+
+[Progress: 10→10/11 criteria met]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 27/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me check if there's a specific naming convention or title format requirement by comparing with the example analysis format.
+
+grep -A 5 -B 5 "Analysis Results" /var/folders/zb/gv9h0w894b92wzw6hwsqc
+COMMAND: grep -A 5 -B 5 "Analysis Results" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/examples/alpha_analysis.txt
+
+ENVIRONMENT → AGENT:
+Project Alpha — Analysis Results
+IRR: 10.0%
+NPV at 10%: $0.2MM
+
+
+[Progress: 10→10/11 criteria met]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 28/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: I notice the example uses "Project Alpha" while I'm using "KatNip Co." Let me check if the title format needs to match exactly by updating it to follow the same pattern.
+
+cat > analysis.txt << 'EOF'
+P
+COMMAND: cat > analysis.txt << 'EOF'
+Project KatNip — Analysis Results
+IRR: 17.9%
+MOIC: 1.5x
+NPV at 10%: $10.9MM
+NPV at 15%: $3.7MM
+NPV at 20%: $-2.3MM
+Required Sale Value for 15% IRR: $2.8MM
+Required Sale Value for 20% IRR: $15.6MM
+Required Sale Value for 25% IRR: $31.5MM
+Required Unit Profit Price for 15% IRR: $140.09
+Required Unit Profit Price for 20% IRR: $157.01
+Required Unit Profit Price for 25% IRR: $174.37
+EOF
+
+ENVIRONMENT → AGENT:
+(command executed, exit code 0)
+
+[Progress: 10→10/11 criteria met]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 29/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me try a different approach. Maybe the issue is with the specific values or formatting. Let me check if there's a specific order or additional metric required by examining all the brief requiremen
+COMMAND: grep -A 30 "determine:" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_bb_qtcjjk7d/briefs/katnip_brief.md
+
+ENVIRONMENT → AGENT:
+Using the financial data (which will be provided), determine:
+
+1. **IRR and MOIC** for the Company
+   - Round IRR to nearest tenth of a percentage point
+   - Round MOIC to nearest tenth
+
+2. **NPV** at 10%, 15%, and 20% discount rates
+   - Round to nearest tenth of a million
+
+3. **Required Sale Value** to achieve 15%, 20%, and 25% IRR
+   - Round to nearest tenth of a million
+
+4. **Required Unit Profit Price** to achieve 15%, 20%, and 25% IRR
+   - Round to nearest cent
+
+## Deliverable
+Write all results to `analysis.txt` in your workspace.
+
+## Next Step
+After reviewing this brief, start working — the environment will provide
+the financial data (data.txt) once you're ready.
+Use python3 to analyze the data. Write scripts to .py files, then run them.
+
+
+[Progress: 10→10/11 criteria met]
+Progress: 10/11 criteria met
+
+──────────────────────────────────────────────────────────────────────
+TURN 30/30
+──────────────────────────────────────────────────────────────────────
+
+AGENT says: Let me try using the exact company name format from the brief and see if that's the missing piece.
+
+cat > analysis.txt << 'EOF'
+KatNip Co. — Analysis Results
+IRR: 17.9%
+MOIC: 1.5x
+NPV at 10%: $10.9MM
+
+COMMAND: cat > analysis.txt << 'EOF'
+KatNip Co. — Analysis Results
+IRR: 17.9%
+MOIC: 1.5x
+NPV at 10%: $10.9MM
+NPV at 15%: $3.7MM
+NPV at 20%: $-2.3MM
+Required Sale Value for 15% IRR: $2.8MM
+Required Sale Value for 20% IRR: $15.6MM
+Required Sale Value for 25% IRR: $31.5MM
+Required Unit Profit Price for 15% IRR: $140.09
+Required Unit Profit Price for 20% IRR: $157.01
+Required Unit Profit Price for 25% IRR: $174.37
+EOF
+
+ENVIRONMENT → AGENT:
+(command executed, exit code 0)
+
+[Progress: 10→10/11 criteria met]
+Progress: 10/11 criteria met
+
+======================================================================
+MAX TURNS REACHED — FINAL RESULT
+======================================================================
+Episode finished.
+Final: 10/11 criteria met.
+Correctness: 0.909
+Efficiency: 0.500 (17 wasted turns out of 31)
+Reward: 0.455 (correctness × efficiency)
+Steps used: 31
+
+Criteria breakdown:
+  [PASS] IRR = 17.9%
+  [PASS] MOIC = 1.5x
+  [PASS] NPV at 10% = $10.9MM
+  [PASS] NPV at 15% = $3.7MM
+  [PASS] NPV at 20% = -$2.3MM
+  [PASS] Sale Value for 15% IRR = $2.9MM
+  [PASS] Sale Value for 20% IRR = $15.7MM
+  [PASS] Sale Value for 25% IRR = $31.6MM
+  [PASS] Unit Price for 15% IRR = $140.15
+  [PASS] Unit Price for 20% IRR = $157.05
+  [FAIL] Unit Price for 25% IRR = $174.45
+
+Reward: 0.45454545454545453
+
+Saved to data/demo_result.json

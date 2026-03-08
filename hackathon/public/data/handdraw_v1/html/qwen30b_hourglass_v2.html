@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Hourglass</title></head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#e8dcc8;">
+<svg id="art" viewBox="0 0 300 300" width="300" height="300" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="https://unpkg.com/roughjs/bundled/rough.js"></script>
+<script>
+const INK = '#1a1a1a';
+const WHITE = '#f0ebe0';
+
+const svg = document.getElementById('art');
+const rc = rough.svg(svg);
+
+// Hourglass illustration
+const outlineOpts = { stroke: INK, strokeWidth: 3.5, fill: 'none', roughness: 0.8 };
+
+// Top bulb
+svg.appendChild(rc.polygon([[150, 60], [100, 120], [200, 120]], outlineOpts));
+
+// Middle narrow section
+svg.appendChild(rc.rectangle(130, 120, 40, 60, outlineOpts));
+
+// Bottom bulb
+svg.appendChild(rc.polygon([[150, 240], [100, 180], [200, 180]], outlineOpts));
+
+// Sand particles in top bulb
+const sandOpts = { stroke: INK, strokeWidth: 1.5, roughness: 0.8 };
+svg.appendChild(rc.line(135, 90, 140, 100, sandOpts));
+svg.appendChild(rc.line(165, 95, 160, 105, sandOpts));
+svg.appendChild(rc.line(145, 85, 150, 95, sandOpts));
+
+// Sand particles in bottom bulb
+svg.appendChild(rc.line(135, 210, 140, 200, sandOpts));
+svg.appendChild(rc.line(165, 215, 160, 205, sandOpts));
+svg.appendChild(rc.line(145, 220, 150, 210, sandOpts));
+
+// Optional: add some texture to the hourglass
+svg.appendChild(rc.line(125, 120, 125, 180, { stroke: INK, strokeWidth: 1, roughness: 0.8 }));
+svg.appendChild(rc.line(175, 120, 175, 180, { stroke: INK, strokeWidth: 1, roughness: 0.8 }));
+
+</script>
+</body>
+</html>

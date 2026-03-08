@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Hourglass</title></head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#e8dcc8;">
+<svg id="art" viewBox="0 0 300 300" width="300" height="300" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="https://unpkg.com/roughjs/bundled/rough.js"></script>
+<script>
+const INK = '#1a1a1a';
+const WHITE = '#f0ebe0';
+
+const svg = document.getElementById('art');
+const rc = rough.svg(svg);
+
+// Hourglass illustration
+
+// Main hourglass outline
+const outlineOpts = { stroke: INK, strokeWidth: 3.5, fill: 'none', roughness: 0.8 };
+// Top bulb
+svg.appendChild(rc.path('M 100 50 A 50 50 0 0 1 200 50', outlineOpts));
+// Bottom bulb
+svg.appendChild(rc.path('M 100 250 A 50 50 0 0 1 200 250', outlineOpts));
+// Neck
+svg.appendChild(rc.line(125, 100, 125, 200, outlineOpts));
+svg.appendChild(rc.line(175, 100, 175, 200, outlineOpts));
+
+// Sand particles in top bulb
+const sandOpts = { stroke: INK, strokeWidth: 1.5, roughness: 0.8 };
+svg.appendChild(rc.line(115, 60, 120, 70, sandOpts));
+svg.appendChild(rc.line(130, 65, 135, 75, sandOpts));
+svg.appendChild(rc.line(145, 70, 150, 80, sandOpts));
+svg.appendChild(rc.line(160, 60, 165, 70, sandOpts));
+svg.appendChild(rc.line(175, 65, 180, 75, sandOpts));
+
+// Sand particles in bottom bulb
+svg.appendChild(rc.line(115, 230, 120, 220, sandOpts));
+svg.appendChild(rc.line(130, 225, 135, 215, sandOpts));
+svg.appendChild(rc.line(145, 220, 150, 210, sandOpts));
+svg.appendChild(rc.line(160, 230, 165, 220, sandOpts));
+svg.appendChild(rc.line(175, 225, 180, 215, sandOpts));
+
+// Sand stream in neck
+svg.appendChild(rc.line(130, 100, 135, 120, sandOpts));
+svg.appendChild(rc.line(140, 110, 145, 130, sandOpts));
+svg.appendChild(rc.line(150, 120, 155, 140, sandOpts));
+svg.appendChild(rc.line(160, 130, 165, 150, sandOpts));
+svg.appendChild(rc.line(170, 140, 175, 160, sandOpts));
+
+// Decorative elements
+const sparkOpts = { stroke: INK, strokeWidth: 2.5, roughness: 0.8 };
+svg.appendChild(rc.line(90, 45, 80, 35, sparkOpts));
+svg.appendChild(rc.line(210, 45, 220, 35, sparkOpts));
+svg.appendChild(rc.line(90, 255, 80, 265, sparkOpts));
+svg.appendChild(rc.line(210, 255, 220, 265, sparkOpts));
+
+</script>
+</body>
+</html>

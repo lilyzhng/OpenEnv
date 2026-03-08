@@ -1,0 +1,262 @@
+{
+  "model": "openai/gpt-4o-mini",
+  "per_tier": 7,
+  "results": [
+    {
+      "task_id": 145,
+      "domain": "Consulting",
+      "tier": "easy",
+      "difficulty_score": 7.0,
+      "reward": 0.52,
+      "num_turns": 8,
+      "actions": [
+        "head -n 5 /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/Campaign_Portfolio.csv",
+        "awk -F, 'NR>1 {gsub(/[$,]/, \"\", $9); if ($9 != \"\") {impressions_per_dollar = $11 / $9; print impressions_per_dollar, $9, $11, $8}}' /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/Campaign_Portfolio.csv > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/impressions_per_dollar.csv",
+        "awk -F, 'NR>1 {gsub(/[$,]/, \"\", $9); gsub(/ /, \"\", $11); if ($9 != \"\" && $11 != \"\") {impressions_per_dollar = $11 / $9; print impressions_per_dollar, $9, $11, $8}}' /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/Campaign_Portfolio.csv > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/impressions_per_dollar.csv",
+        "awk -F, 'NR>1 {gsub(/[$,]/, \"\", $9); gsub(/ /, \"\", $11); if ($9 != \"\" && $11 != \"0\") {impressions_per_dollar = $11 / $9; print impressions_per_dollar, $9, $11, $8}}' /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/Campaign_Portfolio.csv > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/impressions_per_dollar.csv",
+        "awk -F, 'NR>1 {gsub(/[$,]/, \"\", $9); gsub(/ /, \"\", $11); if ($9 != \"\" && $11 != \"\" && $11 != \"0\") {impressions_per_dollar = $11 / $9; print impressions_per_dollar, $9, $11, $8}}' /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/Campaign_Portfolio.csv > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/impressions_per_dollar.csv",
+        "awk -F, 'NR>1 {gsub(/[$,]/, \"\", $9); gsub(/ /, \"\", $11); if ($9 != \"\" && $11 != \"\" && $11 != \"0\") {impressions_per_dollar = ($11 + 0) / ($9 + 0); print impressions_per_dollar, $9, $11, $8}}' /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/Campaign_Portfolio.csv > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/impressions_per_dollar.csv",
+        "awk -F, 'NR>1 {gsub(/[$]/, \"\", $9); gsub(/ /, \"\", $11); if ($9 != \"\" && $11 != \"\" && $9 != \"0\") {impressions_per_dollar = ($11 + 0) / ($9 + 0); print impressions_per_dollar, $9, $11, $8}}' /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/Campaign_Portfolio.csv > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/impressions_per_dollar.csv",
+        "awk -F, 'NR>1 {gsub(/[$]/, \"\", $9); gsub(/ /, \"\", $11); if ($9 != \"\" && $11 != \"\" && $9 + 0 != 0) {impressions_per_dollar = ($11 + 0) / ($9 + 0); print impressions_per_dollar, $9, $11, $8}}' /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/Campaign_Portfolio.csv > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_0fxa4152/impressions_per_dollar.csv"
+      ]
+    },
+    {
+      "task_id": 1588,
+      "domain": "Finance",
+      "tier": "easy",
+      "difficulty_score": 10.0,
+      "reward": 0.37446808510638296,
+      "num_turns": 8,
+      "actions": [
+        "python3 /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1588_024umdjd/ConSup\\ Inc\\ Financial\\ Model_PROMPT.xlsx",
+        "ls /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1588_024umdjd",
+        "xlsx2csv /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1588_024umdjd/ConSup\\ Inc\\ Financial\\ Model_PROMPT.xlsx > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1588_024umdjd/ConSup_Inc_Financial_Model.csv",
+        "pip3 install -q xlsx2csv",
+        "export PATH=$PATH:/Users/lilyzhang/Library/Python/3.9/bin",
+        "xlsx2csv /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1588_024umdjd/ConSup\\ Inc\\ Financial\\ Model_PROMPT.xlsx > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1588_024umdjd/ConSup_Inc_Financial_Model.csv",
+        "pip3 install --user xlsx2csv",
+        "~/Library/Python/3.9/bin/xlsx2csv /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1588_024umdjd/ConSup\\ Inc\\ Financial\\ Model_PROMPT.xlsx > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1588_024umdjd/ConSup_Inc_Financial_Model.csv"
+      ]
+    },
+    {
+      "task_id": 13,
+      "domain": "Legal",
+      "tier": "easy",
+      "difficulty_score": 10.0,
+      "reward": 0.475,
+      "num_turns": 8,
+      "actions": [
+        "grep -i \"diminution of value\" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/* > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/diminution_of_value_references.txt",
+        "grep -i \"diminished value\" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/* > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/diminished_value_references.txt",
+        "grep -i \"value\" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/* > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/value_references.txt",
+        "ls /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/",
+        "pdfgrep -i \"diminished value\" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/*.pdf > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/diminished_value_references.txt",
+        "pdftotext /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/13_Airtechv.MacDonald.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/Airtechv_MacDonald.txt",
+        "pdftotext /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/13_FlaStat.319.30.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/FlaStat_319_30.txt",
+        "pdftotext /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/13_FlaStat.626.9743.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_13_vn3tf0wl/FlaStat_626_9743.txt"
+      ]
+    },
+    {
+      "task_id": 1155,
+      "domain": "Medicine",
+      "tier": "easy",
+      "difficulty_score": 9.0,
+      "reward": 0.7899999999999999,
+      "num_turns": 8,
+      "actions": [
+        "pdftotext AAP-Immunization-Schedule.pdf AAP-Immunization-Schedule.txt",
+        "grep -A 10 \"13 months\" AAP-Immunization-Schedule.txt",
+        "grep -i \"immunization\" AAP-Immunization-Schedule.txt",
+        "grep -i \"catch-up\" AAP-Immunization-Schedule.txt",
+        "grep -A 20 \"Recommended Catch-up Immunization Schedule\" AAP-Immunization-Schedule.txt | head -n 30",
+        "grep -A 10 \"13 months\" AAP-Immunization-Schedule.txt | grep \"Vaccine\" -A 10",
+        "grep -i \"13 months\" AAP-Immunization-Schedule.txt -A 20",
+        "grep -i \"vaccines\" AAP-Immunization-Schedule.txt -A 20"
+      ]
+    },
+    {
+      "task_id": 772,
+      "domain": "Consulting",
+      "tier": "easy",
+      "difficulty_score": 10.0,
+      "reward": 0.36363636363636365,
+      "num_turns": 8,
+      "actions": [
+        "cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_772_cva67mqe/Market\\ data\\ \\(1\\).csv | head -n 10",
+        "awk -F, 'NR>1 {if ($1 != \"Alaska\" && $1 != \"Hawaii\") print $1, $2 * $3 * 0.01}' /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_772_cva67mqe/Market\\ data\\ \\(1\\).csv > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_772_cva67mqe/target_households.txt",
+        "cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_772_cva67mqe/target_households.txt",
+        "awk '{sum += $2} END {print sum}' /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_772_cva67mqe/target_households.txt > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_772_cva67mqe/total_target_households.txt",
+        "cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_772_cva67mqe/total_target_households.txt",
+        "echo \"scale=2; 1.50013e+06 / (331002651 / 2.53)\" | bc > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_772_cva67mqe/percent_target_households.txt",
+        "echo \"scale=2; 1500130 / (331002651 / 2.53)\" | bc > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_772_cva67mqe/percent_target_households.txt",
+        "cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_772_cva67mqe/percent_target_households.txt"
+      ]
+    },
+    {
+      "task_id": 2108,
+      "domain": "Finance",
+      "tier": "easy",
+      "difficulty_score": 6.0,
+      "reward": 0.525,
+      "num_turns": 8,
+      "actions": [
+        "pdftotext \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2108_jcoqgdxz/Nike-Inc-2025 Form-10K .pdf\" \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2108_jcoqgdxz/Nike-2025-10K.txt\"",
+        "grep -A 10 \"Revenue\" \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2108_jcoqgdxz/Nike-2025-10K.txt\"",
+        "grep -A 10 \"EBIT\" \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2108_jcoqgdxz/Nike-2025-10K.txt\"",
+        "grep -A 10 \"Effective Tax Rate\" \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2108_jcoqgdxz/Nike-2025-10K.txt\"",
+        "grep -A 10 \"Income Tax Expense\" \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2108_jcoqgdxz/Nike-2025-10K.txt\"",
+        "grep -A 10 \"Income Taxes\" \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2108_jcoqgdxz/Nike-2025-10K.txt\"",
+        "grep -A 10 \"Depreciation and Amortization\" \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2108_jcoqgdxz/Nike-2025-10K.txt\"",
+        "grep -A 10 \"D&A / Revenue\" \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2108_jcoqgdxz/Nike-2025-10K.txt\""
+      ]
+    },
+    {
+      "task_id": 845,
+      "domain": "Legal",
+      "tier": "easy",
+      "difficulty_score": 8.0,
+      "reward": 0.41666666666666663,
+      "num_turns": 8,
+      "actions": [
+        "grep -i \"negligence\" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/* > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/negligence_claims.txt",
+        "grep -i \"liability\" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/* > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/liability_claims.txt",
+        "grep -i \"damages\" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/* > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/damages_claims.txt",
+        "ls /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/",
+        "pdftotext /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/CACI-1801-1802.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/CACI-1801-1802.txt",
+        "pdftotext /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/CIV_1668.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/CIV_1668.txt",
+        "pdftotext /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/CIV_1714.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/CIV_1714.txt",
+        "pdftotext /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/Hughes\\ v\\ Pair.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_845_tnkvet41/Hughes_v_Pair.txt"
+      ]
+    },
+    {
+      "task_id": 283,
+      "domain": "Consulting",
+      "tier": "hard",
+      "difficulty_score": 14.0,
+      "reward": 0.6137931034482758,
+      "num_turns": 8,
+      "actions": [
+        "head -n 10 \"SoW v2 (2).csv\"",
+        "awk -F, 'NR > 1 && $4 <= 75 {print $6, $3, $4, $5}' \"SoW v2 (2).csv\" > filtered_merchants.csv",
+        "cat filtered_merchants.csv",
+        "awk -F, '{loyalty[$5]++; size[$6]++; revenue[$5][$6] += $4 * ($3 / 100)} END {for (l in loyalty) {for (s in size) {printf \"%s,%s,$%.1fM\\n\", l, s, revenue[l][s] / 1000000}}}' filtered_merchants.csv > potential_revenue.csv",
+        "awk -F, 'NR > 1 {loyalty[$5]++; size[$6]++; revenue[$5\",\"$6] += $4 * ($3 / 100)} END {for (l in loyalty) {for (s in size) {printf \"%s,%s,$%.1fM\\n\", l, s, revenue[l\",\"s] / 1000000}}}' filtered_merchants.csv > potential_revenue.csv",
+        "cat potential_revenue.csv",
+        "awk -F, 'NR > 1 {loyalty[$5]++; size[$6]++; revenue[$5\",\"$6] += $4 * ($3 / 100)} END {for (l in loyalty) {for (s in size) {if (revenue[l\",\"s] > 0) printf \"%s,%s,$%.1fM\\n\", l, s, revenue[l\",\"s] / 1000000}}}' filtered_merchants.csv > potential_revenue.csv",
+        "awk -F, 'NR > 1 {if ($4 <= 75) {loyalty[$5]++; size[$6]++; revenue[$5\",\"$6] += $4 * ($3 / 100)}} END {for (l in loyalty) {for (s in size) {if (revenue[l\",\"s] > 0) printf \"%s,%s,$%.1fM\\n\", l, s, revenue[l\",\"s] / 1000000}}}' filtered_merchants.csv > potential_revenue.csv"
+      ]
+    },
+    {
+      "task_id": 2107,
+      "domain": "Finance",
+      "tier": "hard",
+      "difficulty_score": 15.0,
+      "reward": 0.40606060606060607,
+      "num_turns": 8,
+      "actions": [
+        "head -n 5 /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2107_0tf7udo2/Orion_Target.csv",
+        "tail -n +6 /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2107_0tf7udo2/Orion_Target.csv | head -n 5",
+        "awk -F, 'NR>5 {print}' /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2107_0tf7udo2/Orion_Target.csv | tail -n +6",
+        "tail -n +6 /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2107_0tf7udo2/Orion_Target.csv | tail -n +6 | head -n 5",
+        "tail -n +11 /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2107_0tf7udo2/Orion_Target.csv | head -n 5",
+        "tail -n +16 /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2107_0tf7udo2/Orion_Target.csv | head -n 5",
+        "tail -n +21 /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2107_0tf7udo2/Orion_Target.csv | head -n 5",
+        "tail -n +26 /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_2107_0tf7udo2/Orion_Target.csv | head -n 5"
+      ]
+    },
+    {
+      "task_id": 1022,
+      "domain": "Legal",
+      "tier": "hard",
+      "difficulty_score": 16.0,
+      "reward": 0.7,
+      "num_turns": 8,
+      "actions": [
+        "grep -E \"objection|sustained\" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/*.pdf > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/legal_memo.txt",
+        "pdftotext /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/1022_PROCTOR\\ v.\\ STATE.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/1022_PROCTOR.txt",
+        "pdftotext /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/1022_T.V.U.\\ v.\\ STATE.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/1022_T.V.U..txt",
+        "pdftotext /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/1022_WAGNER\\ v.\\ STATE.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/1022_WAGNER.txt",
+        "pdftotext /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/1022_YISRAEL\\ v.\\ STATE\\ .pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/1022_YISRAEL.txt",
+        "ls /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/",
+        "cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/1022_PROCTOR.txt /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/1022_T.V.U..txt /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/1022_WAGNER.txt /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/1022_YISRAEL.txt > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/legal_memo_combined.txt",
+        "grep -E \"objection|sustained\" /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/legal_memo_combined.txt > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1022_8wg0l4qw/legal_memo.txt"
+      ]
+    },
+    {
+      "task_id": 1340,
+      "domain": "Medicine",
+      "tier": "hard",
+      "difficulty_score": 12.0,
+      "reward": 0.7,
+      "num_turns": 8,
+      "actions": [
+        "pdf2text Attachment\\ 1341.pdf > clinical_presentation.txt",
+        "pdftotext Attachment\\ 1341.pdf clinical_presentation.txt",
+        "grep -i \"redness and discomfort in his right eye\" clinical_presentation.txt",
+        "grep -i \"eye\" clinical_presentation.txt",
+        "cat clinical_presentation.txt",
+        "echo \"Ophthalmology and Infectious Disease\" > specialties_consulted.txt",
+        "echo \"Ophthalmology and Infectious Disease\" > specialties_consulted.txt; echo \"Ophthalmology is needed for the management of the eye symptoms, and Infectious Disease for the ongoing sepsis and appropriate antibiotic management.\" >> specialties_consulted.txt",
+        "cat specialties_consulted.txt"
+      ]
+    },
+    {
+      "task_id": 352,
+      "domain": "Consulting",
+      "tier": "hard",
+      "difficulty_score": 11.0,
+      "reward": 0.49444444444444446,
+      "num_turns": 8,
+      "actions": [
+        "grep -E \"Order ID|Date Ordered|Date Processed|Date Shipped|Date Delivered\" \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_352_d1btre9w/Order Details (1).csv\" > \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_352_d1btre9w/filtered_orders.csv\"",
+        "cat \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_352_d1btre9w/Order Details (1).csv\" | head -n 10",
+        "python3 -c \"import pandas as pd; df = pd.read_csv('/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_352_d1btre9w/Order Details (1).csv'); df['Order_Date'] = pd.to_datetime(df['Order_Date']); df['Delivery_Date'] = pd.to_datetime(df['Delivery_Date']); same_month_delivery = df[df['Order_Date'].dt.month == df['Delivery_Date'].dt.month].shape[0] / df.shape[0] * 100; print(round(same_month_delivery))\" > \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_352_d1btre9w/same_month_delivery_percentage.txt\"",
+        "cat \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_352_d1btre9w/same_month_delivery_percentage.txt\"",
+        "python3 -c \"import pandas as pd; df = pd.read_csv('/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_352_d1btre9w/Order Details (1).csv'); df['Order_Date'] = pd.to_datetime(df['Order_Date']); df['Processed_Date'] = pd.to_datetime(df['Processed_Date']); df['Shipped_Date'] = pd.to_datetime(df['Shipped_Date']); df['Delivery_Date'] = pd.to_datetime(df['Delivery_Date']); df['ordered_to_processed'] = (df['Processed_Date'] - df['Order_Date']).dt.days; df['processed_to_shipped'] = (df['Shipped_Date'] - df['Processed_Date']).dt.days; df['shipped_to_delivered'] = (df['Delivery_Date'] - df['Shipped_Date']).dt.days; avg_ordered_to_processed = df['ordered_to_processed'].mean(); avg_processed_to_shipped = df['processed_to_shipped'].mean(); avg_shipped_to_delivered = df['shipped_to_delivered'].mean(); print(round(avg_ordered_to_processed, 1), round(avg_processed_to_shipped, 1), round(avg_shipped_to_delivered, 1))\" > \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_352_d1btre9w/average_days_per_milestone.txt\"",
+        "cat \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_352_d1btre9w/average_days_per_milestone.txt\"",
+        "python3 -c \"import pandas as pd; df = pd.read_csv('/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_352_d1btre9w/Order Details (1).csv'); df['Order_Date'] = pd.to_datetime(df['Order_Date']); df['Processed_Date'] = pd.to_datetime(df['Processed_Date']); df['Shipped_Date'] = pd.to_datetime(df['Shipped_Date']); df['Delivery_Date'] = pd.to_datetime(df['Delivery_Date']); df['ordered_to_processed'] = (df['Processed_Date'] - df['Order_Date']).dt.days; df['processed_to_shipped'] = (df['Shipped_Date'] - df['Processed_Date']).dt.days; df['shipped_to_delivered'] = (df['Delivery_Date'] - df['Shipped_Date']).dt.days; ordered_to_processed_exceeds = (df['ordered_to_processed'] > 2).sum() / df.shape[0] * 100; processed_to_shipped_exceeds = (df['processed_to_shipped'] > 2.5).sum() / df.shape[0] * 100; shipped_to_delivered_exceeds = (df['shipped_to_delivered'] > 4).sum() / df.shape[0] * 100; print(round(ordered_to_processed_exceeds), round(processed_to_shipped_exceeds), round(shipped_to_delivered_exceeds))\" > \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_352_d1btre9w/percentage_exceeding_benchmarks.txt\"",
+        "cat \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_352_d1btre9w/percentage_exceeding_benchmarks.txt\""
+      ]
+    },
+    {
+      "task_id": 2269,
+      "domain": "Finance",
+      "tier": "hard",
+      "difficulty_score": 13.0,
+      "reward": 0.3933333333333333,
+      "num_turns": 8,
+      "actions": [
+        "pdftotext \"Business plan data.pdf\" \"business_plan_data.txt\"",
+        "grep -A 10 \"Revenue forecast\" business_plan_data.txt",
+        "grep -A 10 \"Revenue recognized from existing long term contracts\" business_plan_data.txt",
+        "grep -A 10 \"Revenue\" business_plan_data.txt | grep -A 5 \"long term contracts\"",
+        "grep -A 10 \"New long term contracts signed\" business_plan_data.txt",
+        "grep -A 10 \"New long term contracts signed\" business_plan_data.txt | grep -Eo '[0-9,]+'",
+        "grep -A 10 \"Expense forecast\" business_plan_data.txt",
+        "grep -A 10 \"CAPEX forecast\" business_plan_data.txt"
+      ]
+    },
+    {
+      "task_id": 1041,
+      "domain": "Legal",
+      "tier": "hard",
+      "difficulty_score": 13.0,
+      "reward": 0.7666666666666666,
+      "num_turns": 8,
+      "actions": [
+        "pdf2txt.py /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_5A-12.pdf > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_5A-12.txt",
+        "pdftotext /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_5A-12.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_5A-12.txt",
+        "pdftotext /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_In Re Lynchs Estate.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_In_Re_Lynchs_Estate.txt",
+        "pdftotext -layout /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_In Re Lynchs Estate.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_In_Re_Lynchs_Estate.txt",
+        "pdftotext -f 1 -l 1 /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_In Re Lynchs Estate.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_In_Re_Lynchs_Estate.txt",
+        "pdftotext -layout /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_In\\ Re\\ Lynchs\\ Estate.pdf /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_In_Re_Lynchs_Estate.txt",
+        "cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_5A-12.txt /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_In_Re_Lynchs_Estate.txt | grep -i 'property\\|will\\|inheritance\\|testament' > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/summary.txt",
+        "grep -i 'property\\|will\\|inheritance\\|testament' /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/1041_5A-12.txt > /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_1041_490d7axl/summary_5A-12.txt"
+      ]
+    }
+  ],
+  "tier_averages": {
+    "easy": 0.49496730220134477,
+    "hard": 0.5820425934219038
+  }
+}

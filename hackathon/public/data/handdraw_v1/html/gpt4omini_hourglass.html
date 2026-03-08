@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GPT-4o-mini: Hourglass Attempt</title>
+</head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#e8dcc8;">
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script src="https://unpkg.com/roughjs/bundled/rough.js"></script>
+    <script>
+        const INK = "#1a1a1a";
+        const canvas = document.getElementById("canvas");
+        const rc = rough.canvas(canvas);
+
+        const outlineOpts = { stroke: INK, strokeWidth: 3.5, fill: "none", roughness: 0.8 };
+        rc.line(150, 50, 250, 50, outlineOpts); // top line
+        rc.line(150, 50, 100, 200, outlineOpts); // left diagonal
+        rc.line(250, 50, 300, 200, outlineOpts); // right diagonal
+        rc.line(100, 200, 300, 200, outlineOpts); // bottom line
+        rc.line(100, 200, 150, 350, outlineOpts); // left diagonal down
+        rc.line(300, 200, 250, 350, outlineOpts); // right diagonal down
+        rc.line(150, 350, 250, 350, outlineOpts); // bottom line
+    </script>
+</body>
+</html>

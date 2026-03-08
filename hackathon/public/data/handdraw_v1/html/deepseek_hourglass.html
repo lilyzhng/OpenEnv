@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Draw: CONCEPT</title></head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#e8dcc8;">
+<svg id="art" viewBox="0 0 300 300" width="300" height="300" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="https://unpkg.com/roughjs/bundled/rough.js"></script>
+<script>
+const INK = '#1a1a1a';
+const WHITE = '#f0ebe0';
+
+const svg = document.getElementById('art');
+const rc = rough.svg(svg);
+
+const outlineOpts = { stroke: INK, strokeWidth: 3.5, fill: "none", roughness: 0.8 };
+svg.appendChild(rc.polygon([[150, 50], [70, 150], [230, 150]], outlineOpts));
+svg.appendChild(rc.polygon([[150, 250], [70, 150], [230, 150]], outlineOpts));
+
+const sandOpts = { stroke: INK, strokeWidth: 2, roughness: 1.2 };
+svg.appendChild(rc.line(150, 100, 120, 130, sandOpts));
+svg.appendChild(rc.line(150, 110, 130, 140, sandOpts));
+svg.appendChild(rc.line(150, 200, 180, 170, sandOpts));
+svg.appendChild(rc.line(150, 190, 170, 160, sandOpts));
+
+const sparkOpts = { stroke: INK, strokeWidth: 2.5, roughness: 0.8 };
+svg.appendChild(rc.line(40, 40, 50, 50, sparkOpts));
+svg.appendChild(rc.line(260, 260, 250, 250, sparkOpts));
+</script>
+</body>
+</html>

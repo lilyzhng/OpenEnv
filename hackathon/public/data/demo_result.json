@@ -1,0 +1,8 @@
+{
+  "model": "deepseek/deepseek-chat-v3-0324",
+  "max_turns": 30,
+  "final_reward": 0.46,
+  "criteria_met": 1,
+  "criteria_total": 10,
+  "steps_used": 31
+}

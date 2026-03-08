@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SuperGeneral — Recursive Tool-Centric Environments for General Agents</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5F0E8;
+  --charcoal: #1E1E1E;
+  --panel: #252525;
+  --text: #1E1E1E;
+  --text-light: #E0DCD4;
+  --text-dim: #888;
+  --green: #39FF14;
+  --cyan: #00E5FF;
+  --amber: #FFB800;
+  --red: #FF3B3B;
+  --font-mono: 'Space Mono', 'SF Mono', 'Menlo', monospace;
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); font-family: var(--font-sans); color: var(--text); line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* ── Chrome ── */
+.window-dots { display: flex; gap: 7px; margin-bottom: 18px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-red { background: #FF5F57; }
+.dot-yellow { background: #FFBD2E; }
+.dot-green { background: #28C840; }
+
+/* ── Section headers ── */
+.section-header {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase; color: var(--text-dim);
+  margin-bottom: 24px; margin-top: 64px;
+}
+.section-header span { color: var(--amber); }
+
+/* ── Panels ── */
+.panel {
+  background: var(--charcoal); border-radius: 10px;
+  padding: 32px 36px; margin-bottom: 28px;
+}
+.panel-title {
+  font-family: var(--font-sans); font-size: 15px; font-weight: 600;
+  color: var(--cyan); margin-bottom: 24px; line-height: 1.4;
+}
+
+/* ══════════════════════════════════════════════ */
+/* SECTION 1: HERO                               */
+/* ══════════════════════════════════════════════ */
+.teaser {
+  background: var(--charcoal); padding: 56px 48px 48px; margin-bottom: 40px;
+  position: relative; overflow: hidden;
+}
+/* Hero: left title + right demo */
+.hero-split {
+  display: grid; grid-template-columns: 2fr 3fr; gap: 32px; align-items: center;
+}
+.hero-left { padding-right: 8px; }
+.hero-label {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase; color: #555; margin-bottom: 14px;
+}
+.hero-title {
+  font-family: var(--font-sans); font-size: 56px; font-weight: 700;
+  color: var(--text-light); letter-spacing: -1px; line-height: 1.1;
+}
+.hero-subtitle {
+  font-family: var(--font-sans); font-size: 56px; font-weight: 700;
+  color: var(--cyan); letter-spacing: -1px; line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+/* Demo card — fixed height to prevent layout shift */
+.hero-card {
+  background: #181818; border-radius: 10px; padding: 24px 28px;
+  border: 1px solid #2a2a2a;
+}
+.hero-prompt {
+  font-family: var(--font-mono); font-size: 15px; font-weight: 700;
+  color: var(--green); margin-bottom: 16px; min-height: 24px;
+}
+.term-cursor {
+  display: inline-block; width: 9px; height: 18px;
+  background: var(--green); animation: blink 1s step-end infinite;
+  vertical-align: text-bottom; margin-left: 2px;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.hero-body {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start;
+}
+
+/* Decomposition tree */
+.hero-tree {
+  font-family: var(--font-mono); font-size: 12px; line-height: 1.8;
+  color: var(--text-dim);
+}
+.hero-tree-label {
+  color: var(--cyan); font-style: italic; margin-bottom: 8px; font-size: 11px;
+}
+.hero-tree-think {
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);
+  line-height: 1.6; margin-bottom: 10px; font-style: italic;
+  opacity: 0; transition: opacity 0.4s;
+}
+.hero-tree-think.visible { opacity: 1; }
+.hero-tree-root {
+  color: var(--text-light); font-weight: 700; font-size: 13px; margin-bottom: 4px;
+  opacity: 0; transition: opacity 0.3s;
+}
+.hero-tree-root.visible { opacity: 1; }
+.tree-row {
+  opacity: 0; transition: opacity 0.35s; display: flex; align-items: center; gap: 6px;
+}
+.tree-indent { padding-left: 20px; }
+.tree-row.visible { opacity: 1; }
+.tree-branch { color: #444; user-select: none; }
+.tree-name { color: var(--text-light); }
+.tree-arrow { color: #555; }
+.tree-ref { color: var(--text-dim); }
+.tree-dim { color: #555; font-size: 10px; }
+.tree-check { color: var(--green); opacity: 0; transition: opacity 0.3s 0.15s; font-size: 11px; }
+.tree-row.visible .tree-check { opacity: 1; }
+
+/* Render area */
+.hero-render {
+  display: flex; justify-content: center; align-items: center;
+  opacity: 0; transition: opacity 0.8s; align-self: stretch;
+  min-width: 300px; min-height: 300px;
+}
+.hero-render.visible { opacity: 1; }
+.hero-render svg {
+  background: #e8dcc8; border-radius: 10px;
+  border: 1px dashed rgba(26,26,26,0.15);
+}
+
+.hero-pipeline {
+  display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap;
+  font-family: var(--font-mono); font-size: 11px;
+  margin-top: 20px; padding-top: 20px; border-top: 1px solid #2a2a2a;
+}
+.hero-pipe-step {
+  color: var(--green); padding: 5px 10px;
+  border: 1px solid rgba(57,255,20,0.25); border-radius: 3px;
+}
+.hero-pipe-arrow { color: var(--text-dim); padding: 0 6px; }
+
+/* Cherry blossom growth animations */
+@keyframes hero-grow-up { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes hero-shrink-down { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(100% 0 0 0); } }
+@keyframes hero-draw { to { stroke-dashoffset: 0; } }
+@keyframes hero-pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes hero-sway {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(1.2deg); }
+  75% { transform: rotate(-1.5deg); }
+}
+/* Reverse: fade out */
+@keyframes hero-fade-out { to { opacity: 0; } }
+
+/* ══════════════════════════════════════════════ */
+/* SECTION 2: MODEL PICKER                       */
+/* ══════════════════════════════════════════════ */
+.model-buttons {
+  display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap;
+}
+.model-btn {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  padding: 10px 20px; border-radius: 6px; border: 1.5px solid #3a3a3a;
+  background: rgba(255,255,255,0.03); color: var(--text-dim); cursor: pointer;
+  transition: all 0.25s;
+}
+.model-btn:hover { border-color: var(--text-light); color: var(--text-light); background: rgba(255,255,255,0.06); }
+.model-btn.active { border-color: var(--green); color: var(--green); background: rgba(57,255,20,0.1); }
+
+.eval-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start;
+}
+.traj-panel { background: var(--panel); border-radius: 8px; padding: 24px 28px; height: 580px; overflow-y: auto; }
+.traj-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #333;
+}
+.traj-model { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--text-light); }
+.traj-result { font-family: var(--font-mono); font-size: 11px; padding: 3px 8px; border-radius: 3px; }
+.traj-result.pass { background: rgba(57,255,20,0.15); color: var(--green); }
+.traj-result.fail { background: rgba(255,59,59,0.15); color: var(--red); }
+.traj-result.unclear { background: rgba(255,184,0,0.15); color: var(--amber); }
+.traj-summary {
+  font-family: var(--font-sans); font-size: 12px; color: var(--text-dim);
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid #333; line-height: 1.5;
+}
+.traj-summary strong { color: var(--text-light); }
+.traj-tool-use {
+  font-family: var(--font-sans); font-size: 12px; color: var(--text-dim);
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid #333; line-height: 1.5;
+}
+.traj-tool-use strong { color: var(--text-light); }
+.tool-use-yes { color: var(--green); font-weight: 700; font-family: var(--font-mono); font-size: 11px; }
+.tool-use-no { color: var(--red); font-weight: 700; font-family: var(--font-mono); font-size: 11px; }
+.tool-use-detail { color: var(--text-dim); }
+.traj-blocks-inline {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;
+}
+.block-thumb {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.block-thumb svg {
+  background: #e8dcc8; border-radius: 6px;
+  border: 1px solid #333;
+}
+.block-thumb-label {
+  font-family: var(--font-mono); font-size: 9px; color: var(--text-dim);
+}
+
+.render-panel { background: var(--panel); border-radius: 8px; padding: 24px 28px; height: 580px; overflow-y: auto; }
+.render-header {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  color: var(--text-light); margin-bottom: 16px; padding-bottom: 12px;
+  border-bottom: 1px solid #333;
+}
+.render-frame {
+  background: #e8dcc8; border-radius: 8px; overflow: hidden;
+  aspect-ratio: 1; border: 1.5px solid #333; margin-bottom: 16px;
+}
+.render-frame iframe { width: 100%; height: 100%; border: none; pointer-events: none; }
+
+
+/* ══════════════════════════════════════════════ */
+/* SECTION 3: PIPELINE + SCALE OUT + LEADERBOARD */
+/* ══════════════════════════════════════════════ */
+
+/* Distill layout: core tree + arrow + domain grid */
+.distill-layout {
+  display: flex; align-items: flex-start; gap: 0;
+}
+.distill-core {
+  flex-shrink: 0; width: 260px; padding-right: 24px;
+}
+.distill-core-label {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--cyan);
+  margin-bottom: 12px;
+}
+.distill-core-sub {
+  font-family: var(--font-sans); font-size: 12px; color: var(--text-dim);
+  margin-top: 16px; line-height: 1.5;
+}
+.distill-arrow {
+  flex-shrink: 0; font-size: 24px; color: var(--text-dim);
+  padding: 0 20px; align-self: center;
+}
+.distill-domains {
+  flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+
+.domain-col {
+  background: var(--panel); border-radius: 8px; padding: 16px;
+  border-top: 3px solid var(--text-dim);
+}
+.domain-col.d1 { border-top-color: var(--green); }
+.domain-col.d2 { border-top-color: var(--cyan); }
+.domain-col.d4 { border-top-color: var(--amber); }
+.domain-col.d5 { border-top-color: #c084fc; }
+.domain-title {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; margin-bottom: 10px;
+}
+.domain-col.d1 .domain-title { color: var(--green); }
+.domain-col.d2 .domain-title { color: var(--cyan); }
+.domain-col.d4 .domain-title { color: var(--amber); }
+.domain-col.d5 .domain-title { color: #c084fc; }
+.domain-col .hero-tree { font-size: 10px; line-height: 1.9; }
+.domain-mode {
+  margin-top: 10px; padding-top: 8px; border-top: 1px solid #333; text-align: center;
+}
+.domain-mode-tag {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px;
+  border-radius: 3px;
+}
+.domain-mode-tag.visual { color: var(--green); background: rgba(57,255,20,0.1); }
+.domain-mode-tag.text { color: var(--amber); background: rgba(255,184,0,0.1); }
+.domain-mode-tag.mixed { color: #c084fc; background: rgba(192,132,252,0.1); }
+.domain-mode-tag.tools { color: var(--cyan); background: rgba(0,229,255,0.1); }
+
+.lb-grid-4 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.lb-panel { padding: 20px; }
+.lb-panel table { font-size: 11px; table-layout: fixed; }
+.lb-panel th { font-size: 10px; }
+.lb-panel td { padding: 7px 6px; }
+.lb-panel th:nth-child(1),
+.lb-panel td:nth-child(1) { width: 28%; }
+.lb-panel th:nth-child(2),
+.lb-panel th:nth-child(3),
+.lb-panel th:nth-child(4) { width: 10%; text-align: center; }
+.lb-panel td:nth-child(2),
+.lb-panel td:nth-child(3),
+.lb-panel td:nth-child(4) { text-align: center; }
+.lb-panel th:nth-child(5),
+.lb-panel td:nth-child(5) { width: 42%; padding-left: 36px; }
+.lb-coming-soon {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);
+  text-align: center; padding: 48px 0; opacity: 0.5;
+}
+table {
+  width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 13px;
+}
+th {
+  color: var(--text-dim); font-weight: 400; text-align: left; padding: 6px 8px;
+  border-bottom: 1px solid #333; font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+}
+td { color: var(--text-light); padding: 10px 8px; border-bottom: 1px solid #2a2a2a; }
+tr.highlight td { color: var(--green); }
+tr.correct td.shape { color: var(--green); }
+tr.wrong td.shape { color: var(--red); }
+.rank { color: var(--text-dim); width: 30px; }
+.steps { color: var(--text-dim); font-size: 11px; }
+.metric-yes { color: var(--green); }
+.metric-no { color: var(--red); opacity: 0.6; }
+.reward-cell {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+}
+.reward-num {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--text-light);
+}
+.reward-bar {
+  display: block; height: 8px; background: var(--green);
+  border-radius: 2px; opacity: 0.7; min-width: 4px;
+}
+.hl { color: var(--green); font-weight: 600; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 40px;
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);
+}
+.footer a { color: var(--cyan); text-decoration: none; }
+
+@media (max-width: 900px) {
+  .hero-split { grid-template-columns: 1fr; }
+  .hero-title, .hero-subtitle { font-size: 36px; }
+  .hero-body { grid-template-columns: 1fr; }
+  .hero-render { margin-top: 16px; }
+  .eval-grid { grid-template-columns: 1fr; }
+  .lb-grid-4 { grid-template-columns: 1fr 1fr; }
+  .distill-layout { flex-direction: column; }
+  .distill-core { width: 100%; padding-right: 0; margin-bottom: 16px; }
+  .distill-arrow { display: none; }
+  .distill-domains { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: ANIMATED TEASER — "The Building Block Concept"         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="teaser">
+  <div class="container">
+    <div class="hero-split">
+      <div class="hero-left">
+        <div class="hero-label">OpenEnv Hackathon 2026</div>
+        <h1 class="hero-title">SuperGeneral</h1>
+        <div class="hero-subtitle">Recursive Tool-Centric Environments for General Agents</div>
+      </div>
+
+      <div class="hero-card">
+      <div class="hero-prompt" id="heroPrompt"></div>
+      <div class="hero-body">
+        <div class="hero-tree">
+          <div class="hero-tree-label" id="treeLabel"></div>
+          <div class="hero-tree-think" id="treeThink"></div>
+          <div class="hero-tree-root" id="treeRoot"></div>
+          <!-- Level 1: tree + growing -->
+          <div class="tree-row" id="tr0">
+            <span class="tree-branch">&boxvr;&boxh;</span>
+            <span class="tree-name">tree</span>
+            <span class="tree-dim">(composition)</span>
+          </div>
+          <!-- Level 2: tree parts -->
+          <div class="tree-row tree-indent" id="tr1">
+            <span class="tree-branch">&boxvr;&boxh;</span>
+            <span class="tree-name">trunk</span>
+            <span class="tree-arrow">&rarr;</span>
+            <span class="tree-ref">curve.js</span>
+            <span class="tree-check">&check;</span>
+          </div>
+          <div class="tree-row tree-indent" id="tr2">
+            <span class="tree-branch">&boxvr;&boxh;</span>
+            <span class="tree-name">branches</span>
+            <span class="tree-arrow">&rarr;</span>
+            <span class="tree-ref">path.js</span>
+            <span class="tree-check">&check;</span>
+          </div>
+          <div class="tree-row tree-indent" id="tr3">
+            <span class="tree-branch">&boxvr;&boxh;</span>
+            <span class="tree-name">forks</span>
+            <span class="tree-arrow">&rarr;</span>
+            <span class="tree-ref">circle.js</span>
+            <span class="tree-check">&check;</span>
+          </div>
+          <div class="tree-row tree-indent" id="tr4">
+            <span class="tree-branch">&boxur;&boxh;</span>
+            <span class="tree-name">blossoms</span>
+            <span class="tree-arrow">&rarr;</span>
+            <span class="tree-ref">circle.js</span>
+            <span class="tree-check">&check;</span>
+          </div>
+          <!-- Level 1 continued: growing -->
+          <div class="tree-row" id="tr5">
+            <span class="tree-branch">&boxur;&boxh;</span>
+            <span class="tree-name">growing</span>
+            <span class="tree-dim">(animation)</span>
+          </div>
+          <!-- Level 2: growth animations -->
+          <div class="tree-row tree-indent" id="tr6">
+            <span class="tree-branch">&boxvr;&boxh;</span>
+            <span class="tree-name">grow-up</span>
+            <span class="tree-arrow">&rarr;</span>
+            <span class="tree-ref">clip-path</span>
+            <span class="tree-check">&check;</span>
+          </div>
+          <div class="tree-row tree-indent" id="tr7">
+            <span class="tree-branch">&boxvr;&boxh;</span>
+            <span class="tree-name">draw-in</span>
+            <span class="tree-arrow">&rarr;</span>
+            <span class="tree-ref">stroke-dash</span>
+            <span class="tree-check">&check;</span>
+          </div>
+          <div class="tree-row tree-indent" id="tr8">
+            <span class="tree-branch">&boxur;&boxh;</span>
+            <span class="tree-name">pop</span>
+            <span class="tree-arrow">&rarr;</span>
+            <span class="tree-ref">scale</span>
+            <span class="tree-check">&check;</span>
+          </div>
+        </div>
+        <div class="hero-render" id="heroRender">
+          <svg id="svg-hero-tree" viewBox="0 0 300 300" width="100%" height="100%" style="max-width:420px;max-height:420px;"></svg>
+        </div>
+      </div>
+      <div class="hero-pipeline" id="heroPipeline">
+        <span class="hero-pipe-step">Tool Use</span>
+        <span class="hero-pipe-arrow">&rarr;</span>
+        <span class="hero-pipe-step">Tool Composition</span>
+        <span class="hero-pipe-arrow">&rarr;</span>
+        <span class="hero-pipe-step">Tool Creation</span>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: INTERACTIVE MODEL PICKER — "The Evaluation"            -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section-header"><span>01</span> &mdash; The Recomposition Evaluation</div>
+
+<div class="panel">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title" style="color:var(--green); font-family:var(--font-mono); font-weight:700;">&rsaquo; Compose an hourglass</div>
+
+  <div class="model-buttons" id="modelButtons"></div>
+
+  <div class="eval-grid">
+    <div class="traj-panel" id="trajPanel"></div>
+    <div class="render-panel" id="renderPanel"></div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: CORE PRINCIPLE + SCALE OUT — "The Distillation"        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section-header"><span>02</span> &mdash; Scale Down &rarr; Scale Out</div>
+
+<div class="panel">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title">One strategy. Every domain.</div>
+
+  <div class="distill-layout">
+    <!-- Core Strategy tree -->
+    <div class="distill-core">
+      <div class="distill-core-label">Core Strategy</div>
+      <div class="hero-tree" style="font-size:13px; line-height:2;">
+        <div class="tree-row" style="opacity:1;">
+          <span class="tree-branch">&boxvr;&boxh;</span>
+          <span class="tree-name" style="color:var(--cyan)">Tool Use</span>
+          <span class="tree-dim">&mdash; use existing building blocks</span>
+        </div>
+        <div class="tree-row" style="opacity:1;">
+          <span class="tree-branch">&boxvr;&boxh;</span>
+          <span class="tree-name" style="color:var(--cyan)">Tool Composition</span>
+          <span class="tree-dim">&mdash; combine tools for new goal</span>
+        </div>
+        <div class="tree-row" style="opacity:1;">
+          <span class="tree-branch">&boxur;&boxh;</span>
+          <span class="tree-name" style="color:var(--cyan)">Tool Creation</span>
+          <span class="tree-dim">&mdash; create new tools for the task</span>
+        </div>
+      </div>
+      <div class="distill-core-sub">Measured by file-system diff. Domain-agnostic. Learned once, applied everywhere.</div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="distill-arrow">&rarr;</div>
+
+    <!-- 4 domain columns -->
+    <div class="distill-domains">
+      <div class="domain-col d1">
+        <div class="domain-title">Hand-Draw</div>
+        <div class="hero-tree">
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">use triangle.js + line.js</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">compose: 2&times;triangle &rarr; hourglass</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxur;&boxh;</span><span style="color:var(--green)">hourglass.html</span></div>
+        </div>
+        <div class="domain-mode"><span class="domain-mode-tag visual">visual</span></div>
+      </div>
+
+      <div class="domain-col d4">
+        <div class="domain-title">Law</div>
+        <div class="hero-tree">
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">use precedent_template.txt</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">compose: facts + statute &rarr; memo</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxur;&boxh;</span><span style="color:var(--amber)">legal_memo.txt</span></div>
+        </div>
+        <div class="domain-mode"><span class="domain-mode-tag text">text-heavy</span></div>
+      </div>
+
+      <div class="domain-col d5">
+        <div class="domain-title">Consulting</div>
+        <div class="hero-tree">
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">use framework_template.md</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">compose: framework + data &rarr; deck</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxur;&boxh;</span><span style="color:var(--amber)">strategy_deck.md</span></div>
+        </div>
+        <div class="domain-mode"><span class="domain-mode-tag mixed">text + tools</span></div>
+      </div>
+
+      <div class="domain-col d2">
+        <div class="domain-title">Investment Banking</div>
+        <div class="hero-tree">
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">use xirr_tool.py + brief.txt</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">compose: cashflows + xirr &rarr; analysis</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxur;&boxh;</span><span style="color:var(--cyan)">analysis.txt</span></div>
+        </div>
+        <div class="domain-mode"><span class="domain-mode-tag tools">tool-heavy</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Part C: Cross-Domain Leaderboard — 4 columns matching domain order -->
+<div class="lb-grid-4">
+  <!-- Hand-Draw -->
+  <div class="panel lb-panel" style="border-top: 3px solid var(--green);">
+    <div class="panel-title" style="color:var(--green); font-size:12px;">Hand-Draw: Hourglass</div>
+    <table>
+      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
+      <tbody>
+        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.500</span><span class="reward-bar" style="width:50px"></span></div></td></tr>
+        <tr><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.500</span><span class="reward-bar" style="width:50px"></span></div></td></tr>
+        <tr><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.500</span><span class="reward-bar" style="width:50px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.400</span><span class="reward-bar" style="width:40px"></span></div></td></tr>
+        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Law -->
+  <div class="panel lb-panel" style="border-top: 3px solid var(--amber);">
+    <div class="panel-title" style="color:var(--amber); font-size:12px;">Law: Royalty Dispute</div>
+    <table>
+      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.730</span><span class="reward-bar" style="width:73px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.700</span><span class="reward-bar" style="width:70px"></span></div></td></tr>
+        <tr><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.670</span><span class="reward-bar" style="width:67px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.210</span><span class="reward-bar" style="width:21px"></span></div></td></tr>
+        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Consulting -->
+  <div class="panel lb-panel" style="border-top: 3px solid #c084fc;">
+    <div class="panel-title" style="color:#c084fc; font-size:12px;">Consulting: Market Entry</div>
+    <table>
+      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.850</span><span class="reward-bar" style="width:85px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.700</span><span class="reward-bar" style="width:70px"></span></div></td></tr>
+        <tr><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.550</span><span class="reward-bar" style="width:55px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.280</span><span class="reward-bar" style="width:28px"></span></div></td></tr>
+        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Investment Banking -->
+  <div class="panel lb-panel" style="border-top: 3px solid var(--cyan);">
+    <div class="panel-title" style="color:var(--cyan); font-size:12px;">Investment Banking: Financial Analysis</div>
+    <table>
+      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.741</span><span class="reward-bar" style="width:74px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.741</span><span class="reward-bar" style="width:74px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.327</span><span class="reward-bar" style="width:33px"></span></div></td></tr>
+        <tr><td>Qwen3-Coder-30B</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.327</span><span class="reward-bar" style="width:33px"></span></div></td></tr>
+        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- FOOTER                                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="footer">
+  SuperGeneral &middot; OpenEnv Hackathon 2026 &middot;
+  <a href="https://github.com/lilyzhng/OpenEnv">GitHub</a> &middot;
+  <a href="https://huggingface.co/spaces/lilyzhng/apex-env">HF Spaces</a>
+</div>
+
+</div>
+
+<script src="https://unpkg.com/roughjs/bundled/rough.js"></script>
+<script>
+// ══════════════════════════════════════════════════
+// SECTION 1: HERO — DECOMPOSITION DEMO
+// ══════════════════════════════════════════════════
+var INK = '#1a1a1a';
+var OLIVE = '#7a8c6e';
+
+function heroGrowUp(el, delay, dur) {
+  el.style.clipPath = 'inset(100% 0 0 0)';
+  el.style.animation = 'hero-grow-up ' + dur + 's ease-out ' + delay + 's forwards';
+}
+function heroDrawIn(el, delay, dur) {
+  el.querySelectorAll('path').forEach(function(p) {
+    var len = p.getTotalLength();
+    p.style.strokeDasharray = len;
+    p.style.strokeDashoffset = len;
+    p.style.animation = 'hero-draw ' + dur + 's ease-out ' + delay + 's forwards';
+  });
+}
+function heroPopIn(el, cx, cy, delay) {
+  el.style.opacity = '0';
+  el.style.transformOrigin = cx + 'px ' + cy + 'px';
+  el.style.animation = 'hero-pop 0.35s cubic-bezier(0.16,1,0.3,1) ' + delay + 's forwards';
+}
+
+// Phase groups for reverse animation
+var heroPhases = [];
+
+function drawHeroTree() {
+  var svg = document.getElementById('svg-hero-tree');
+  svg.innerHTML = '';
+  heroPhases = [];
+  var rc = rough.svg(svg);
+  var ns = 'http://www.w3.org/2000/svg';
+  var trunkOpts = { stroke: INK, strokeWidth: 4, roughness: 0.6, bowing: 0.3 };
+  var branchOpts = { stroke: OLIVE, strokeWidth: 2.5, roughness: 0.7, bowing: 0.4 };
+  var nodeOpts = { stroke: OLIVE, strokeWidth: 2.5, fill: OLIVE, fillStyle: 'solid', roughness: 0.6 };
+  var darkNodeOpts = { stroke: INK, strokeWidth: 2.5, fill: INK, fillStyle: 'solid', roughness: 0.6 };
+
+  var sway = document.createElementNS(ns, 'g');
+  sway.id = 'hero-sway';
+  sway.style.transformOrigin = '150px 275px';
+  sway.style.animation = 'hero-sway 4.2s ease-in-out 4.2s infinite';
+  svg.appendChild(sway);
+
+  var el;
+
+  // Group 0: Trunk
+  var gTrunk = document.createElementNS(ns, 'g');
+  sway.appendChild(gTrunk);
+  heroPhases.push(gTrunk);
+
+  var trunkMain = document.createElementNS(ns, 'g');
+  gTrunk.appendChild(trunkMain);
+  trunkMain.appendChild(rc.path('M 150 265 Q 148 205 145 165 Q 142 135 145 110', trunkOpts));
+  heroGrowUp(trunkMain, 0, 1.8);
+
+  el = rc.path('M 150 265 Q 135 270 125 275', trunkOpts);
+  gTrunk.appendChild(el); heroDrawIn(el, 0.5, 0.6);
+  el = rc.path('M 150 265 Q 165 272 175 277', trunkOpts);
+  gTrunk.appendChild(el); heroDrawIn(el, 0.6, 0.6);
+
+  // Group 1: Primary branches + fork
+  var gBranch = document.createElementNS(ns, 'g');
+  sway.appendChild(gBranch);
+  heroPhases.push(gBranch);
+
+  el = rc.circle(145, 110, 12, darkNodeOpts);
+  gBranch.appendChild(el); heroPopIn(el, 145, 110, 1.6);
+
+  el = rc.path('M 145 110 Q 175 95 205 80', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.75, 0.6);
+  el = rc.path('M 145 110 Q 160 80 175 55', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.78, 0.6);
+  el = rc.path('M 143 140 Q 175 140 205 135', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.82, 0.6);
+  el = rc.path('M 148 175 Q 178 180 198 190', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.85, 0.55);
+  el = rc.path('M 145 110 Q 112 92 78 78', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.80, 0.6);
+  el = rc.path('M 145 110 Q 128 78 115 52', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.84, 0.6);
+  el = rc.path('M 143 148 Q 108 150 75 158', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.87, 0.6);
+
+  // Group 2: Fork nodes + secondary branches
+  var gFork = document.createElementNS(ns, 'g');
+  sway.appendChild(gFork);
+  heroPhases.push(gFork);
+
+  el = rc.circle(205, 80, 10, darkNodeOpts);
+  gFork.appendChild(el); heroPopIn(el, 205, 80, 2.3);
+  el = rc.circle(175, 55, 10, darkNodeOpts);
+  gFork.appendChild(el); heroPopIn(el, 175, 55, 2.32);
+  el = rc.circle(205, 135, 10, darkNodeOpts);
+  gFork.appendChild(el); heroPopIn(el, 205, 135, 2.34);
+  el = rc.circle(78, 78, 10, darkNodeOpts);
+  gFork.appendChild(el); heroPopIn(el, 78, 78, 2.33);
+  el = rc.circle(115, 52, 10, darkNodeOpts);
+  gFork.appendChild(el); heroPopIn(el, 115, 52, 2.36);
+  el = rc.circle(75, 158, 10, darkNodeOpts);
+  gFork.appendChild(el); heroPopIn(el, 75, 158, 2.37);
+
+  el = rc.path('M 205 80 Q 225 70 248 55', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.5, 0.4);
+  el = rc.path('M 205 80 Q 230 90 255 95', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.52, 0.4);
+  el = rc.path('M 175 55 Q 180 40 190 30', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.52, 0.4);
+  el = rc.path('M 175 55 Q 195 50 215 45', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.54, 0.4);
+  el = rc.path('M 205 135 Q 235 130 258 140', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.54, 0.4);
+  el = rc.path('M 205 135 Q 220 155 235 170', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.56, 0.4);
+  el = rc.path('M 78 78 Q 55 62 35 50', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.53, 0.4);
+  el = rc.path('M 78 78 Q 48 82 28 92', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.55, 0.4);
+  el = rc.path('M 115 52 Q 105 35 95 25', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.57, 0.4);
+  el = rc.path('M 75 158 Q 52 168 35 178', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.58, 0.4);
+
+  // Group 3: Blossoms
+  var gBlossom = document.createElementNS(ns, 'g');
+  sway.appendChild(gBlossom);
+  heroPhases.push(gBlossom);
+
+  [[248,55,16],[255,95,14],[190,30,14],[215,45,12],
+   [258,140,16],[235,170,14],[198,190,12],
+   [35,50,15],[28,92,13],[95,25,14],[35,178,14]].forEach(function(p, i) {
+    el = rc.circle(p[0], p[1], p[2], nodeOpts);
+    gBlossom.appendChild(el);
+    heroPopIn(el, p[0], p[1], 3.0 + i * 0.02);
+  });
+}
+
+// Reverse: time-rewind — blossoms → forks/secondary → branches → trunk shrinks into ground
+function reverseHeroTree(cb) {
+  // heroPhases: [0:trunk, 1:branches, 2:forks+secondary, 3:blossoms]
+  var gap = 600;
+  var fadeDur = 0.5;
+  var shrinkDur = 1.2; // trunk shrinks slower for dramatic effect
+
+  for (var i = heroPhases.length - 1; i >= 0; i--) {
+    (function(idx) {
+      var delay = (heroPhases.length - 1 - idx) * gap;
+      setTimeout(function() {
+        if (idx === 0) {
+          // Trunk: shrink back down into the ground via clip-path
+          heroPhases[idx].style.animation = 'hero-shrink-down ' + shrinkDur + 's ease-in forwards';
+        } else {
+          // Others: fade out
+          heroPhases[idx].style.transition = 'opacity ' + fadeDur + 's ease-in';
+          heroPhases[idx].style.opacity = '0';
+        }
+      }, delay);
+    })(i);
+  }
+  // Total: 3 gaps for phases 3→2→1, then trunk shrink duration
+  var totalTime = (heroPhases.length - 1) * gap + shrinkDur * 1000;
+  setTimeout(function() { if (cb) cb(); }, totalTime);
+}
+
+function typeText(el, text, speed, cb) {
+  var i = 0;
+  el.textContent = '';
+  var cursor = document.createElement('span');
+  cursor.className = 'term-cursor';
+  el.appendChild(cursor);
+  var iv = setInterval(function() {
+    if (i < text.length) {
+      el.insertBefore(document.createTextNode(text[i]), cursor);
+      i++;
+    } else {
+      clearInterval(iv);
+      cursor.remove();
+      if (cb) cb();
+    }
+  }, speed);
+}
+
+function runTeaser() {
+  var prompt = document.getElementById('heroPrompt');
+  var label = document.getElementById('treeLabel');
+  var think = document.getElementById('treeThink');
+  var root = document.getElementById('treeRoot');
+  var rows = [];
+  for (var i = 0; i <= 8; i++) rows.push(document.getElementById('tr' + i));
+  var render = document.getElementById('heroRender');
+
+  // Phase 1: Type the prompt
+  typeText(prompt, '\u276F draw a growing cherry blossom tree', 50, function() {
+
+    // Phase 2: Thinking
+    setTimeout(function() {
+      label.textContent = '\u2234 Thinking\u2026';
+      think.innerHTML = '"growing cherry blossom tree" \u2014 new task.<br>= tree (static) + growing (animation)';
+      think.classList.add('visible');
+
+      // Phase 3: Show root + start cherry blossom tree growth + tree rows
+      setTimeout(function() {
+        root.textContent = 'growing cherry blossom tree';
+        root.classList.add('visible');
+
+        // Start the cherry blossom tree growth animation immediately
+        drawHeroTree();
+        render.classList.add('visible');
+
+        // Tree rows appear synced with growth phases
+        var delays = [
+          200,   // tr0: tree (composition)
+          600,   // tr1: trunk — syncs with trunk growing
+          1000,  // tr2: branches — syncs with branches extending
+          1600,  // tr3: forks — syncs with fork nodes popping
+          2400,  // tr4: blossoms — syncs with blossoms popping
+          2800,  // tr5: growing (animation)
+          3000,  // tr6: grow-up
+          3150,  // tr7: draw-in
+          3300   // tr8: pop
+        ];
+        rows.forEach(function(row, i) {
+          setTimeout(function() {
+            row.classList.add('visible');
+          }, delays[i]);
+        });
+
+        // After full growth + sway pause, reverse
+        setTimeout(function() {
+          // Fade out tree text in reverse order (bottom to top)
+          var rowReverse = [8,7,6,5,4,3,2,1,0];
+          rowReverse.forEach(function(idx, step) {
+            setTimeout(function() {
+              rows[idx].style.transition = 'opacity 0.3s';
+              rows[idx].style.opacity = '0';
+            }, step * 250);
+          });
+          // Simultaneously reverse the cherry blossom tree
+          reverseHeroTree(function() {
+            // Fade out remaining text
+            think.style.transition = 'opacity 0.4s';
+            think.style.opacity = '0';
+            root.style.transition = 'opacity 0.4s';
+            root.style.opacity = '0';
+            label.style.transition = 'opacity 0.4s';
+            label.style.opacity = '0';
+            render.style.transition = 'opacity 0.4s';
+            render.style.opacity = '0';
+            prompt.style.transition = 'opacity 0.4s';
+            prompt.style.opacity = '0';
+
+            // After everything fades, wait 2s then show final state
+            setTimeout(function() {
+              showHeroFinalState();
+            }, 2000);
+          });
+        }, 7000);
+      }, 800);
+    }, 350);
+  });
+}
+
+function showHeroFinalState() {
+  var prompt = document.getElementById('heroPrompt');
+  var label = document.getElementById('treeLabel');
+  var think = document.getElementById('treeThink');
+  var root = document.getElementById('treeRoot');
+  var rows = [];
+  for (var i = 0; i <= 8; i++) rows.push(document.getElementById('tr' + i));
+  var render = document.getElementById('heroRender');
+
+  // Reset transitions so everything appears instantly
+  prompt.style.transition = 'none';
+  prompt.style.opacity = '1';
+  prompt.innerHTML = '\u276F draw a growing cherry blossom tree';
+  label.style.transition = 'none'; label.style.opacity = '1';
+  label.textContent = '\u2234 Thinking\u2026';
+  think.style.transition = 'none'; think.style.opacity = '1';
+  think.classList.add('visible');
+  root.style.transition = 'none'; root.style.opacity = '1';
+  root.classList.add('visible');
+  root.textContent = 'growing cherry blossom tree';
+  rows.forEach(function(r) {
+    r.style.transition = 'none';
+    r.style.opacity = '1';
+    r.classList.add('visible');
+  });
+
+  // Redraw the cherry blossom tree in its full state (no animation)
+  drawHeroTree();
+  render.style.transition = 'none';
+  render.style.opacity = '1';
+  render.classList.add('visible');
+
+  // Remove all animations so tree appears fully grown
+  var svg = document.getElementById('svg-hero-tree');
+  svg.querySelectorAll('*').forEach(function(el) {
+    el.style.animation = 'none';
+    el.style.clipPath = 'none';
+    el.style.opacity = '1';
+    el.style.strokeDashoffset = '0';
+    el.style.transform = 'scale(1)';
+  });
+
+  // Fade in smoothly
+  var card = document.querySelector('.hero-card');
+  card.style.transition = 'opacity 0.8s';
+  card.style.opacity = '0';
+  requestAnimationFrame(function() {
+    card.style.opacity = '1';
+  });
+}
+
+// ══════════════════════════════════════════════════
+// SECTION 2: INTERACTIVE MODEL PICKER
+// ══════════════════════════════════════════════════
+var modelData = [
+  {
+    name: 'OpenAI GPT-5.4',
+    result: 'pass',
+    resultLabel: '\u2713 HOURGLASS',
+    shape: 'hourglass',
+    iframe: 'data/handdraw_v1/html/gpt54_hourglass.html',
+    criteria: '5/6',
+    reward: '0.833',
+    method: 'Read ALL files in one command. Used python3 to generate from internal knowledge.',
+    toolUse: { used: false, label: 'Knowledge-based. No analogical reasoning, no building block reuse.' },
+    blocks: [],
+    phases: [
+      { name: 'Discover', dim: '(explore workspace)', items: [
+        { cmd: 'ls -la', cls: '' },
+        { cmd: 'find . -maxdepth 2 -type f | sort', cls: '' }
+      ]},
+      { name: 'Find Nearest', dim: '(read example)', items: [
+        { cmd: 'cat specs.md template.html', cls: '' },
+        { cmd: 'cat examples/diamond.html', cls: 'example' },
+        { cmd: 'cat elements/*.js notes/*.md', cls: '' }
+      ]},
+      { name: 'Recompose', dim: '(generate)', items: [
+        { cmd: 'python3 > hourglass.html', cls: '' },
+        { cmd: 'grep + review output', cls: 'talk' },
+        { cmd: 'python3 > hourglass.html (rewrite)', cls: 'talk' }
+      ]},
+      { name: 'done', dim: '', items: [] }
+    ]
+  },
+  {
+    name: 'Claude Sonnet 4',
+    result: 'pass',
+    resultLabel: '\u2713 HOURGLASS',
+    shape: 'hourglass',
+    iframe: 'data/handdraw_v1/html/sonnet_hourglass.html',
+    criteria: '5/6',
+    reward: '0.417',
+    method: 'Discovered diamond \u2192 recognized "two triangles" \u2192 adapted orientation.',
+    toolUse: { used: true, label: 'Full analogical reasoning. Reused triangle.js + line.js, adapted diamond pattern.' },
+    blocks: ['triangle', 'line'],
+    phases: [
+      { name: 'Discover', dim: '(explore workspace)', items: [
+        { cmd: 'ls', cls: '' },
+        { cmd: 'cat specs.md', cls: '' },
+        { cmd: 'cat template.html', cls: '' }
+      ]},
+      { name: 'Find Nearest', dim: '(find reference)', items: [
+        { cmd: 'ls elements', cls: '' },
+        { cmd: 'ls examples', cls: '' },
+        { cmd: 'cat examples/diamond.html', cls: 'example' }
+      ]},
+      { name: 'Decompose', dim: '(understand parts)', items: [
+        { cmd: 'cat elements/triangle.js', cls: '' },
+        { cmd: 'cat elements/line.js', cls: '' }
+      ]},
+      { name: 'Recompose', dim: '(adapt & write)', items: [
+        { cmd: 'cat > hourglass.html \u2190 adapted!', cls: 'done' },
+        { cmd: 'rewrites (add caps, sand)...', cls: 'talk' }
+      ]},
+      { name: 'done', dim: '', items: [] }
+    ]
+  },
+  {
+    name: 'OpenAI GPT-4o-mini',
+    result: 'fail',
+    resultLabel: '\u2717 DIAMOND',
+    shape: 'diamond',
+    iframe: 'data/handdraw_v1/html/gpt4omini_hourglass.html',
+    criteria: '5/6',
+    reward: '0.667',
+    method: 'Wrote output immediately, then explored. Kept rewriting with broken approach.',
+    toolUse: { used: true, label: 'Partial. Read line.js + diamond example, but failed to adapt. Wrong order: wrote before exploring.' },
+    blocks: ['line'],
+    phases: [
+      { name: 'Discover', dim: '(explore workspace)', items: [
+        { cmd: 'ls', cls: '' },
+        { cmd: 'cat specs.md', cls: '' }
+      ]},
+      { name: 'Recompose', dim: '(write too early!)', items: [
+        { cmd: 'template.html > hourglass.html', cls: '' },
+        { cmd: 'echo > hourglass.html (overwrite)', cls: '' }
+      ]},
+      { name: 'Find Nearest', dim: '(too late)', items: [
+        { cmd: 'ls elements/', cls: '' },
+        { cmd: 'cat elements/line.js', cls: '' },
+        { cmd: 'ls examples/', cls: '' },
+        { cmd: 'cat examples/diamond.html', cls: 'example' }
+      ]},
+      { name: 'Recompose', dim: '(retry \u00D7 3)', items: [
+        { cmd: 'echo > hourglass.html (rewrite)', cls: '' },
+        { cmd: 'rewrites \u00D7 3...', cls: 'talk' }
+      ]},
+      { name: 'done', dim: '', items: [] }
+    ]
+  },
+  {
+    name: 'Qwen3-Coder-30B-A3B-Instruct',
+    result: 'unclear',
+    resultLabel: '? UNCLEAR',
+    shape: 'unclear',
+    iframe: 'data/handdraw_v1/html/qwen30b_hourglass_v2.html',
+    criteria: '5/6',
+    reward: '0.667',
+    method: 'Thorough exploration. Read all elements + diamond example, but built from scratch.',
+    toolUse: { used: false, label: 'No analogical reasoning. Read everything but did not reuse any building blocks.' },
+    blocks: [],
+    phases: [
+      { name: 'Discover', dim: '(explore workspace)', items: [
+        { cmd: 'ls -la', cls: '' },
+        { cmd: 'cat specs.md', cls: '' },
+        { cmd: 'cat template.html', cls: '' }
+      ]},
+      { name: 'Decompose', dim: '(read all parts)', items: [
+        { cmd: 'ls -la elements/', cls: '' },
+        { cmd: 'cat elements/*.js', cls: '' }
+      ]},
+      { name: 'Find Nearest', dim: '(find reference)', items: [
+        { cmd: 'ls -la examples/', cls: '' },
+        { cmd: 'cat examples/diamond.html', cls: 'example' }
+      ]},
+      { name: 'Recompose', dim: '(build from scratch)', items: [
+        { cmd: 'cat > hourglass.html', cls: '' },
+        { cmd: 'cat hourglass.html (review)', cls: 'talk' }
+      ]},
+      { name: 'done', dim: '', items: [] }
+    ]
+  },
+  {
+    name: 'DeepSeek V3',
+    result: 'fail',
+    resultLabel: '\u2717 DIAMOND',
+    shape: 'diamond',
+    iframe: 'data/handdraw_v1/html/deepseek_hourglass.html',
+    criteria: '4/6',
+    reward: '0.500',
+    method: 'Read everything thoroughly. Copied diamond structure into output.',
+    toolUse: { used: true, label: 'Read all 5 elements, but copied diamond verbatim. No adaptation \u2014 same orientation = still a diamond.' },
+    blocks: ['triangle', 'rectangle', 'line', 'circle', 'arc'],
+    phases: [
+      { name: 'Discover', dim: '(explore workspace)', items: [
+        { cmd: 'ls', cls: '' },
+        { cmd: 'cat specs.md', cls: '' },
+        { cmd: 'cat template.html', cls: '' }
+      ]},
+      { name: 'Find Nearest', dim: '(find reference)', items: [
+        { cmd: 'cat examples/hourglass.html (404)', cls: 'talk' },
+        { cmd: 'ls examples', cls: '' },
+        { cmd: 'cat examples/diamond.html', cls: 'example' }
+      ]},
+      { name: 'Decompose', dim: '(read all elements)', items: [
+        { cmd: 'ls elements', cls: '' },
+        { cmd: 'cat elements/triangle.js', cls: '' },
+        { cmd: 'cat elements/rectangle.js', cls: '' },
+        { cmd: 'cat elements/line.js', cls: '' },
+        { cmd: 'cat elements/circle.js', cls: '' },
+        { cmd: 'cat elements/arc.js', cls: '' }
+      ]},
+      { name: 'Recompose', dim: '(copy, no adapt)', items: [
+        { cmd: 'template > hourglass.html + script', cls: '' }
+      ]},
+      { name: 'done', dim: '', items: [] }
+    ]
+  }
+];
+
+function drawBlockThumbnails(blocks) {
+  var container = document.getElementById('trajBlocks');
+  if (!blocks || !blocks.length) { container.innerHTML = ''; return; }
+  container.innerHTML = '';
+  var sz = 48;
+  var ink = '#1a1a1a';
+  var opts = { stroke: ink, strokeWidth: 1.8, roughness: 0.8 };
+
+  blocks.forEach(function(name) {
+    var div = document.createElement('div');
+    div.className = 'block-thumb';
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + sz + ' ' + sz);
+    svg.setAttribute('width', sz);
+    svg.setAttribute('height', sz);
+    div.appendChild(svg);
+    var label = document.createElement('span');
+    label.className = 'block-thumb-label';
+    label.textContent = name;
+    div.appendChild(label);
+    container.appendChild(div);
+
+    var rc = rough.svg(svg);
+    var m = sz / 2;
+    var p = 8;
+    switch (name) {
+      case 'triangle':
+        svg.appendChild(rc.polygon([[m, p], [sz - p, sz - p], [p, sz - p]], opts));
+        break;
+      case 'rectangle':
+        svg.appendChild(rc.rectangle(p, p + 4, sz - 2*p, sz - 2*p - 8, opts));
+        break;
+      case 'line':
+        svg.appendChild(rc.line(p, sz - p, sz - p, p, opts));
+        break;
+      case 'circle':
+        svg.appendChild(rc.circle(m, m, sz - 2*p, opts));
+        break;
+      case 'arc':
+        svg.appendChild(rc.arc(m, m + 6, sz - 2*p, sz - 2*p, Math.PI, 2 * Math.PI, false, opts));
+        break;
+      case 'polygon':
+        svg.appendChild(rc.polygon([[m, p], [sz - p, sz - p - 4], [p, sz - p - 4]], opts));
+        svg.appendChild(rc.polygon([[p, sz - p - 4], [sz - p, sz - p - 4], [m - 2, p + 2]], { stroke: ink, strokeWidth: 1.2, roughness: 0.6 }));
+        break;
+    }
+  });
+
+}
+
+function renderModel(idx) {
+  // Update buttons
+  document.querySelectorAll('.model-btn').forEach(function(btn, i) {
+    btn.classList.toggle('active', i === idx);
+  });
+
+  var m = modelData[idx];
+
+  // Trajectory panel — tree structure
+  var trajPanel = document.getElementById('trajPanel');
+  var treeHtml = '';
+  var phases = m.phases;
+  for (var p = 0; p < phases.length; p++) {
+    var phase = phases[p];
+    var isLast = (p === phases.length - 1);
+    var branch = isLast ? '\u2514\u2500' : '\u251C\u2500';
+    // Phase name color
+    var nameColor = 'var(--text-light)';
+    if (phase.name === 'done') nameColor = 'var(--green)';
+    // Phase row
+    treeHtml += '<div class="tree-row" style="opacity:1;">' +
+      '<span class="tree-branch">' + branch + '</span>' +
+      '<span class="tree-name" style="color:' + nameColor + '">' + phase.name + '</span>';
+    if (phase.dim) treeHtml += '<span class="tree-dim">' + phase.dim + '</span>';
+    treeHtml += '</div>';
+    // Child items
+    for (var c = 0; c < phase.items.length; c++) {
+      var item = phase.items[c];
+      var childIsLast = (c === phase.items.length - 1);
+      var childBranch = childIsLast ? '\u2514\u2500' : '\u251C\u2500';
+      var prefix = isLast ? '&nbsp;&nbsp;&nbsp;' : '\u2502&nbsp;&nbsp;';
+      var cmdColor = 'var(--text-dim)';
+      if (item.cls === 'example') cmdColor = 'var(--amber)';
+      else if (item.cls === 'done') cmdColor = 'var(--green)';
+      else if (item.cls === 'talk') cmdColor = '#555';
+      treeHtml += '<div class="tree-row tree-indent" style="opacity:1;">' +
+        '<span class="tree-branch">' + prefix + childBranch + '</span>' +
+        '<span style="color:' + cmdColor + '">' + item.cmd + '</span>' +
+        '</div>';
+    }
+  }
+
+  trajPanel.innerHTML =
+    '<div class="traj-header">' +
+      '<span class="traj-model">Agent Trajectory</span>' +
+      '<span class="traj-result ' + m.result + '">' + m.resultLabel + '</span>' +
+    '</div>' +
+    '<div class="hero-tree" style="margin-bottom:12px;">' + treeHtml + '</div>' +
+    '<div class="traj-summary"><strong>Method:</strong> ' + m.method + '</div>' +
+    '<div class="traj-tool-use">' +
+      '<strong>Tool Use:</strong> ' +
+      (m.toolUse.used
+        ? '<span class="tool-use-yes">\u2713 Yes</span> '
+        : '<span class="tool-use-no">\u2717 None</span> ') +
+      '<span class="tool-use-detail">' + m.toolUse.label + '</span>' +
+      '<div id="trajBlocks" class="traj-blocks-inline"></div>' +
+    '</div>';
+
+  // Draw building block thumbnails
+  drawBlockThumbnails(m.blocks);
+
+  // Render panel
+  var renderPanel = document.getElementById('renderPanel');
+  renderPanel.innerHTML =
+    '<div class="render-header">' + m.name + ' &mdash; Final Render</div>' +
+    '<div class="render-frame"><iframe src="' + m.iframe + '" sandbox="allow-scripts" loading="lazy"></iframe></div>' +
+    '<div style="font-family:var(--font-mono);font-size:11px;color:var(--text-dim);text-align:center;margin-top:12px;">' +
+      'Criteria: ' + m.criteria + ' &middot; Reward: ' + m.reward +
+    '</div>';
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+  // Build model buttons
+  var btnContainer = document.getElementById('modelButtons');
+  modelData.forEach(function(m, i) {
+    var btn = document.createElement('button');
+    btn.className = 'model-btn';
+    btn.textContent = m.name;
+    btn.onclick = function() { renderModel(i); };
+    btnContainer.appendChild(btn);
+  });
+
+  // Default to first model
+  renderModel(0);
+
+  // Start hero animation
+  runTeaser();
+});
+</script>
+</body>
+</html>
