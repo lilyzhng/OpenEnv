@@ -146,6 +146,11 @@ class BuildingBlockEnvironment:
         self._workspace: Path | None = None
         self._actions: list[str] = []
         self._step_count: int = 0
+        self._progress_history: list[int] = []  # criteria_met per step
+        self._has_read_brief: bool = False
+        self._has_explored_tools: bool = False
+        self._scripts_written: set[str] = set()
+        self._scripts_run: set[str] = set()
 
     def reset(self) -> dict:
         """Create explorable workspace, return minimal instruction."""
@@ -155,6 +160,11 @@ class BuildingBlockEnvironment:
         self._workspace = Path(tempfile.mkdtemp(prefix="apex_bb_"))
         self._actions = []
         self._step_count = 0
+        self._progress_history = []
+        self._has_read_brief = False
+        self._has_explored_tools = False
+        self._scripts_written = set()
+        self._scripts_run = set()
 
         # Create directory structure
         (self._workspace / "briefs").mkdir()
@@ -216,11 +226,15 @@ class BuildingBlockEnvironment:
         if command.strip().lower() == "done":
             return self._finish()
 
+        # Track behavior patterns
+        self._track_behavior(command)
+
         # Execute
         result = self._executor.run(command, cwd=self._workspace, timeout_s=30.0)
 
         # Per-step criteria feedback (principle 2: tell if right)
         criteria_met = self._count_criteria_met()
+        self._progress_history.append(criteria_met)
 
         # Build feedback
         parts = []
@@ -234,6 +248,11 @@ class BuildingBlockEnvironment:
         # Progress feedback — just the score, no hints
         parts.append(f"\n[Progress: {criteria_met}/{len(CRITERIA)} criteria met]")
 
+        # Meta-feedback — coach behavior patterns, never give answers
+        meta = self._get_meta_feedback(command)
+        if meta:
+            parts.append(f"[Hint: {meta}]")
+
         return {
             "stdout": "\n".join(parts),
             "stderr": result.stderr,
@@ -244,6 +263,75 @@ class BuildingBlockEnvironment:
             "criteria_total": len(CRITERIA),
             "step": self._step_count,
         }
+
+    def _track_behavior(self, command: str):
+        """Track agent behavior patterns for meta-feedback."""
+        cmd = command.strip().lower()
+
+        # Track if agent read any brief
+        if any(kw in cmd for kw in ["cat briefs/", "head briefs/", "less briefs/",
+                                     "cat ./briefs/", "briefs/katnip"]):
+            self._has_read_brief = True
+
+        # Track if agent explored tools/
+        if any(kw in cmd for kw in ["ls tools", "ls ./tools", "cat tools/",
+                                     "find . -name", "find . -type"]):
+            if "tools" in cmd:
+                self._has_explored_tools = True
+
+        # Track scripts written vs run
+        import re
+        # Detect file writes: > foo.py, >> foo.py, cat > foo.py, echo ... > foo.py
+        write_match = re.search(r'>\s*(\S+\.py)', cmd)
+        if write_match:
+            self._scripts_written.add(write_match.group(1))
+
+        # Detect script runs: python3 foo.py, python foo.py
+        run_match = re.search(r'python3?\s+(\S+\.py)', cmd)
+        if run_match:
+            self._scripts_run.add(run_match.group(1))
+
+    def _get_meta_feedback(self, command: str) -> str | None:
+        """Generate meta-strategy hints based on behavior patterns.
+
+        Key principle: tell agent WHAT to do differently (meta-strategy),
+        never WHERE to find the answer (specific content).
+
+        Like a coach saying "check the library" not "page 47, paragraph 3".
+        """
+        # Stalled: no progress for 3+ consecutive turns
+        if len(self._progress_history) >= 3:
+            recent = self._progress_history[-3:]
+            if len(set(recent)) == 1 and self._step_count >= 5:
+                return "No progress in 3 turns. Consider a different approach."
+
+        # Never read any brief — doesn't know what's being asked
+        if not self._has_read_brief and self._step_count >= 4:
+            return "You haven't read any briefing documents yet."
+
+        # Never explored tools/ — missing available building blocks
+        if not self._has_explored_tools and self._step_count >= 6:
+            return "Have you explored all directories in your workspace?"
+
+        # Wrote script but didn't run it
+        unrun = self._scripts_written - self._scripts_run
+        if unrun:
+            return f"You wrote {', '.join(sorted(unrun))} but haven't executed it yet."
+
+        # Repeating same command pattern (same file target 3+ times)
+        if len(self._actions) >= 3:
+            last_3 = self._actions[-3:]
+            # Check if all 3 target the same output file
+            import re
+            targets = []
+            for a in last_3:
+                m = re.search(r'>\s*(\S+)', a)
+                if m:
+                    targets.append(m.group(1))
+            if len(targets) == 3 and len(set(targets)) == 1:
+                return f"You've written to {targets[0]} 3 times in a row. Try a different approach."
+
+        return None
 
     def _count_criteria_met(self) -> int:
         if not self._workspace or not self._workspace.exists():

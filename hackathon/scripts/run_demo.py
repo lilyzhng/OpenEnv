@@ -166,7 +166,7 @@ def extract_command(response: str) -> str:
 
 def main():
     parser = argparse.ArgumentParser(description="Run agent through phased KatNip environment")
-    parser.add_argument("--model", default="openai/gpt-4o-mini")
+    parser.add_argument("--model", default="qwen/qwen3-coder-30b-a3b-instruct")
     parser.add_argument("--max-turns", type=int, default=30)
     parser.add_argument("--sandbox", action="store_true")
     args = parser.parse_args()
