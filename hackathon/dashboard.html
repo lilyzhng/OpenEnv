@@ -147,20 +147,18 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 }
 .hero-pipe-arrow { color: var(--text-dim); padding: 0 6px; }
 
-/* Flower animations */
+/* Cherry blossom growth animations */
+@keyframes hero-grow-up { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes hero-shrink-down { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(100% 0 0 0); } }
+@keyframes hero-draw { to { stroke-dashoffset: 0; } }
+@keyframes hero-pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 @keyframes hero-sway {
   0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(1.5deg); }
-  75% { transform: rotate(-1.8deg); }
+  25% { transform: rotate(1.2deg); }
+  75% { transform: rotate(-1.5deg); }
 }
-@keyframes hero-breathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-}
-@keyframes hero-bob {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-3deg); }
-}
+/* Reverse: fade out */
+@keyframes hero-fade-out { to { opacity: 0; } }
 
 /* ══════════════════════════════════════════════ */
 /* SECTION 2: MODEL PICKER                       */
@@ -337,72 +335,72 @@ tr.wrong td.shape { color: var(--red); }
           <div class="hero-tree-label" id="treeLabel"></div>
           <div class="hero-tree-think" id="treeThink"></div>
           <div class="hero-tree-root" id="treeRoot"></div>
-          <!-- Level 1: blooming flower → flower + blooming -->
+          <!-- Level 1: tree + growing -->
           <div class="tree-row" id="tr0">
             <span class="tree-branch">&boxvr;&boxh;</span>
-            <span class="tree-name">flower</span>
+            <span class="tree-name">tree</span>
             <span class="tree-dim">(composition)</span>
           </div>
-          <!-- Level 2: flower → parts -->
+          <!-- Level 2: tree parts -->
           <div class="tree-row tree-indent" id="tr1">
             <span class="tree-branch">&boxvr;&boxh;</span>
-            <span class="tree-name">petals</span>
-            <span class="tree-arrow">&rarr;</span>
-            <span class="tree-ref">5 &times; arc.js</span>
-            <span class="tree-check">&check;</span>
-          </div>
-          <div class="tree-row tree-indent" id="tr2">
-            <span class="tree-branch">&boxvr;&boxh;</span>
-            <span class="tree-name">center</span>
-            <span class="tree-arrow">&rarr;</span>
-            <span class="tree-ref">circle.js</span>
-            <span class="tree-check">&check;</span>
-          </div>
-          <div class="tree-row tree-indent" id="tr3">
-            <span class="tree-branch">&boxvr;&boxh;</span>
-            <span class="tree-name">stem</span>
+            <span class="tree-name">trunk</span>
             <span class="tree-arrow">&rarr;</span>
             <span class="tree-ref">curve.js</span>
             <span class="tree-check">&check;</span>
           </div>
-          <div class="tree-row tree-indent" id="tr4">
-            <span class="tree-branch">&boxur;&boxh;</span>
-            <span class="tree-name">leaf</span>
+          <div class="tree-row tree-indent" id="tr2">
+            <span class="tree-branch">&boxvr;&boxh;</span>
+            <span class="tree-name">branches</span>
             <span class="tree-arrow">&rarr;</span>
-            <span class="tree-ref">arc.js</span>
+            <span class="tree-ref">path.js</span>
             <span class="tree-check">&check;</span>
           </div>
-          <!-- Level 1 continued: blooming -->
+          <div class="tree-row tree-indent" id="tr3">
+            <span class="tree-branch">&boxvr;&boxh;</span>
+            <span class="tree-name">forks</span>
+            <span class="tree-arrow">&rarr;</span>
+            <span class="tree-ref">circle.js</span>
+            <span class="tree-check">&check;</span>
+          </div>
+          <div class="tree-row tree-indent" id="tr4">
+            <span class="tree-branch">&boxur;&boxh;</span>
+            <span class="tree-name">blossoms</span>
+            <span class="tree-arrow">&rarr;</span>
+            <span class="tree-ref">circle.js</span>
+            <span class="tree-check">&check;</span>
+          </div>
+          <!-- Level 1 continued: growing -->
           <div class="tree-row" id="tr5">
             <span class="tree-branch">&boxur;&boxh;</span>
-            <span class="tree-name">blooming</span>
+            <span class="tree-name">growing</span>
             <span class="tree-dim">(animation)</span>
           </div>
-          <!-- Level 2: blooming → animations -->
+          <!-- Level 2: growth animations -->
           <div class="tree-row tree-indent" id="tr6">
             <span class="tree-branch">&boxvr;&boxh;</span>
-            <span class="tree-name">sway</span>
+            <span class="tree-name">grow-up</span>
             <span class="tree-arrow">&rarr;</span>
-            <span class="tree-ref">keyframe</span>
+            <span class="tree-ref">clip-path</span>
             <span class="tree-check">&check;</span>
           </div>
           <div class="tree-row tree-indent" id="tr7">
             <span class="tree-branch">&boxvr;&boxh;</span>
-            <span class="tree-name">breathe</span>
+            <span class="tree-name">draw-in</span>
             <span class="tree-arrow">&rarr;</span>
-            <span class="tree-ref">keyframe</span>
+            <span class="tree-ref">stroke-dash</span>
             <span class="tree-check">&check;</span>
           </div>
           <div class="tree-row tree-indent" id="tr8">
             <span class="tree-branch">&boxur;&boxh;</span>
-            <span class="tree-name">bob</span>
+            <span class="tree-name">pop</span>
             <span class="tree-arrow">&rarr;</span>
-            <span class="tree-ref">keyframe</span>
+            <span class="tree-ref">scale</span>
             <span class="tree-check">&check;</span>
           </div>
         </div>
         <div class="hero-render" id="heroRender">
-          <svg id="svg-hero-flower" viewBox="0 0 300 300" width="100%" height="100%" style="max-width:340px;max-height:340px;"></svg>
+          <svg id="svg-hero-tree" viewBox="0 0 300 300" width="100%" height="100%" style="max-width:340px;max-height:340px;"></svg>
         </div>
       </div>
     </div>
@@ -569,48 +567,162 @@ tr.wrong td.shape { color: var(--red); }
 var INK = '#1a1a1a';
 var OLIVE = '#7a8c6e';
 
-function drawHeroFlower() {
-  var svg = document.getElementById('svg-hero-flower');
+function heroGrowUp(el, delay, dur) {
+  el.style.clipPath = 'inset(100% 0 0 0)';
+  el.style.animation = 'hero-grow-up ' + dur + 's ease-out ' + delay + 's forwards';
+}
+function heroDrawIn(el, delay, dur) {
+  el.querySelectorAll('path').forEach(function(p) {
+    var len = p.getTotalLength();
+    p.style.strokeDasharray = len;
+    p.style.strokeDashoffset = len;
+    p.style.animation = 'hero-draw ' + dur + 's ease-out ' + delay + 's forwards';
+  });
+}
+function heroPopIn(el, cx, cy, delay) {
+  el.style.opacity = '0';
+  el.style.transformOrigin = cx + 'px ' + cy + 'px';
+  el.style.animation = 'hero-pop 0.35s cubic-bezier(0.16,1,0.3,1) ' + delay + 's forwards';
+}
+
+// Phase groups for reverse animation
+var heroPhases = [];
+
+function drawHeroTree() {
+  var svg = document.getElementById('svg-hero-tree');
   svg.innerHTML = '';
+  heroPhases = [];
   var rc = rough.svg(svg);
   var ns = 'http://www.w3.org/2000/svg';
-  var petalOpts = { stroke: INK, strokeWidth: 3, fill: 'none', roughness: 0.8 };
+  var trunkOpts = { stroke: INK, strokeWidth: 4, roughness: 0.6, bowing: 0.3 };
+  var branchOpts = { stroke: OLIVE, strokeWidth: 2.5, roughness: 0.7, bowing: 0.4 };
+  var nodeOpts = { stroke: OLIVE, strokeWidth: 2.5, fill: OLIVE, fillStyle: 'solid', roughness: 0.6 };
+  var darkNodeOpts = { stroke: INK, strokeWidth: 2.5, fill: INK, fillStyle: 'solid', roughness: 0.6 };
 
   var sway = document.createElementNS(ns, 'g');
+  sway.id = 'hero-sway';
   sway.style.transformOrigin = '150px 275px';
-  sway.style.animation = 'hero-sway 4s ease-in-out infinite';
+  sway.style.animation = 'hero-sway 4.2s ease-in-out 4.2s infinite';
   svg.appendChild(sway);
 
-  var stemG = document.createElementNS(ns, 'g'); sway.appendChild(stemG);
-  var head = document.createElementNS(ns, 'g');
-  head.style.transformOrigin = '150px 120px';
-  head.style.animation = 'hero-breathe 3.5s ease-in-out infinite';
-  sway.appendChild(head);
-  var leaf = document.createElementNS(ns, 'g');
-  leaf.style.transformOrigin = '146px 208px';
-  leaf.style.animation = 'hero-bob 2.8s ease-in-out infinite';
-  sway.appendChild(leaf);
+  var el;
 
-  // Stem (curve.js)
-  stemG.appendChild(rc.curve(
-    [[150, 136], [148, 168], [145, 205], [148, 242], [152, 275]],
-    { stroke: INK, strokeWidth: 3.5, roughness: 0.6, bowing: 0.3 }
-  ));
-  // 5 petals (arc.js × 5)
-  head.appendChild(rc.path('M 143 110 Q 122 68 146 28 Q 172 72 157 110', petalOpts));
-  head.appendChild(rc.path('M 160 112 Q 202 78 228 72 Q 210 118 165 126', petalOpts));
-  head.appendChild(rc.path('M 162 130 Q 208 142 222 175 Q 188 162 155 140', petalOpts));
-  head.appendChild(rc.path('M 138 138 Q 98 158 72 162 Q 88 128 135 128', petalOpts));
-  head.appendChild(rc.path('M 138 115 Q 95 98 75 62 Q 115 78 142 110', petalOpts));
-  // Center (circle.js)
-  head.appendChild(rc.circle(150, 122, 28, {
-    stroke: OLIVE, strokeWidth: 2.5, fill: OLIVE, fillStyle: 'solid', roughness: 0.6
-  }));
-  // Leaf (arc.js)
-  leaf.appendChild(rc.path(
-    'M 146 208 Q 118 195 98 182 Q 122 205 146 210',
-    { stroke: OLIVE, strokeWidth: 2.5, fill: 'none', roughness: 0.7 }
-  ));
+  // Group 0: Trunk
+  var gTrunk = document.createElementNS(ns, 'g');
+  sway.appendChild(gTrunk);
+  heroPhases.push(gTrunk);
+
+  var trunkMain = document.createElementNS(ns, 'g');
+  gTrunk.appendChild(trunkMain);
+  trunkMain.appendChild(rc.path('M 150 265 Q 148 205 145 165 Q 142 135 145 110', trunkOpts));
+  heroGrowUp(trunkMain, 0, 1.8);
+
+  el = rc.path('M 150 265 Q 135 270 125 275', trunkOpts);
+  gTrunk.appendChild(el); heroDrawIn(el, 0.5, 0.6);
+  el = rc.path('M 150 265 Q 165 272 175 277', trunkOpts);
+  gTrunk.appendChild(el); heroDrawIn(el, 0.6, 0.6);
+
+  // Group 1: Primary branches + fork
+  var gBranch = document.createElementNS(ns, 'g');
+  sway.appendChild(gBranch);
+  heroPhases.push(gBranch);
+
+  el = rc.circle(145, 110, 12, darkNodeOpts);
+  gBranch.appendChild(el); heroPopIn(el, 145, 110, 1.6);
+
+  el = rc.path('M 145 110 Q 175 95 205 80', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.75, 0.6);
+  el = rc.path('M 145 110 Q 160 80 175 55', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.78, 0.6);
+  el = rc.path('M 143 140 Q 175 140 205 135', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.82, 0.6);
+  el = rc.path('M 148 175 Q 178 180 198 190', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.85, 0.55);
+  el = rc.path('M 145 110 Q 112 92 78 78', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.80, 0.6);
+  el = rc.path('M 145 110 Q 128 78 115 52', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.84, 0.6);
+  el = rc.path('M 143 148 Q 108 150 75 158', branchOpts);
+  gBranch.appendChild(el); heroDrawIn(el, 1.87, 0.6);
+
+  // Group 2: Fork nodes + secondary branches
+  var gFork = document.createElementNS(ns, 'g');
+  sway.appendChild(gFork);
+  heroPhases.push(gFork);
+
+  el = rc.circle(205, 80, 10, darkNodeOpts);
+  gFork.appendChild(el); heroPopIn(el, 205, 80, 2.3);
+  el = rc.circle(175, 55, 10, darkNodeOpts);
+  gFork.appendChild(el); heroPopIn(el, 175, 55, 2.32);
+  el = rc.circle(205, 135, 10, darkNodeOpts);
+  gFork.appendChild(el); heroPopIn(el, 205, 135, 2.34);
+  el = rc.circle(78, 78, 10, darkNodeOpts);
+  gFork.appendChild(el); heroPopIn(el, 78, 78, 2.33);
+  el = rc.circle(115, 52, 10, darkNodeOpts);
+  gFork.appendChild(el); heroPopIn(el, 115, 52, 2.36);
+  el = rc.circle(75, 158, 10, darkNodeOpts);
+  gFork.appendChild(el); heroPopIn(el, 75, 158, 2.37);
+
+  el = rc.path('M 205 80 Q 225 70 248 55', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.5, 0.4);
+  el = rc.path('M 205 80 Q 230 90 255 95', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.52, 0.4);
+  el = rc.path('M 175 55 Q 180 40 190 30', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.52, 0.4);
+  el = rc.path('M 175 55 Q 195 50 215 45', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.54, 0.4);
+  el = rc.path('M 205 135 Q 235 130 258 140', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.54, 0.4);
+  el = rc.path('M 205 135 Q 220 155 235 170', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.56, 0.4);
+  el = rc.path('M 78 78 Q 55 62 35 50', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.53, 0.4);
+  el = rc.path('M 78 78 Q 48 82 28 92', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.55, 0.4);
+  el = rc.path('M 115 52 Q 105 35 95 25', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.57, 0.4);
+  el = rc.path('M 75 158 Q 52 168 35 178', branchOpts);
+  gFork.appendChild(el); heroDrawIn(el, 2.58, 0.4);
+
+  // Group 3: Blossoms
+  var gBlossom = document.createElementNS(ns, 'g');
+  sway.appendChild(gBlossom);
+  heroPhases.push(gBlossom);
+
+  [[248,55,16],[255,95,14],[190,30,14],[215,45,12],
+   [258,140,16],[235,170,14],[198,190,12],
+   [35,50,15],[28,92,13],[95,25,14],[35,178,14]].forEach(function(p, i) {
+    el = rc.circle(p[0], p[1], p[2], nodeOpts);
+    gBlossom.appendChild(el);
+    heroPopIn(el, p[0], p[1], 3.0 + i * 0.02);
+  });
+}
+
+// Reverse: time-rewind — blossoms → forks/secondary → branches → trunk shrinks into ground
+function reverseHeroTree(cb) {
+  // heroPhases: [0:trunk, 1:branches, 2:forks+secondary, 3:blossoms]
+  var gap = 600;
+  var fadeDur = 0.5;
+  var shrinkDur = 1.2; // trunk shrinks slower for dramatic effect
+
+  for (var i = heroPhases.length - 1; i >= 0; i--) {
+    (function(idx) {
+      var delay = (heroPhases.length - 1 - idx) * gap;
+      setTimeout(function() {
+        if (idx === 0) {
+          // Trunk: shrink back down into the ground via clip-path
+          heroPhases[idx].style.animation = 'hero-shrink-down ' + shrinkDur + 's ease-in forwards';
+        } else {
+          // Others: fade out
+          heroPhases[idx].style.transition = 'opacity ' + fadeDur + 's ease-in';
+          heroPhases[idx].style.opacity = '0';
+        }
+      }, delay);
+    })(i);
+  }
+  // Total: 3 gaps for phases 3→2→1, then trunk shrink duration
+  var totalTime = (heroPhases.length - 1) * gap + shrinkDur * 1000;
+  setTimeout(function() { if (cb) cb(); }, totalTime);
 }
 
 function typeText(el, text, speed, cb) {
@@ -642,37 +754,98 @@ function runTeaser() {
   var pipeline = document.getElementById('heroPipeline');
 
   // Phase 1: Type the prompt
-  typeText(prompt, '\u276F draw a blooming flower', 50, function() {
+  typeText(prompt, '\u276F draw a growing cherry blossom', 50, function() {
 
-    // Phase 2: Thinking — agent reasons about what it needs
+    // Phase 2: Thinking
     setTimeout(function() {
       label.textContent = '\u2234 Thinking\u2026';
-      think.innerHTML = '"blooming flower" \u2014 never drawn one.<br>= flower (static) + blooming (alive)';
+      think.innerHTML = '"growing cherry blossom" \u2014 never drawn one.<br>= tree (static) + growing (animation)';
       think.classList.add('visible');
 
-      // Phase 3: Show root + first level decomposition
+      // Phase 3: Show root + start cherry blossom growth + tree rows
       setTimeout(function() {
-        root.textContent = 'blooming flower';
+        root.textContent = 'growing cherry blossom';
         root.classList.add('visible');
 
-        // Tree rows appear one by one
-        var d = 200;
+        // Start the cherry blossom growth animation immediately
+        drawHeroTree();
+        render.classList.add('visible');
+
+        // Tree rows appear synced with growth phases
+        var delays = [
+          200,   // tr0: tree (composition)
+          600,   // tr1: trunk — syncs with trunk growing
+          1000,  // tr2: branches — syncs with branches extending
+          1600,  // tr3: forks — syncs with fork nodes popping
+          2400,  // tr4: blossoms — syncs with blossoms popping
+          2800,  // tr5: growing (animation)
+          3000,  // tr6: grow-up
+          3150,  // tr7: draw-in
+          3300   // tr8: pop
+        ];
         rows.forEach(function(row, i) {
           setTimeout(function() {
             row.classList.add('visible');
-          }, d * (i + 1));
+          }, delays[i]);
         });
 
-        // Phase 4: After all rows, render the flower
+        // Pipeline after growth
         setTimeout(function() {
-          drawHeroFlower();
-          render.classList.add('visible');
+          pipeline.classList.add('visible');
+        }, 4000);
 
-          // Phase 5: Pipeline
-          setTimeout(function() {
-            pipeline.classList.add('visible');
-          }, 600);
-        }, d * rows.length + 400);
+        // After full growth + sway pause, reverse
+        setTimeout(function() {
+          // Fade out tree text in reverse order (bottom to top)
+          var rowReverse = [8,7,6,5,4,3,2,1,0];
+          rowReverse.forEach(function(idx, step) {
+            setTimeout(function() {
+              rows[idx].style.transition = 'opacity 0.3s';
+              rows[idx].style.opacity = '0';
+            }, step * 250);
+          });
+          // Simultaneously reverse the cherry blossom
+          reverseHeroTree(function() {
+            // Fade out remaining text
+            think.style.transition = 'opacity 0.4s';
+            think.style.opacity = '0';
+            root.style.transition = 'opacity 0.4s';
+            root.style.opacity = '0';
+            label.style.transition = 'opacity 0.4s';
+            label.style.opacity = '0';
+            render.style.transition = 'opacity 0.4s';
+            render.style.opacity = '0';
+            prompt.style.transition = 'opacity 0.4s';
+            prompt.style.opacity = '0';
+            pipeline.style.transition = 'opacity 0.4s';
+            pipeline.style.opacity = '0';
+
+            // After everything fades, reset and restart
+            setTimeout(function() {
+              // Reset all states
+              prompt.style.transition = 'none';
+              prompt.style.opacity = '1';
+              prompt.textContent = '';
+              label.style.transition = 'none'; label.style.opacity = '1'; label.textContent = '';
+              think.style.transition = 'none'; think.style.opacity = '0';
+              think.classList.remove('visible');
+              root.style.transition = 'none'; root.style.opacity = '0';
+              root.classList.remove('visible');
+              root.textContent = '';
+              render.style.transition = 'none'; render.style.opacity = '0';
+              render.classList.remove('visible');
+              pipeline.style.transition = 'none'; pipeline.style.opacity = '0';
+              pipeline.classList.remove('visible');
+              rows.forEach(function(r) {
+                r.style.transition = 'none';
+                r.style.opacity = '0';
+                r.classList.remove('visible');
+              });
+              // Restart after brief pause
+              setTimeout(runTeaser, 800);
+            }, 800);
+          });
+        }, 7000);
       }, 800);
     }, 350);
   });
