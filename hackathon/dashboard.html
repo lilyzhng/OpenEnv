@@ -191,17 +191,6 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 .traj-result.pass { background: rgba(57,255,20,0.15); color: var(--green); }
 .traj-result.fail { background: rgba(255,59,59,0.15); color: var(--red); }
 .traj-result.unclear { background: rgba(255,184,0,0.15); color: var(--amber); }
-.traj-step {
-  display: flex; align-items: flex-start; gap: 10px; padding: 6px 0;
-  font-family: var(--font-mono); font-size: 11px; color: var(--text-light);
-  border-bottom: 1px solid #2a2a2a;
-}
-.traj-step:last-child { border-bottom: none; }
-.traj-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
-.traj-cmd { word-break: break-all; opacity: 0.9; }
-.traj-cmd.example { color: var(--amber); }
-.traj-cmd.done { color: var(--green); }
-.traj-cmd.talk { color: var(--text-dim); font-style: italic; }
 .traj-summary {
   font-family: var(--font-sans); font-size: 12px; color: var(--text-dim);
   margin-top: 14px; padding-top: 12px; border-top: 1px solid #333; line-height: 1.5;
@@ -219,22 +208,7 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
   aspect-ratio: 1; border: 1.5px solid #333; margin-bottom: 16px;
 }
 .render-frame iframe { width: 100%; height: 100%; border: none; pointer-events: none; }
-.render-verdict {
-  font-family: var(--font-mono); font-size: 14px; font-weight: 700;
-  text-align: center; padding: 8px; border-radius: 4px;
-}
-.render-verdict.pass { color: var(--green); background: rgba(57,255,20,0.08); }
-.render-verdict.fail { color: var(--red); background: rgba(255,59,59,0.08); }
-.render-verdict.unclear { color: var(--amber); background: rgba(255,184,0,0.08); }
 
-.insight-bar {
-  font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);
-  display: flex; gap: 28px; margin-top: 20px; justify-content: center;
-}
-.insight-bar span { display: flex; align-items: center; gap: 6px; }
-.insight-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-.insight-dot.amber { background: var(--amber); }
-.insight-dot.green { background: var(--green); }
 
 /* ══════════════════════════════════════════════ */
 /* SECTION 3: PIPELINE + SCALE OUT + LEADERBOARD */
@@ -435,7 +409,7 @@ tr.wrong td.shape { color: var(--red); }
     <div class="dot dot-yellow"></div>
     <div class="dot dot-green"></div>
   </div>
-  <div class="panel-title">Task: "Compose an hourglass" &middot; Only reference: diamond.html &middot; 5 models tested</div>
+  <div class="panel-title" style="color:var(--green); font-family:var(--font-mono); font-weight:700;">&rsaquo; Compose an hourglass</div>
 
   <div class="model-buttons" id="modelButtons"></div>
 
@@ -444,10 +418,6 @@ tr.wrong td.shape { color: var(--red); }
     <div class="render-panel" id="renderPanel"></div>
   </div>
 
-  <div class="insight-bar">
-    <span><span class="insight-dot amber"></span> touched examples/</span>
-    <span><span class="insight-dot green"></span> produced correct shape</span>
-  </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
@@ -889,16 +859,23 @@ var modelData = [
     iframe: 'data/handdraw_v1/html/gpt54_hourglass.html',
     criteria: '5/6',
     reward: '0.833',
-    method: 'Read ALL files in one command (specs, template, diamond, all elements, notes). Used python3 to generate output. Knowledge-based approach.',
-    steps: [
-      { icon: '\uD83D\uDFE1', cmd: 'ls -la', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'find . -maxdepth 2 -type f | sort', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat specs.md template.html elements/*.js notes/*.md', cls: '' },
-      { icon: '\uD83D\uDCC4', cmd: 'cat examples/diamond.html', cls: 'example' },
-      { icon: '\uD83D\uDFE1', cmd: 'python3 > hourglass.html', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'grep + review output', cls: 'talk' },
-      { icon: '\uD83D\uDFE1', cmd: 'python3 > hourglass.html (rewrite)', cls: 'talk' },
-      { icon: '\uD83D\uDFE2', cmd: 'done', cls: 'done' }
+    method: 'Read ALL files in one command. Used python3 to generate. Knowledge-based, no analogical reasoning.',
+    phases: [
+      { name: 'Discover', dim: '(explore workspace)', items: [
+        { cmd: 'ls -la', cls: '' },
+        { cmd: 'find . -maxdepth 2 -type f | sort', cls: '' }
+      ]},
+      { name: 'Find Nearest', dim: '(read example)', items: [
+        { cmd: 'cat specs.md template.html', cls: '' },
+        { cmd: 'cat examples/diamond.html', cls: 'example' },
+        { cmd: 'cat elements/*.js notes/*.md', cls: '' }
+      ]},
+      { name: 'Recompose', dim: '(generate)', items: [
+        { cmd: 'python3 > hourglass.html', cls: '' },
+        { cmd: 'grep + review output', cls: 'talk' },
+        { cmd: 'python3 > hourglass.html (rewrite)', cls: 'talk' }
+      ]},
+      { name: 'done', dim: '', items: [] }
     ]
   },
   {
@@ -909,20 +886,27 @@ var modelData = [
     iframe: 'data/handdraw_v1/html/sonnet_hourglass.html',
     criteria: '5/6',
     reward: '0.417',
-    method: 'Discovered diamond \u2192 recognized "two triangles" pattern \u2192 adapted orientation from base-to-base to point-to-point. Full analogical reasoning chain.',
-    steps: [
-      { icon: '\uD83D\uDFE1', cmd: 'ls', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat specs.md', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat template.html', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'ls elements', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'ls examples', cls: '' },
-      { icon: '\uD83D\uDCC4', cmd: 'cat examples/diamond.html', cls: 'example' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat elements/triangle.js', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat elements/line.js', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat > hourglass.html \u2190 adapted!', cls: '' },
-      { icon: '\u26AB', cmd: 'rewrites (add caps)...', cls: 'talk' },
-      { icon: '\u26AB', cmd: 'rewrites (add sand)...', cls: 'talk' },
-      { icon: '\uD83D\uDFE2', cmd: 'done', cls: 'done' }
+    method: 'Discovered diamond \u2192 recognized "two triangles" \u2192 adapted orientation. Full analogical reasoning.',
+    phases: [
+      { name: 'Discover', dim: '(explore workspace)', items: [
+        { cmd: 'ls', cls: '' },
+        { cmd: 'cat specs.md', cls: '' },
+        { cmd: 'cat template.html', cls: '' }
+      ]},
+      { name: 'Find Nearest', dim: '(find reference)', items: [
+        { cmd: 'ls elements', cls: '' },
+        { cmd: 'ls examples', cls: '' },
+        { cmd: 'cat examples/diamond.html', cls: 'example' }
+      ]},
+      { name: 'Decompose', dim: '(understand parts)', items: [
+        { cmd: 'cat elements/triangle.js', cls: '' },
+        { cmd: 'cat elements/line.js', cls: '' }
+      ]},
+      { name: 'Recompose', dim: '(adapt & write)', items: [
+        { cmd: 'cat > hourglass.html \u2190 adapted!', cls: 'done' },
+        { cmd: 'rewrites (add caps, sand)...', cls: 'talk' }
+      ]},
+      { name: 'done', dim: '', items: [] }
     ]
   },
   {
@@ -933,19 +917,27 @@ var modelData = [
     iframe: 'data/handdraw_v1/html/gpt4omini_hourglass.html',
     criteria: '5/6',
     reward: '0.667',
-    method: 'Read specs and template, then wrote output immediately. Later explored elements and diamond but kept rewriting with broken approach. Result: diamond shape.',
-    steps: [
-      { icon: '\uD83D\uDFE1', cmd: 'ls', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat specs.md', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'template.html > hourglass.html', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'echo > hourglass.html (overwrite)', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'ls elements/', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat elements/line.js', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'ls examples/', cls: '' },
-      { icon: '\uD83D\uDCC4', cmd: 'cat examples/diamond.html', cls: 'example' },
-      { icon: '\uD83D\uDFE1', cmd: 'echo > hourglass.html (rewrite)', cls: '' },
-      { icon: '\u26AB', cmd: 'rewrites \u00D7 3...', cls: 'talk' },
-      { icon: '\uD83D\uDFE2', cmd: 'done', cls: 'done' }
+    method: 'Wrote output immediately, then explored. Kept rewriting with broken approach. Result: diamond.',
+    phases: [
+      { name: 'Discover', dim: '(explore workspace)', items: [
+        { cmd: 'ls', cls: '' },
+        { cmd: 'cat specs.md', cls: '' }
+      ]},
+      { name: 'Recompose', dim: '(write too early!)', items: [
+        { cmd: 'template.html > hourglass.html', cls: '' },
+        { cmd: 'echo > hourglass.html (overwrite)', cls: '' }
+      ]},
+      { name: 'Find Nearest', dim: '(too late)', items: [
+        { cmd: 'ls elements/', cls: '' },
+        { cmd: 'cat elements/line.js', cls: '' },
+        { cmd: 'ls examples/', cls: '' },
+        { cmd: 'cat examples/diamond.html', cls: 'example' }
+      ]},
+      { name: 'Recompose', dim: '(retry \u00D7 3)', items: [
+        { cmd: 'echo > hourglass.html (rewrite)', cls: '' },
+        { cmd: 'rewrites \u00D7 3...', cls: 'talk' }
+      ]},
+      { name: 'done', dim: '', items: [] }
     ]
   },
   {
@@ -953,21 +945,29 @@ var modelData = [
     result: 'unclear',
     resultLabel: '? UNCLEAR',
     shape: 'unclear',
-    iframe: 'data/handdraw_v1/html/qwen30b_hourglass.html',
+    iframe: 'data/handdraw_v1/html/qwen30b_hourglass_v2.html',
     criteria: '5/6',
     reward: '0.667',
-    method: 'Thorough exploration: read all elements, read diamond example, read all notes. Built from scratch rather than adapting diamond pattern. Result: unclear shape.',
-    steps: [
-      { icon: '\uD83D\uDFE1', cmd: 'ls -la', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat specs.md', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat template.html', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'ls -la elements/', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat elements/*.js', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'ls -la examples/', cls: '' },
-      { icon: '\uD83D\uDCC4', cmd: 'cat examples/diamond.html', cls: 'example' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat > hourglass.html', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat hourglass.html (review)', cls: 'talk' },
-      { icon: '\uD83D\uDFE2', cmd: 'done', cls: 'done' }
+    method: 'Thorough exploration but built from scratch. No analogical reasoning from diamond. Result: unclear.',
+    phases: [
+      { name: 'Discover', dim: '(explore workspace)', items: [
+        { cmd: 'ls -la', cls: '' },
+        { cmd: 'cat specs.md', cls: '' },
+        { cmd: 'cat template.html', cls: '' }
+      ]},
+      { name: 'Decompose', dim: '(read all parts)', items: [
+        { cmd: 'ls -la elements/', cls: '' },
+        { cmd: 'cat elements/*.js', cls: '' }
+      ]},
+      { name: 'Find Nearest', dim: '(find reference)', items: [
+        { cmd: 'ls -la examples/', cls: '' },
+        { cmd: 'cat examples/diamond.html', cls: 'example' }
+      ]},
+      { name: 'Recompose', dim: '(build from scratch)', items: [
+        { cmd: 'cat > hourglass.html', cls: '' },
+        { cmd: 'cat hourglass.html (review)', cls: 'talk' }
+      ]},
+      { name: 'done', dim: '', items: [] }
     ]
   },
   {
@@ -978,22 +978,30 @@ var modelData = [
     iframe: 'data/handdraw_v1/html/deepseek_hourglass.html',
     criteria: '4/6',
     reward: '0.500',
-    method: 'Read ALL elements and diamond example thoroughly. Then copied template + appended script. Copied diamond without adapting orientation. Result: diamond shape.',
-    steps: [
-      { icon: '\uD83D\uDFE1', cmd: 'ls', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat specs.md', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat template.html', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat examples/hourglass.html (404)', cls: 'talk' },
-      { icon: '\uD83D\uDFE1', cmd: 'ls examples', cls: '' },
-      { icon: '\uD83D\uDCC4', cmd: 'cat examples/diamond.html', cls: 'example' },
-      { icon: '\uD83D\uDFE1', cmd: 'ls elements', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat elements/triangle.js', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat elements/rectangle.js', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat elements/line.js', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat elements/circle.js', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'cat elements/arc.js', cls: '' },
-      { icon: '\uD83D\uDFE1', cmd: 'template > hourglass.html + script', cls: '' },
-      { icon: '\uD83D\uDFE2', cmd: 'done', cls: 'done' }
+    method: 'Read everything thoroughly. Copied diamond without adapting orientation. Result: diamond.',
+    phases: [
+      { name: 'Discover', dim: '(explore workspace)', items: [
+        { cmd: 'ls', cls: '' },
+        { cmd: 'cat specs.md', cls: '' },
+        { cmd: 'cat template.html', cls: '' }
+      ]},
+      { name: 'Find Nearest', dim: '(find reference)', items: [
+        { cmd: 'cat examples/hourglass.html (404)', cls: 'talk' },
+        { cmd: 'ls examples', cls: '' },
+        { cmd: 'cat examples/diamond.html', cls: 'example' }
+      ]},
+      { name: 'Decompose', dim: '(read all elements)', items: [
+        { cmd: 'ls elements', cls: '' },
+        { cmd: 'cat elements/triangle.js', cls: '' },
+        { cmd: 'cat elements/rectangle.js', cls: '' },
+        { cmd: 'cat elements/line.js', cls: '' },
+        { cmd: 'cat elements/circle.js', cls: '' },
+        { cmd: 'cat elements/arc.js', cls: '' }
+      ]},
+      { name: 'Recompose', dim: '(copy, no adapt)', items: [
+        { cmd: 'template > hourglass.html + script', cls: '' }
+      ]},
+      { name: 'done', dim: '', items: [] }
     ]
   }
 ];
@@ -1006,23 +1014,46 @@ function renderModel(idx) {
 
   var m = modelData[idx];
 
-  // Trajectory panel
+  // Trajectory panel — tree structure
   var trajPanel = document.getElementById('trajPanel');
-  var stepsHtml = m.steps.map(function(s) {
-    var iconStyle = '';
-    if (s.cls === 'talk') iconStyle = ' style="opacity:0.4"';
-    else if (s.cls === 'done') iconStyle = ' style="color:var(--green)"';
-    else if (s.cls === 'example') iconStyle = ' style="color:var(--amber)"';
-    return '<div class="traj-step"><span class="traj-icon"' + iconStyle + '>' + s.icon +
-           '</span><span class="traj-cmd ' + s.cls + '">' + s.cmd + '</span></div>';
-  }).join('');
+  var treeHtml = '';
+  var phases = m.phases;
+  for (var p = 0; p < phases.length; p++) {
+    var phase = phases[p];
+    var isLast = (p === phases.length - 1);
+    var branch = isLast ? '\u2514\u2500' : '\u251C\u2500';
+    // Phase name color
+    var nameColor = 'var(--text-light)';
+    if (phase.name === 'done') nameColor = 'var(--green)';
+    // Phase row
+    treeHtml += '<div class="tree-row" style="opacity:1;">' +
+      '<span class="tree-branch">' + branch + '</span>' +
+      '<span class="tree-name" style="color:' + nameColor + '">' + phase.name + '</span>';
+    if (phase.dim) treeHtml += '<span class="tree-dim">' + phase.dim + '</span>';
+    treeHtml += '</div>';
+    // Child items
+    for (var c = 0; c < phase.items.length; c++) {
+      var item = phase.items[c];
+      var childIsLast = (c === phase.items.length - 1);
+      var childBranch = childIsLast ? '\u2514\u2500' : '\u251C\u2500';
+      var prefix = isLast ? '&nbsp;&nbsp;&nbsp;' : '\u2502&nbsp;&nbsp;';
+      var cmdColor = 'var(--text-dim)';
+      if (item.cls === 'example') cmdColor = 'var(--amber)';
+      else if (item.cls === 'done') cmdColor = 'var(--green)';
+      else if (item.cls === 'talk') cmdColor = '#555';
+      treeHtml += '<div class="tree-row tree-indent" style="opacity:1;">' +
+        '<span class="tree-branch">' + prefix + childBranch + '</span>' +
+        '<span style="color:' + cmdColor + '">' + item.cmd + '</span>' +
+        '</div>';
+    }
+  }
 
   trajPanel.innerHTML =
     '<div class="traj-header">' +
       '<span class="traj-model">Agent Trajectory</span>' +
       '<span class="traj-result ' + m.result + '">' + m.resultLabel + '</span>' +
     '</div>' +
-    stepsHtml +
+    '<div class="hero-tree" style="margin-bottom:12px;">' + treeHtml + '</div>' +
     '<div class="traj-summary"><strong>Method:</strong> ' + m.method + '</div>';
 
   // Render panel
@@ -1030,7 +1061,6 @@ function renderModel(idx) {
   renderPanel.innerHTML =
     '<div class="render-header">' + m.name + ' &mdash; Final Render</div>' +
     '<div class="render-frame"><iframe src="' + m.iframe + '" sandbox="allow-scripts" loading="lazy"></iframe></div>' +
-    '<div class="render-verdict ' + m.result + '">' + m.resultLabel + '</div>' +
     '<div style="font-family:var(--font-mono);font-size:11px;color:var(--text-dim);text-align:center;margin-top:12px;">' +
       'Criteria: ' + m.criteria + ' &middot; Reward: ' + m.reward +
     '</div>';
