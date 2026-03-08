@@ -402,28 +402,28 @@ class BuildingBlockEnvironment:
 
         correctness = criteria_met / len(CRITERIA) if CRITERIA else 0.0
 
-        # Efficiency: penalize stuck-in-a-loop turns, not exploration.
-        # A no-progress streak of ≤2 is normal exploration (grace period).
-        # Only turns beyond the grace period in each streak count as wasted.
-        grace = 3
-        wasted = 0
-        streak = 0
-        for i in range(1, len(self._progress_history)):
-            if self._progress_history[i] <= self._progress_history[i - 1]:
-                streak += 1
-                if streak > grace:
-                    wasted += 1
-            else:
-                streak = 0
-        efficiency_mult = max(0.5, 1.0 - 0.05 * wasted)
-        reward = correctness * efficiency_mult
+        # Process signals — reward meta-strategy, not just outcome
+        discovery = self._has_read_briefs       # explored workspace, read task data
+        reference = self._has_explored_examples  # found and studied reference case
+        building_block = self._has_explored_tools  # discovered and used tools/
+
+        discovery_bonus = 0.1 if discovery else 0.0
+        reference_bonus = 0.1 if reference else 0.0
+        building_block_bonus = 0.2 if building_block else 0.0
+        correctness_component = 0.6 * correctness
+
+        reward = discovery_bonus + reference_bonus + building_block_bonus + correctness_component
 
         lines = [
             f"Episode finished.",
             f"Final: {criteria_met}/{len(CRITERIA)} criteria met.",
             f"Correctness: {correctness:.3f}",
-            f"Efficiency: {efficiency_mult:.3f} ({wasted} wasted turns out of {self._step_count})",
-            f"Reward: {reward:.3f} (correctness × efficiency)",
+            f"Process: discovery={'Y' if discovery else 'N'} "
+            f"reference={'Y' if reference else 'N'} "
+            f"building_block={'Y' if building_block else 'N'}",
+            f"Reward: {reward:.3f} "
+            f"(process {discovery_bonus + reference_bonus + building_block_bonus:.1f} "
+            f"+ correctness {correctness_component:.3f})",
             f"Steps used: {self._step_count}",
             f"",
             f"Criteria breakdown:",

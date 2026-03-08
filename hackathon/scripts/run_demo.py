@@ -21,6 +21,8 @@ sys.path.insert(0, str(_project_root / "server_space" / "apex_env" / "server"))
 
 from building_block_env import BuildingBlockEnvironment
 from handdraw_env import HandDrawEnvironment
+from law_env import LawEnvironment
+from consulting_env import ConsultingEnvironment
 
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
@@ -51,6 +53,34 @@ SYSTEM_PROMPTS = {
         "Use the template.html as your starting point.\n"
         "Write your output as a complete HTML file.\n"
         "Pay attention to [Progress] feedback — it tells you how many criteria you've met.\n"
+        "When finished, respond with exactly: done"
+    ),
+    "law": (
+        "You are a litigation analyst. You analyze legal disputes by calculating damages and writing memos.\n"
+        "You solve tasks by executing bash commands one at a time.\n"
+        "You have access to: python3, cat, ls, grep, find, and standard unix tools.\n"
+        "Each response should contain EXACTLY ONE bash command to execute.\n"
+        "Do NOT wrap commands in markdown code blocks. Just output the raw command.\n"
+        "For Python code, write a .py file first, then run it with python3 IN A SEPARATE STEP.\n"
+        "IMPORTANT: After writing ANY file, you MUST run it — unexecuted scripts produce nothing.\n"
+        "Explore your workspace to find case files, tools, and examples.\n"
+        "Check the tools/ directory for calculation utilities that may help.\n"
+        "Pay attention to [Progress] feedback — it tells you how many criteria you've met.\n"
+        "Write all final answers to memo.txt with the actual computed numbers.\n"
+        "When finished, respond with exactly: done"
+    ),
+    "consulting": (
+        "You are a strategy consultant. You analyze market opportunities and write strategy memos.\n"
+        "You solve tasks by executing bash commands one at a time.\n"
+        "You have access to: python3, cat, ls, grep, find, and standard unix tools.\n"
+        "Each response should contain EXACTLY ONE bash command to execute.\n"
+        "Do NOT wrap commands in markdown code blocks. Just output the raw command.\n"
+        "For Python code, write a .py file first, then run it with python3 IN A SEPARATE STEP.\n"
+        "IMPORTANT: After writing ANY file, you MUST run it — unexecuted scripts produce nothing.\n"
+        "Explore your workspace to find market data, tools, and examples.\n"
+        "Check the tools/ directory for calculation utilities that may help.\n"
+        "Pay attention to [Progress] feedback — it tells you how many criteria you've met.\n"
+        "Write all final answers to strategy.txt with the actual computed numbers.\n"
         "When finished, respond with exactly: done"
     ),
 }
@@ -187,8 +217,10 @@ def main():
     parser = argparse.ArgumentParser(description="Run agent through phased KatNip environment")
     parser.add_argument("--model", default="qwen/qwen3-coder-30b-a3b-instruct")
     parser.add_argument("--max-turns", type=int, default=30)
-    parser.add_argument("--task", choices=["ib", "handdraw"], default="ib",
-                        help="Task: ib (KatNip financial analysis) or handdraw (SVG composition)")
+    parser.add_argument("--task", choices=["ib", "handdraw", "law", "consulting"], default="ib",
+                        help="Task: ib | handdraw | law | consulting")
+    parser.add_argument("--subtask", default=None,
+                        help="Subtask within task family (e.g. diamond, hourglass, seesaw, temple)")
     parser.add_argument("--sandbox", action="store_true")
     args = parser.parse_args()
 
@@ -199,11 +231,17 @@ def main():
 
     print(f"Model: {args.model}")
     print(f"Task: {args.task}")
+    if args.subtask:
+        print(f"Subtask: {args.subtask}")
     print(f"Max turns: {args.max_turns}")
     print("=" * 70)
 
     if args.task == "handdraw":
-        env = HandDrawEnvironment()
+        env = HandDrawEnvironment(task_id=args.subtask)
+    elif args.task == "law":
+        env = LawEnvironment()
+    elif args.task == "consulting":
+        env = ConsultingEnvironment()
     else:
         env = BuildingBlockEnvironment()
     obs = env.reset()

@@ -179,9 +179,9 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 .model-btn.active { border-color: var(--green); color: var(--green); background: rgba(57,255,20,0.1); }
 
 .eval-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start;
 }
-.traj-panel { background: var(--panel); border-radius: 8px; padding: 24px 28px; }
+.traj-panel { background: var(--panel); border-radius: 8px; padding: 24px 28px; height: 580px; overflow-y: auto; }
 .traj-header {
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #333;
@@ -196,8 +196,29 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
   margin-top: 14px; padding-top: 12px; border-top: 1px solid #333; line-height: 1.5;
 }
 .traj-summary strong { color: var(--text-light); }
+.traj-tool-use {
+  font-family: var(--font-sans); font-size: 12px; color: var(--text-dim);
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid #333; line-height: 1.5;
+}
+.traj-tool-use strong { color: var(--text-light); }
+.tool-use-yes { color: var(--green); font-weight: 700; font-family: var(--font-mono); font-size: 11px; }
+.tool-use-no { color: var(--red); font-weight: 700; font-family: var(--font-mono); font-size: 11px; }
+.tool-use-detail { color: var(--text-dim); }
+.traj-blocks-inline {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;
+}
+.block-thumb {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.block-thumb svg {
+  background: #e8dcc8; border-radius: 6px;
+  border: 1px solid #333;
+}
+.block-thumb-label {
+  font-family: var(--font-mono); font-size: 9px; color: var(--text-dim);
+}
 
-.render-panel { background: var(--panel); border-radius: 8px; padding: 24px 28px; }
+.render-panel { background: var(--panel); border-radius: 8px; padding: 24px 28px; height: 580px; overflow-y: auto; }
 .render-header {
   font-family: var(--font-mono); font-size: 12px; font-weight: 700;
   color: var(--text-light); margin-bottom: 16px; padding-bottom: 12px;
@@ -213,49 +234,70 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 /* ══════════════════════════════════════════════ */
 /* SECTION 3: PIPELINE + SCALE OUT + LEADERBOARD */
 /* ══════════════════════════════════════════════ */
-.pipeline {
-  display: flex; justify-content: center; align-items: center;
-  gap: 0; flex-wrap: wrap; margin-bottom: 12px;
+
+/* Distill layout: core tree + arrow + domain grid */
+.distill-layout {
+  display: flex; align-items: flex-start; gap: 0;
 }
-.pipe-step {
-  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
-  color: var(--charcoal); background: var(--green); padding: 10px 18px; border-radius: 6px;
+.distill-core {
+  flex-shrink: 0; width: 260px; padding-right: 24px;
 }
-.pipe-arrow {
-  font-family: var(--font-mono); font-size: 20px; color: var(--text-dim); padding: 0 8px;
+.distill-core-label {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--cyan);
+  margin-bottom: 12px;
 }
-.pipeline-sub {
-  font-family: var(--font-sans); font-size: 13px; color: var(--text-dim);
-  text-align: center; margin-top: 16px;
+.distill-core-sub {
+  font-family: var(--font-sans); font-size: 12px; color: var(--text-dim);
+  margin-top: 16px; line-height: 1.5;
+}
+.distill-arrow {
+  flex-shrink: 0; font-size: 24px; color: var(--text-dim);
+  padding: 0 20px; align-self: center;
+}
+.distill-domains {
+  flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
 }
 
-.domain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .domain-col {
-  background: var(--panel); border-radius: 8px; padding: 24px;
+  background: var(--panel); border-radius: 8px; padding: 16px;
   border-top: 3px solid var(--text-dim);
 }
 .domain-col.d1 { border-top-color: var(--green); }
 .domain-col.d2 { border-top-color: var(--cyan); }
-.domain-col.d3 { border-top-color: var(--amber); }
+.domain-col.d4 { border-top-color: var(--amber); }
+.domain-col.d5 { border-top-color: #c084fc; }
 .domain-title {
-  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
-  letter-spacing: 1px; margin-bottom: 14px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; margin-bottom: 10px;
 }
 .domain-col.d1 .domain-title { color: var(--green); }
 .domain-col.d2 .domain-title { color: var(--cyan); }
-.domain-col.d3 .domain-title { color: var(--amber); }
-.domain-row {
-  display: flex; gap: 8px; align-items: flex-start; padding: 6px 0;
-  border-bottom: 1px solid #333; font-family: var(--font-mono); font-size: 11px;
+.domain-col.d4 .domain-title { color: var(--amber); }
+.domain-col.d5 .domain-title { color: #c084fc; }
+.domain-col .hero-tree { font-size: 10px; line-height: 1.9; }
+.domain-mode {
+  margin-top: 10px; padding-top: 8px; border-top: 1px solid #333; text-align: center;
 }
-.domain-row:last-child { border-bottom: none; }
-.domain-row-label {
-  color: var(--text-dim); min-width: 65px; flex-shrink: 0;
-  font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; padding-top: 1px;
+.domain-mode-tag {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px;
+  border-radius: 3px;
 }
-.domain-row-value { color: var(--text-light); }
+.domain-mode-tag.visual { color: var(--green); background: rgba(57,255,20,0.1); }
+.domain-mode-tag.text { color: var(--amber); background: rgba(255,184,0,0.1); }
+.domain-mode-tag.mixed { color: #c084fc; background: rgba(192,132,252,0.1); }
+.domain-mode-tag.tools { color: var(--cyan); background: rgba(0,229,255,0.1); }
 
-.lb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.lb-grid-4 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.lb-panel { padding: 20px; }
+.lb-panel table { font-size: 11px; }
+.lb-panel th { font-size: 10px; }
+.lb-panel td { padding: 7px 6px; }
+.lb-coming-soon {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);
+  text-align: center; padding: 48px 0; opacity: 0.5;
+}
 table {
   width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 13px;
 }
@@ -269,6 +311,8 @@ tr.correct td.shape { color: var(--green); }
 tr.wrong td.shape { color: var(--red); }
 .rank { color: var(--text-dim); width: 30px; }
 .steps { color: var(--text-dim); font-size: 11px; }
+.metric-yes { color: var(--green); }
+.metric-no { color: var(--red); opacity: 0.6; }
 .reward-bar {
   display: inline-block; height: 14px; background: var(--green);
   border-radius: 2px; opacity: 0.7; vertical-align: middle; margin-left: 6px;
@@ -287,9 +331,12 @@ tr.wrong td.shape { color: var(--red); }
   .hero-title, .hero-subtitle { font-size: 36px; }
   .hero-body { grid-template-columns: 1fr; }
   .hero-render { margin-top: 16px; }
-  .eval-grid, .lb-grid, .domain-grid { grid-template-columns: 1fr; }
-  .pipeline { gap: 4px; }
-  .pipe-step { font-size: 11px; padding: 8px 10px; }
+  .eval-grid { grid-template-columns: 1fr; }
+  .lb-grid-4 { grid-template-columns: 1fr 1fr; }
+  .distill-layout { flex-direction: column; }
+  .distill-core { width: 100%; padding-right: 0; margin-bottom: 16px; }
+  .distill-arrow { display: none; }
+  .distill-domains { grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
@@ -401,7 +448,7 @@ tr.wrong td.shape { color: var(--red); }
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <!-- SECTION 2: INTERACTIVE MODEL PICKER — "The Evaluation"            -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>01</span> &mdash; The Evaluation</div>
+<div class="section-header"><span>01</span> &mdash; The Recomposition Evaluation</div>
 
 <div class="panel">
   <div class="window-dots">
@@ -423,99 +470,161 @@ tr.wrong td.shape { color: var(--red); }
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <!-- SECTION 3: CORE PRINCIPLE + SCALE OUT — "The Distillation"        -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>02</span> &mdash; The Distillation</div>
+<div class="section-header"><span>02</span> &mdash; Scale Down &rarr; Scale Out</div>
 
-<!-- Part A: Pipeline -->
-<div class="panel" style="text-align:center;">
-  <div class="pipeline">
-    <span class="pipe-step">Discover</span>
-    <span class="pipe-arrow">&rarr;</span>
-    <span class="pipe-step">Find Nearest</span>
-    <span class="pipe-arrow">&rarr;</span>
-    <span class="pipe-step">Decompose</span>
-    <span class="pipe-arrow">&rarr;</span>
-    <span class="pipe-step">Recompose</span>
-    <span class="pipe-arrow">&rarr;</span>
-    <span class="pipe-step">Adapt</span>
-  </div>
-  <div class="pipeline-sub">The same strategy at every level, in every domain.</div>
-</div>
-
-<!-- Part B: Scale Out Grid -->
 <div class="panel">
   <div class="window-dots">
     <div class="dot dot-red"></div>
     <div class="dot dot-yellow"></div>
     <div class="dot dot-green"></div>
   </div>
-  <div class="panel-title">Keep the Meta-Strategy, Swap the Domain Wrapper</div>
+  <div class="panel-title">One meta-strategy. Every domain.</div>
 
-  <div class="domain-grid">
-    <div class="domain-col d1">
-      <div class="domain-title">Hand-Draw</div>
-      <div class="domain-row"><span class="domain-row-label">Discover</span><span class="domain-row-value">ls elements/</span></div>
-      <div class="domain-row"><span class="domain-row-label">Nearest</span><span class="domain-row-value">cat examples/diamond.html</span></div>
-      <div class="domain-row"><span class="domain-row-label">Decompose</span><span class="domain-row-value">2 &times; triangle, base-to-base</span></div>
-      <div class="domain-row"><span class="domain-row-label">Recompose</span><span class="domain-row-value">2 &times; triangle for hourglass</span></div>
-      <div class="domain-row"><span class="domain-row-label">Adapt</span><span class="domain-row-value">flip to point-to-point</span></div>
-      <div class="domain-row"><span class="domain-row-label">Output</span><span class="domain-row-value" style="color:var(--green)">hourglass.html</span></div>
+  <div class="distill-layout">
+    <!-- Core meta-strategy tree -->
+    <div class="distill-core">
+      <div class="distill-core-label">Core Meta-Strategy</div>
+      <div class="hero-tree" style="font-size:13px; line-height:2;">
+        <div class="tree-row" style="opacity:1;">
+          <span class="tree-branch">&boxvr;&boxh;</span>
+          <span class="tree-name" style="color:var(--cyan)">Discover</span>
+          <span class="tree-dim">&mdash; explore workspace</span>
+        </div>
+        <div class="tree-row" style="opacity:1;">
+          <span class="tree-branch">&boxvr;&boxh;</span>
+          <span class="tree-name" style="color:var(--cyan)">Find Nearest</span>
+          <span class="tree-dim">&mdash; find reference</span>
+        </div>
+        <div class="tree-row" style="opacity:1;">
+          <span class="tree-branch">&boxvr;&boxh;</span>
+          <span class="tree-name" style="color:var(--cyan)">Decompose</span>
+          <span class="tree-dim">&mdash; break into parts</span>
+        </div>
+        <div class="tree-row" style="opacity:1;">
+          <span class="tree-branch">&boxvr;&boxh;</span>
+          <span class="tree-name" style="color:var(--cyan)">Recompose</span>
+          <span class="tree-dim">&mdash; combine for new goal</span>
+        </div>
+        <div class="tree-row" style="opacity:1;">
+          <span class="tree-branch">&boxur;&boxh;</span>
+          <span class="tree-name" style="color:var(--cyan)">Adapt</span>
+          <span class="tree-dim">&mdash; adjust specifics</span>
+        </div>
+      </div>
+      <div class="distill-core-sub">Domain-agnostic. Learned once, applied everywhere.</div>
     </div>
-    <div class="domain-col d2">
-      <div class="domain-title">Investment Banking</div>
-      <div class="domain-row"><span class="domain-row-label">Discover</span><span class="domain-row-value">ls data/ briefs/ tools/</span></div>
-      <div class="domain-row"><span class="domain-row-label">Nearest</span><span class="domain-row-value">cat examples/alpha_analysis.txt</span></div>
-      <div class="domain-row"><span class="domain-row-label">Decompose</span><span class="domain-row-value">brief + cashflows + xirr tool</span></div>
-      <div class="domain-row"><span class="domain-row-label">Recompose</span><span class="domain-row-value">KatNip brief + financials + xirr</span></div>
-      <div class="domain-row"><span class="domain-row-label">Adapt</span><span class="domain-row-value">KatNip-specific numbers</span></div>
-      <div class="domain-row"><span class="domain-row-label">Output</span><span class="domain-row-value" style="color:var(--cyan)">analysis.txt</span></div>
-    </div>
-    <div class="domain-col d3">
-      <div class="domain-title">Law (Future)</div>
-      <div class="domain-row"><span class="domain-row-label">Discover</span><span class="domain-row-value">ls contracts/ precedents/</span></div>
-      <div class="domain-row"><span class="domain-row-label">Nearest</span><span class="domain-row-value">cat precedents/prior_case.txt</span></div>
-      <div class="domain-row"><span class="domain-row-label">Decompose</span><span class="domain-row-value">facts + statute + ruling</span></div>
-      <div class="domain-row"><span class="domain-row-label">Recompose</span><span class="domain-row-value">new case facts + same statute</span></div>
-      <div class="domain-row"><span class="domain-row-label">Adapt</span><span class="domain-row-value">different jurisdiction + facts</span></div>
-      <div class="domain-row"><span class="domain-row-label">Output</span><span class="domain-row-value" style="color:var(--amber)">legal_memo.txt</span></div>
+
+    <!-- Arrow -->
+    <div class="distill-arrow">&rarr;</div>
+
+    <!-- 4 domain columns -->
+    <div class="distill-domains">
+      <div class="domain-col d1">
+        <div class="domain-title">Hand-Draw</div>
+        <div class="hero-tree">
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">ls elements/</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">cat diamond.html</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">2&times;triangle, base-to-base</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">flip to point-to-point</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxur;&boxh;</span><span style="color:var(--green)">hourglass.html</span></div>
+        </div>
+        <div class="domain-mode"><span class="domain-mode-tag visual">visual</span></div>
+      </div>
+
+      <div class="domain-col d4">
+        <div class="domain-title">Law</div>
+        <div class="hero-tree">
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">ls cases/ precedents/</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">cat prior_case.txt</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">facts + statute + ruling</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">new facts, same statute</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxur;&boxh;</span><span style="color:var(--amber)">legal_memo.txt</span></div>
+        </div>
+        <div class="domain-mode"><span class="domain-mode-tag text">text-heavy</span></div>
+      </div>
+
+      <div class="domain-col d5">
+        <div class="domain-title">Consulting</div>
+        <div class="hero-tree">
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">ls reports/ frameworks/</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">cat alpha_deck.md</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">framework + data + visuals</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">new client, same framework</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxur;&boxh;</span><span style="color:var(--amber)">strategy_deck.md</span></div>
+        </div>
+        <div class="domain-mode"><span class="domain-mode-tag mixed">text + tools</span></div>
+      </div>
+
+      <div class="domain-col d2">
+        <div class="domain-title">Investment Banking</div>
+        <div class="hero-tree">
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">ls data/ tools/ briefs/</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">cat alpha_analysis.txt</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">brief + cashflows + xirr</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">KatNip numbers + xirr_tool</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxur;&boxh;</span><span style="color:var(--cyan)">analysis.txt</span></div>
+        </div>
+        <div class="domain-mode"><span class="domain-mode-tag tools">tool-heavy</span></div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Part C: Cross-Domain Leaderboard -->
-<div class="lb-grid">
-  <div class="panel">
-    <div class="window-dots">
-      <div class="dot dot-red"></div>
-      <div class="dot dot-yellow"></div>
-      <div class="dot dot-green"></div>
-    </div>
-    <div class="panel-title">IB Financial Analysis</div>
+<!-- Part C: Cross-Domain Leaderboard — 4 columns matching domain order -->
+<div class="lb-grid-4">
+  <!-- Hand-Draw -->
+  <div class="panel lb-panel" style="border-top: 3px solid var(--green);">
+    <div class="panel-title" style="color:var(--green); font-size:12px;">Hand-Draw: Hourglass</div>
     <table>
-      <thead><tr><th class="rank">#</th><th>Model</th><th>Criteria</th><th>Steps</th><th>Reward</th></tr></thead>
+      <thead><tr><th>Model</th><th>Discovery</th><th>Decomposition</th><th>Adaptation</th><th>Reward</th></tr></thead>
       <tbody>
-        <tr class="highlight"><td class="rank">1</td><td>GPT-5.4</td><td>11/11</td><td class="steps">5</td><td>1.000 <span class="reward-bar" style="width:120px"></span></td></tr>
-        <tr><td class="rank">2</td><td>Claude Sonnet 4</td><td>10/11</td><td class="steps">31</td><td>0.455 <span class="reward-bar" style="width:55px"></span></td></tr>
-        <tr><td class="rank">3</td><td>GPT-4o-mini</td><td>6/11</td><td class="steps">31</td><td>0.273 <span class="reward-bar" style="width:33px"></span></td></tr>
-        <tr><td class="rank">3</td><td>Qwen3-30B</td><td>6/11</td><td class="steps">31</td><td>0.273 <span class="reward-bar" style="width:33px"></span></td></tr>
-        <tr><td class="rank">5</td><td>DeepSeek-V3</td><td>6/11</td><td class="steps">20</td><td>0.273 <span class="reward-bar" style="width:33px"></span></td></tr>
+        <tr class="highlight"><td>GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.900 <span class="reward-bar" style="width:86px"></span></td></tr>
+        <tr class="highlight"><td>Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.900 <span class="reward-bar" style="width:86px"></span></td></tr>
+        <tr><td>Qwen3</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.900 <span class="reward-bar" style="width:86px"></span></td></tr>
+        <tr><td>DeepSeek</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.900 <span class="reward-bar" style="width:86px"></span></td></tr>
+        <tr><td>4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.800 <span class="reward-bar" style="width:77px"></span></td></tr>
       </tbody>
     </table>
   </div>
-  <div class="panel">
-    <div class="window-dots">
-      <div class="dot dot-red"></div>
-      <div class="dot dot-yellow"></div>
-      <div class="dot dot-green"></div>
-    </div>
-    <div class="panel-title">Hand-Draw: Hourglass</div>
+  <!-- Law -->
+  <div class="panel lb-panel" style="border-top: 3px solid var(--amber);">
+    <div class="panel-title" style="color:var(--amber); font-size:12px;">Law: Royalty Dispute</div>
     <table>
-      <thead><tr><th class="rank">#</th><th>Model</th><th>Criteria</th><th>Shape</th><th>Reward</th></tr></thead>
+      <thead><tr><th>Model</th><th>Discovery</th><th>Decomposition</th><th>Adaptation</th><th>Reward</th></tr></thead>
       <tbody>
-        <tr class="correct"><td class="rank">1</td><td>GPT-5.4</td><td>5/6</td><td class="shape">&#10003; Hourglass</td><td>0.833 <span class="reward-bar" style="width:100px"></span></td></tr>
-        <tr class="correct"><td class="rank">2</td><td>Claude Sonnet 4</td><td>5/6</td><td class="shape">&#10003; Hourglass</td><td>0.417 <span class="reward-bar" style="width:50px"></span></td></tr>
-        <tr class="wrong"><td class="rank">3</td><td>GPT-4o-mini</td><td>5/6</td><td class="shape">&#10007; Diamond</td><td>0.667 <span class="reward-bar" style="width:80px"></span></td></tr>
-        <tr><td class="rank">4</td><td>Qwen3-30B</td><td>5/6</td><td class="shape" style="color:var(--amber)">? Unclear</td><td>0.667 <span class="reward-bar" style="width:80px"></span></td></tr>
-        <tr class="wrong"><td class="rank">5</td><td>DeepSeek-V3</td><td>4/6</td><td class="shape">&#10007; Diamond</td><td>0.500 <span class="reward-bar" style="width:60px"></span></td></tr>
+        <tr class="highlight"><td>GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>1.000 <span class="reward-bar" style="width:96px"></span></td></tr>
+        <tr class="highlight"><td>Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>1.000 <span class="reward-bar" style="width:96px"></span></td></tr>
+        <tr><td>Qwen3</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.940 <span class="reward-bar" style="width:90px"></span></td></tr>
+        <tr><td>4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.460 <span class="reward-bar" style="width:44px"></span></td></tr>
+        <tr><td>DeepSeek</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Consulting -->
+  <div class="panel lb-panel" style="border-top: 3px solid #c084fc;">
+    <div class="panel-title" style="color:#c084fc; font-size:12px;">Consulting: Market Entry</div>
+    <table>
+      <thead><tr><th>Model</th><th>Discovery</th><th>Decomposition</th><th>Adaptation</th><th>Reward</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td>GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>1.000 <span class="reward-bar" style="width:96px"></span></td></tr>
+        <tr class="highlight"><td>Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>1.000 <span class="reward-bar" style="width:96px"></span></td></tr>
+        <tr><td>4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.820 <span class="reward-bar" style="width:79px"></span></td></tr>
+        <tr><td>DeepSeek</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+        <tr><td>Qwen3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Investment Banking -->
+  <div class="panel lb-panel" style="border-top: 3px solid var(--cyan);">
+    <div class="panel-title" style="color:var(--cyan); font-size:12px;">Investment Banking: Financial Analysis</div>
+    <table>
+      <thead><tr><th>Model</th><th>Discovery</th><th>Decomposition</th><th>Adaptation</th><th>Reward</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td>GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>1.000 <span class="reward-bar" style="width:96px"></span></td></tr>
+        <tr><td>Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.945 <span class="reward-bar" style="width:91px"></span></td></tr>
+        <tr><td>4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.327 <span class="reward-bar" style="width:31px"></span></td></tr>
+        <tr><td>DeepSeek</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.327 <span class="reward-bar" style="width:31px"></span></td></tr>
+        <tr><td>Qwen3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
       </tbody>
     </table>
   </div>
@@ -526,7 +635,7 @@ tr.wrong td.shape { color: var(--red); }
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <div class="footer">
   SuperGeneral &middot; OpenEnv Hackathon 2026 &middot;
-  <a href="https://github.com/lilyzhng/apex-env">GitHub</a> &middot;
+  <a href="https://github.com/lilyzhng/OpenEnv">GitHub</a> &middot;
   <a href="https://huggingface.co/spaces/lilyzhng/apex-env">HF Spaces</a>
 </div>
 
@@ -859,7 +968,9 @@ var modelData = [
     iframe: 'data/handdraw_v1/html/gpt54_hourglass.html',
     criteria: '5/6',
     reward: '0.833',
-    method: 'Read ALL files in one command. Used python3 to generate. Knowledge-based, no analogical reasoning.',
+    method: 'Read ALL files in one command. Used python3 to generate from internal knowledge.',
+    toolUse: { used: false, label: 'Knowledge-based. No analogical reasoning, no building block reuse.' },
+    blocks: [],
     phases: [
       { name: 'Discover', dim: '(explore workspace)', items: [
         { cmd: 'ls -la', cls: '' },
@@ -886,7 +997,9 @@ var modelData = [
     iframe: 'data/handdraw_v1/html/sonnet_hourglass.html',
     criteria: '5/6',
     reward: '0.417',
-    method: 'Discovered diamond \u2192 recognized "two triangles" \u2192 adapted orientation. Full analogical reasoning.',
+    method: 'Discovered diamond \u2192 recognized "two triangles" \u2192 adapted orientation.',
+    toolUse: { used: true, label: 'Full analogical reasoning. Reused triangle.js + line.js, adapted diamond pattern.' },
+    blocks: ['triangle', 'line'],
     phases: [
       { name: 'Discover', dim: '(explore workspace)', items: [
         { cmd: 'ls', cls: '' },
@@ -917,7 +1030,9 @@ var modelData = [
     iframe: 'data/handdraw_v1/html/gpt4omini_hourglass.html',
     criteria: '5/6',
     reward: '0.667',
-    method: 'Wrote output immediately, then explored. Kept rewriting with broken approach. Result: diamond.',
+    method: 'Wrote output immediately, then explored. Kept rewriting with broken approach.',
+    toolUse: { used: true, label: 'Partial. Read line.js + diamond example, but failed to adapt. Wrong order: wrote before exploring.' },
+    blocks: ['line'],
     phases: [
       { name: 'Discover', dim: '(explore workspace)', items: [
         { cmd: 'ls', cls: '' },
@@ -948,7 +1063,9 @@ var modelData = [
     iframe: 'data/handdraw_v1/html/qwen30b_hourglass_v2.html',
     criteria: '5/6',
     reward: '0.667',
-    method: 'Thorough exploration but built from scratch. No analogical reasoning from diamond. Result: unclear.',
+    method: 'Thorough exploration. Read all elements + diamond example, but built from scratch.',
+    toolUse: { used: false, label: 'No analogical reasoning. Read everything but did not reuse any building blocks.' },
+    blocks: [],
     phases: [
       { name: 'Discover', dim: '(explore workspace)', items: [
         { cmd: 'ls -la', cls: '' },
@@ -978,7 +1095,9 @@ var modelData = [
     iframe: 'data/handdraw_v1/html/deepseek_hourglass.html',
     criteria: '4/6',
     reward: '0.500',
-    method: 'Read everything thoroughly. Copied diamond without adapting orientation. Result: diamond.',
+    method: 'Read everything thoroughly. Copied diamond structure into output.',
+    toolUse: { used: true, label: 'Read all 5 elements, but copied diamond verbatim. No adaptation \u2014 same orientation = still a diamond.' },
+    blocks: ['triangle', 'rectangle', 'line', 'circle', 'arc'],
     phases: [
       { name: 'Discover', dim: '(explore workspace)', items: [
         { cmd: 'ls', cls: '' },
@@ -1005,6 +1124,56 @@ var modelData = [
     ]
   }
 ];
+
+function drawBlockThumbnails(blocks) {
+  var container = document.getElementById('trajBlocks');
+  if (!blocks || !blocks.length) { container.innerHTML = ''; return; }
+  container.innerHTML = '';
+  var sz = 48;
+  var ink = '#1a1a1a';
+  var opts = { stroke: ink, strokeWidth: 1.8, roughness: 0.8 };
+
+  blocks.forEach(function(name) {
+    var div = document.createElement('div');
+    div.className = 'block-thumb';
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + sz + ' ' + sz);
+    svg.setAttribute('width', sz);
+    svg.setAttribute('height', sz);
+    div.appendChild(svg);
+    var label = document.createElement('span');
+    label.className = 'block-thumb-label';
+    label.textContent = name;
+    div.appendChild(label);
+    container.appendChild(div);
+
+    var rc = rough.svg(svg);
+    var m = sz / 2;
+    var p = 8;
+    switch (name) {
+      case 'triangle':
+        svg.appendChild(rc.polygon([[m, p], [sz - p, sz - p], [p, sz - p]], opts));
+        break;
+      case 'rectangle':
+        svg.appendChild(rc.rectangle(p, p + 4, sz - 2*p, sz - 2*p - 8, opts));
+        break;
+      case 'line':
+        svg.appendChild(rc.line(p, sz - p, sz - p, p, opts));
+        break;
+      case 'circle':
+        svg.appendChild(rc.circle(m, m, sz - 2*p, opts));
+        break;
+      case 'arc':
+        svg.appendChild(rc.arc(m, m + 6, sz - 2*p, sz - 2*p, Math.PI, 2 * Math.PI, false, opts));
+        break;
+      case 'polygon':
+        svg.appendChild(rc.polygon([[m, p], [sz - p, sz - p - 4], [p, sz - p - 4]], opts));
+        svg.appendChild(rc.polygon([[p, sz - p - 4], [sz - p, sz - p - 4], [m - 2, p + 2]], { stroke: ink, strokeWidth: 1.2, roughness: 0.6 }));
+        break;
+    }
+  });
+
+}
 
 function renderModel(idx) {
   // Update buttons
@@ -1054,7 +1223,18 @@ function renderModel(idx) {
       '<span class="traj-result ' + m.result + '">' + m.resultLabel + '</span>' +
     '</div>' +
     '<div class="hero-tree" style="margin-bottom:12px;">' + treeHtml + '</div>' +
-    '<div class="traj-summary"><strong>Method:</strong> ' + m.method + '</div>';
+    '<div class="traj-summary"><strong>Method:</strong> ' + m.method + '</div>' +
+    '<div class="traj-tool-use">' +
+      '<strong>Tool Use:</strong> ' +
+      (m.toolUse.used
+        ? '<span class="tool-use-yes">\u2713 Yes</span> '
+        : '<span class="tool-use-no">\u2717 None</span> ') +
+      '<span class="tool-use-detail">' + m.toolUse.label + '</span>' +
+      '<div id="trajBlocks" class="traj-blocks-inline"></div>' +
+    '</div>';
+
+  // Draw building block thumbnails
+  drawBlockThumbnails(m.blocks);
 
   // Render panel
   var renderPanel = document.getElementById('renderPanel');

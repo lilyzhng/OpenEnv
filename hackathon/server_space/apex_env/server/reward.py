@@ -355,10 +355,14 @@ def vlm_visual_check(
                             {
                                 "type": "text",
                                 "text": (
-                                    f"This image shows a hand-drawn illustration. "
-                                    f"First, describe the shape: where is it widest? "
-                                    f"Where is it narrowest? "
-                                    f"Then determine: does this depict a {concept}? "
+                                    f"This is a geometric, hand-drawn illustration using straight lines and polygons (not realistic). "
+                                    f"Task: Does this depict a {concept}? "
+                                    f"Step 1: Trace the OUTER SILHOUETTE of the entire shape from top to bottom. "
+                                    f"At each level, how wide is it? Is the shape widest at the TOP and BOTTOM "
+                                    f"with a NARROW MIDDLE, or is it something else (e.g. arrows, a diamond, a rectangle)? "
+                                    f"Step 2: If you showed ONLY the silhouette to 10 random people and asked "
+                                    f"'what is this?', would most say '{concept}'? "
+                                    f"Be honest — if it looks more like arrows, a bowtie, a diamond, or some other shape, say FAIL. "
                                     f"End with exactly PASS or FAIL on the last line."
                                 ),
                             },
