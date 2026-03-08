@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SuperGeneral — Recursive Environments for General Agents</title>
+<title>SuperGeneral — Recursive Tool-Centric Environments for General Agents</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -351,7 +351,7 @@ tr.wrong td.shape { color: var(--red); }
       <div class="hero-left">
         <div class="hero-label">OpenEnv Hackathon 2026</div>
         <h1 class="hero-title">SuperGeneral</h1>
-        <div class="hero-subtitle">Recursive Environments for General Agents</div>
+        <div class="hero-subtitle">Recursive Tool-Centric Environments for General Agents</div>
       </div>
 
       <div class="hero-card">
@@ -430,13 +430,11 @@ tr.wrong td.shape { color: var(--red); }
         </div>
       </div>
       <div class="hero-pipeline" id="heroPipeline">
-        <span class="hero-pipe-step">Discover</span>
+        <span class="hero-pipe-step">Tool Use</span>
         <span class="hero-pipe-arrow">&rarr;</span>
-        <span class="hero-pipe-step">Decompose</span>
+        <span class="hero-pipe-step">Tool Composition</span>
         <span class="hero-pipe-arrow">&rarr;</span>
-        <span class="hero-pipe-step">Recompose</span>
-        <span class="hero-pipe-arrow">&rarr;</span>
-        <span class="hero-pipe-step">Adapt</span>
+        <span class="hero-pipe-step">Tool Creation</span>
       </div>
     </div>
     </div>
@@ -478,40 +476,30 @@ tr.wrong td.shape { color: var(--red); }
     <div class="dot dot-yellow"></div>
     <div class="dot dot-green"></div>
   </div>
-  <div class="panel-title">One meta-strategy. Every domain.</div>
+  <div class="panel-title">One strategy. Every domain.</div>
 
   <div class="distill-layout">
-    <!-- Core meta-strategy tree -->
+    <!-- Core Strategy tree -->
     <div class="distill-core">
-      <div class="distill-core-label">Core Meta-Strategy</div>
+      <div class="distill-core-label">Core Strategy</div>
       <div class="hero-tree" style="font-size:13px; line-height:2;">
         <div class="tree-row" style="opacity:1;">
           <span class="tree-branch">&boxvr;&boxh;</span>
-          <span class="tree-name" style="color:var(--cyan)">Discover</span>
-          <span class="tree-dim">&mdash; explore workspace</span>
+          <span class="tree-name" style="color:var(--cyan)">Tool Use</span>
+          <span class="tree-dim">&mdash; use existing building blocks</span>
         </div>
         <div class="tree-row" style="opacity:1;">
           <span class="tree-branch">&boxvr;&boxh;</span>
-          <span class="tree-name" style="color:var(--cyan)">Find Nearest</span>
-          <span class="tree-dim">&mdash; find reference</span>
-        </div>
-        <div class="tree-row" style="opacity:1;">
-          <span class="tree-branch">&boxvr;&boxh;</span>
-          <span class="tree-name" style="color:var(--cyan)">Decompose</span>
-          <span class="tree-dim">&mdash; break into parts</span>
-        </div>
-        <div class="tree-row" style="opacity:1;">
-          <span class="tree-branch">&boxvr;&boxh;</span>
-          <span class="tree-name" style="color:var(--cyan)">Recompose</span>
-          <span class="tree-dim">&mdash; combine for new goal</span>
+          <span class="tree-name" style="color:var(--cyan)">Tool Composition</span>
+          <span class="tree-dim">&mdash; combine tools for new goal</span>
         </div>
         <div class="tree-row" style="opacity:1;">
           <span class="tree-branch">&boxur;&boxh;</span>
-          <span class="tree-name" style="color:var(--cyan)">Adapt</span>
-          <span class="tree-dim">&mdash; adjust specifics</span>
+          <span class="tree-name" style="color:var(--cyan)">Tool Creation</span>
+          <span class="tree-dim">&mdash; create new tools for the task</span>
         </div>
       </div>
-      <div class="distill-core-sub">Domain-agnostic. Learned once, applied everywhere.</div>
+      <div class="distill-core-sub">Measured by file-system diff. Domain-agnostic. Learned once, applied everywhere.</div>
     </div>
 
     <!-- Arrow -->
@@ -522,10 +510,8 @@ tr.wrong td.shape { color: var(--red); }
       <div class="domain-col d1">
         <div class="domain-title">Hand-Draw</div>
         <div class="hero-tree">
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">ls elements/</span></div>
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">cat diamond.html</span></div>
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">2&times;triangle, base-to-base</span></div>
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">flip to point-to-point</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">use triangle.js + line.js</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">compose: 2&times;triangle &rarr; hourglass</span></div>
           <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxur;&boxh;</span><span style="color:var(--green)">hourglass.html</span></div>
         </div>
         <div class="domain-mode"><span class="domain-mode-tag visual">visual</span></div>
@@ -534,10 +520,8 @@ tr.wrong td.shape { color: var(--red); }
       <div class="domain-col d4">
         <div class="domain-title">Law</div>
         <div class="hero-tree">
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">ls cases/ precedents/</span></div>
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">cat prior_case.txt</span></div>
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">facts + statute + ruling</span></div>
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">new facts, same statute</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">use precedent_template.txt</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">compose: facts + statute &rarr; memo</span></div>
           <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxur;&boxh;</span><span style="color:var(--amber)">legal_memo.txt</span></div>
         </div>
         <div class="domain-mode"><span class="domain-mode-tag text">text-heavy</span></div>
@@ -546,10 +530,8 @@ tr.wrong td.shape { color: var(--red); }
       <div class="domain-col d5">
         <div class="domain-title">Consulting</div>
         <div class="hero-tree">
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">ls reports/ frameworks/</span></div>
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">cat alpha_deck.md</span></div>
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">framework + data + visuals</span></div>
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">new client, same framework</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">use framework_template.md</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">compose: framework + data &rarr; deck</span></div>
           <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxur;&boxh;</span><span style="color:var(--amber)">strategy_deck.md</span></div>
         </div>
         <div class="domain-mode"><span class="domain-mode-tag mixed">text + tools</span></div>
@@ -558,10 +540,8 @@ tr.wrong td.shape { color: var(--red); }
       <div class="domain-col d2">
         <div class="domain-title">Investment Banking</div>
         <div class="hero-tree">
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">ls data/ tools/ briefs/</span></div>
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">cat alpha_analysis.txt</span></div>
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">brief + cashflows + xirr</span></div>
-          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">KatNip numbers + xirr_tool</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-ref">use xirr_tool.py + brief.txt</span></div>
+          <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxvr;&boxh;</span><span style="color:var(--amber)">compose: cashflows + xirr &rarr; analysis</span></div>
           <div class="tree-row" style="opacity:1;"><span class="tree-branch">&boxur;&boxh;</span><span style="color:var(--cyan)">analysis.txt</span></div>
         </div>
         <div class="domain-mode"><span class="domain-mode-tag tools">tool-heavy</span></div>
@@ -576,13 +556,13 @@ tr.wrong td.shape { color: var(--red); }
   <div class="panel lb-panel" style="border-top: 3px solid var(--green);">
     <div class="panel-title" style="color:var(--green); font-size:12px;">Hand-Draw: Hourglass</div>
     <table>
-      <thead><tr><th>Model</th><th>Discovery</th><th>Decomposition</th><th>Adaptation</th><th>Reward</th></tr></thead>
+      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
       <tbody>
-        <tr class="highlight"><td>GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.900 <span class="reward-bar" style="width:86px"></span></td></tr>
-        <tr class="highlight"><td>Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.900 <span class="reward-bar" style="width:86px"></span></td></tr>
-        <tr><td>Qwen3</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.900 <span class="reward-bar" style="width:86px"></span></td></tr>
-        <tr><td>DeepSeek</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.900 <span class="reward-bar" style="width:86px"></span></td></tr>
-        <tr><td>4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.800 <span class="reward-bar" style="width:77px"></span></td></tr>
+        <tr><td>GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.500 <span class="reward-bar" style="width:48px"></span></td></tr>
+        <tr><td>Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.500 <span class="reward-bar" style="width:48px"></span></td></tr>
+        <tr><td>4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.500 <span class="reward-bar" style="width:48px"></span></td></tr>
+        <tr><td>DeepSeek</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+        <tr><td>Qwen3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
       </tbody>
     </table>
   </div>
@@ -590,13 +570,13 @@ tr.wrong td.shape { color: var(--red); }
   <div class="panel lb-panel" style="border-top: 3px solid var(--amber);">
     <div class="panel-title" style="color:var(--amber); font-size:12px;">Law: Royalty Dispute</div>
     <table>
-      <thead><tr><th>Model</th><th>Discovery</th><th>Decomposition</th><th>Adaptation</th><th>Reward</th></tr></thead>
+      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
       <tbody>
-        <tr class="highlight"><td>GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>1.000 <span class="reward-bar" style="width:96px"></span></td></tr>
-        <tr class="highlight"><td>Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>1.000 <span class="reward-bar" style="width:96px"></span></td></tr>
-        <tr><td>Qwen3</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.940 <span class="reward-bar" style="width:90px"></span></td></tr>
-        <tr><td>4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.460 <span class="reward-bar" style="width:44px"></span></td></tr>
+        <tr class="highlight"><td>4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.880 <span class="reward-bar" style="width:84px"></span></td></tr>
+        <tr><td>Sonnet 4</td><td class="metric-no">&#10007;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td>0.750 <span class="reward-bar" style="width:72px"></span></td></tr>
+        <tr><td>GPT-5.4</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.540 <span class="reward-bar" style="width:52px"></span></td></tr>
         <tr><td>DeepSeek</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+        <tr><td>Qwen3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
       </tbody>
     </table>
   </div>
@@ -604,11 +584,11 @@ tr.wrong td.shape { color: var(--red); }
   <div class="panel lb-panel" style="border-top: 3px solid #c084fc;">
     <div class="panel-title" style="color:#c084fc; font-size:12px;">Consulting: Market Entry</div>
     <table>
-      <thead><tr><th>Model</th><th>Discovery</th><th>Decomposition</th><th>Adaptation</th><th>Reward</th></tr></thead>
+      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
       <tbody>
-        <tr class="highlight"><td>GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>1.000 <span class="reward-bar" style="width:96px"></span></td></tr>
-        <tr class="highlight"><td>Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>1.000 <span class="reward-bar" style="width:96px"></span></td></tr>
-        <tr><td>4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.820 <span class="reward-bar" style="width:79px"></span></td></tr>
+        <tr class="highlight"><td>Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td>0.850 <span class="reward-bar" style="width:82px"></span></td></tr>
+        <tr><td>GPT-5.4</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.540 <span class="reward-bar" style="width:52px"></span></td></tr>
+        <tr><td>4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.420 <span class="reward-bar" style="width:40px"></span></td></tr>
         <tr><td>DeepSeek</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
         <tr><td>Qwen3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
       </tbody>
@@ -618,12 +598,12 @@ tr.wrong td.shape { color: var(--red); }
   <div class="panel lb-panel" style="border-top: 3px solid var(--cyan);">
     <div class="panel-title" style="color:var(--cyan); font-size:12px;">Investment Banking: Financial Analysis</div>
     <table>
-      <thead><tr><th>Model</th><th>Discovery</th><th>Decomposition</th><th>Adaptation</th><th>Reward</th></tr></thead>
+      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
       <tbody>
-        <tr class="highlight"><td>GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>1.000 <span class="reward-bar" style="width:96px"></span></td></tr>
-        <tr><td>Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.945 <span class="reward-bar" style="width:91px"></span></td></tr>
-        <tr><td>4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.327 <span class="reward-bar" style="width:31px"></span></td></tr>
-        <tr><td>DeepSeek</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.327 <span class="reward-bar" style="width:31px"></span></td></tr>
+        <tr class="highlight"><td>Sonnet 4</td><td class="metric-no">&#10007;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td>0.695 <span class="reward-bar" style="width:67px"></span></td></tr>
+        <tr><td>GPT-5.4</td><td class="metric-no">&#10007;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td>0.641 <span class="reward-bar" style="width:61px"></span></td></tr>
+        <tr><td>4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td>0.477 <span class="reward-bar" style="width:46px"></span></td></tr>
+        <tr><td>DeepSeek</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
         <tr><td>Qwen3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
       </tbody>
     </table>

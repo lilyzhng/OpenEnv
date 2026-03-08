@@ -107,6 +107,8 @@ def get_api_key() -> str:
 
 
 def call_model(messages: list[dict], model: str, api_key: str) -> str:
+    # Strip openrouter/ prefix — OpenRouter API expects e.g. "openai/gpt-4o-mini"
+    api_model = model.removeprefix("openrouter/") if model.startswith("openrouter/") else model
     for attempt in range(3):
         try:
             resp = requests.post(
@@ -116,7 +118,7 @@ def call_model(messages: list[dict], model: str, api_key: str) -> str:
                     "Content-Type": "application/json",
                 },
                 json={
-                    "model": model,
+                    "model": api_model,
                     "messages": messages,
                     "temperature": 0.3,
                     "max_tokens": 2048,

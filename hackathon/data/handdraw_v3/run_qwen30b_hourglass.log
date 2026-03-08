@@ -1,0 +1,22 @@
+/Users/lilyzhang/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Model: openrouter/qwen/qwen3-coder-30b-a3b:free
+Task: handdraw
+Subtask: hourglass
+Max turns: 30
+======================================================================
+
+======================================================================
+ENVIRONMENT → AGENT
+======================================================================
+You are an illustrator. Your workspace is: /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_hd_f_nnmrrc
+Create a hand-drawn SVG illustration. Check specs.md for details.
+This task has 6 evaluation criteria.
+When finished, send: done
+
+──────────────────────────────────────────────────────────────────────
+TURN 1/30
+──────────────────────────────────────────────────────────────────────
+API error: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+
+Saved to data/demo_result.json
