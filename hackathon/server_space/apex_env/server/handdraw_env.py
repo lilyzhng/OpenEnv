@@ -299,11 +299,13 @@ class HandDrawEnvironment:
                 except Exception:
                     pass
 
-        # 1. Tool Use: agent output references building block directory paths
-        #    e.g., <script src="elements/triangle.js"> or import from tools/
-        tool_use = any(
-            d.name + "/" in agent_content
-            for d in bb_dirs if d.exists()
+        # 1. Tool Use: agent referenced building blocks in output OR commands
+        #    Level 1: ran tools/xirr_tool.py directly (command history)
+        #    Level 2: wrote <script src="elements/triangle.js"> (output files)
+        commands_text = " ".join(self._actions).lower()
+        tool_use = (
+            any(d.name + "/" in agent_content for d in bb_dirs if d.exists())
+            or any(d.name + "/" in commands_text for d in bb_dirs if d.exists())
         )
 
         # 2. Tool Composition: agent created multiple meaningful files (intermediate + final)

@@ -416,10 +416,11 @@ class BuildingBlockEnvironment:
                 except Exception:
                     pass
 
-        # Tool Use: agent output references building block directory paths
-        tool_use = any(
-            d.name + "/" in agent_content
-            for d in bb_dirs if d.exists()
+        # Tool Use: agent referenced building blocks in output OR commands
+        commands_text = " ".join(self._actions).lower()
+        tool_use = (
+            any(d.name + "/" in agent_content for d in bb_dirs if d.exists())
+            or any(d.name + "/" in commands_text for d in bb_dirs if d.exists())
         )
 
         meaningful = [fp for fp in new_files if Path(fp).stat().st_size > 50]

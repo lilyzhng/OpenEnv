@@ -313,9 +313,15 @@ tr.wrong td.shape { color: var(--red); }
 .steps { color: var(--text-dim); font-size: 11px; }
 .metric-yes { color: var(--green); }
 .metric-no { color: var(--red); opacity: 0.6; }
+.reward-cell {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+}
+.reward-num {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--text-light);
+}
 .reward-bar {
-  display: inline-block; height: 14px; background: var(--green);
-  border-radius: 2px; opacity: 0.7; vertical-align: middle; margin-left: 6px;
+  display: block; height: 8px; background: var(--green);
+  border-radius: 2px; opacity: 0.7; min-width: 4px;
 }
 .hl { color: var(--green); font-weight: 600; }
 
@@ -558,11 +564,11 @@ tr.wrong td.shape { color: var(--red); }
     <table>
       <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
       <tbody>
-        <tr><td>GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.500 <span class="reward-bar" style="width:48px"></span></td></tr>
-        <tr><td>Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.500 <span class="reward-bar" style="width:48px"></span></td></tr>
-        <tr><td>4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.500 <span class="reward-bar" style="width:48px"></span></td></tr>
-        <tr><td>DeepSeek</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
-        <tr><td>Qwen3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.500</span><span class="reward-bar" style="width:50px"></span></div></td></tr>
+        <tr><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.500</span><span class="reward-bar" style="width:50px"></span></div></td></tr>
+        <tr><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.500</span><span class="reward-bar" style="width:50px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.400</span><span class="reward-bar" style="width:40px"></span></div></td></tr>
+        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
       </tbody>
     </table>
   </div>
@@ -572,11 +578,11 @@ tr.wrong td.shape { color: var(--red); }
     <table>
       <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
       <tbody>
-        <tr class="highlight"><td>4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td>0.880 <span class="reward-bar" style="width:84px"></span></td></tr>
-        <tr><td>Sonnet 4</td><td class="metric-no">&#10007;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td>0.750 <span class="reward-bar" style="width:72px"></span></td></tr>
-        <tr><td>GPT-5.4</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.540 <span class="reward-bar" style="width:52px"></span></td></tr>
-        <tr><td>DeepSeek</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
-        <tr><td>Qwen3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.730</span><span class="reward-bar" style="width:73px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.700</span><span class="reward-bar" style="width:70px"></span></div></td></tr>
+        <tr><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.670</span><span class="reward-bar" style="width:67px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.210</span><span class="reward-bar" style="width:21px"></span></div></td></tr>
+        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
       </tbody>
     </table>
   </div>
@@ -586,11 +592,11 @@ tr.wrong td.shape { color: var(--red); }
     <table>
       <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
       <tbody>
-        <tr class="highlight"><td>Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td>0.850 <span class="reward-bar" style="width:82px"></span></td></tr>
-        <tr><td>GPT-5.4</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.540 <span class="reward-bar" style="width:52px"></span></td></tr>
-        <tr><td>4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td>0.420 <span class="reward-bar" style="width:40px"></span></td></tr>
-        <tr><td>DeepSeek</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
-        <tr><td>Qwen3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.850</span><span class="reward-bar" style="width:85px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.700</span><span class="reward-bar" style="width:70px"></span></div></td></tr>
+        <tr><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.550</span><span class="reward-bar" style="width:55px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.280</span><span class="reward-bar" style="width:28px"></span></div></td></tr>
+        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
       </tbody>
     </table>
   </div>
@@ -600,11 +606,11 @@ tr.wrong td.shape { color: var(--red); }
     <table>
       <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
       <tbody>
-        <tr class="highlight"><td>Sonnet 4</td><td class="metric-no">&#10007;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td>0.695 <span class="reward-bar" style="width:67px"></span></td></tr>
-        <tr><td>GPT-5.4</td><td class="metric-no">&#10007;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td>0.641 <span class="reward-bar" style="width:61px"></span></td></tr>
-        <tr><td>4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td>0.477 <span class="reward-bar" style="width:46px"></span></td></tr>
-        <tr><td>DeepSeek</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
-        <tr><td>Qwen3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.741</span><span class="reward-bar" style="width:74px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.741</span><span class="reward-bar" style="width:74px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.327</span><span class="reward-bar" style="width:33px"></span></div></td></tr>
+        <tr><td>Qwen3-Coder-30B</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.327</span><span class="reward-bar" style="width:33px"></span></div></td></tr>
+        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
       </tbody>
     </table>
   </div>
@@ -941,7 +947,7 @@ function showHeroFinalState() {
 // ══════════════════════════════════════════════════
 var modelData = [
   {
-    name: 'GPT-5.4',
+    name: 'OpenAI GPT-5.4',
     result: 'pass',
     resultLabel: '\u2713 HOURGLASS',
     shape: 'hourglass',
@@ -970,7 +976,7 @@ var modelData = [
     ]
   },
   {
-    name: 'Sonnet 4',
+    name: 'Claude Sonnet 4',
     result: 'pass',
     resultLabel: '\u2713 HOURGLASS',
     shape: 'hourglass',
@@ -1003,7 +1009,7 @@ var modelData = [
     ]
   },
   {
-    name: '4o-mini',
+    name: 'OpenAI GPT-4o-mini',
     result: 'fail',
     resultLabel: '\u2717 DIAMOND',
     shape: 'diamond',
@@ -1036,7 +1042,7 @@ var modelData = [
     ]
   },
   {
-    name: 'Qwen3',
+    name: 'Qwen3-Coder-30B-A3B-Instruct',
     result: 'unclear',
     resultLabel: '? UNCLEAR',
     shape: 'unclear',
@@ -1068,7 +1074,7 @@ var modelData = [
     ]
   },
   {
-    name: 'DeepSeek',
+    name: 'DeepSeek V3',
     result: 'fail',
     resultLabel: '\u2717 DIAMOND',
     shape: 'diamond',
