@@ -16,11 +16,11 @@ from pathlib import Path
 
 try:
     from .bash_executor import BashExecutor
-    from .reward import collect_workspace_text
+    from .reward import collect_workspace_text, check_criterion_hybrid
     from .demo_task import CRITERIA, DATA_CONTENT, BRIEF_CONTENT
 except ImportError:
     from bash_executor import BashExecutor
-    from reward import collect_workspace_text
+    from reward import collect_workspace_text, check_criterion_hybrid
     from demo_task import CRITERIA, DATA_CONTENT, BRIEF_CONTENT
 
 
@@ -247,8 +247,11 @@ class BuildingBlockEnvironment:
         if not result.stdout and not result.stderr:
             parts.append(f"(command executed, exit code {result.exit_code})")
 
-        # Progress feedback — just the score, no hints
-        parts.append(f"\n[Progress: {criteria_met}/{len(CRITERIA)} criteria met]")
+        # Progress feedback with delta signal
+        prev = self._progress_history[-1] if self._progress_history else 0
+        delta = criteria_met - prev
+        delta_str = f" (+{delta})" if delta > 0 else (f" ({delta})" if delta < 0 else "")
+        parts.append(f"\n[Progress: {prev}→{criteria_met}/{len(CRITERIA)} criteria met{delta_str}]")
 
         # Meta-feedback — coach behavior patterns, never give answers
         meta = self._get_meta_feedback(command)
@@ -348,24 +351,32 @@ class BuildingBlockEnvironment:
         self._last_hint = hint
         return hint
 
-    def _count_criteria_met(self) -> int:
+    def _count_criteria_met(self, use_llm: bool = False) -> int:
+        """Count satisfied criteria. use_llm=False for per-step (fast), True for final."""
         if not self._workspace or not self._workspace.exists():
             return 0
-        agent_text = collect_workspace_text(self._workspace).lower()
+        agent_text = collect_workspace_text(self._workspace)
         if not agent_text:
             return 0
         count = 0
         for criterion in CRITERIA:
-            if any(kw.lower() in agent_text for kw in criterion["check_keywords"]):
+            if check_criterion_hybrid(criterion, agent_text, use_llm=use_llm):
                 count += 1
         return count
 
     def _finish(self) -> dict:
-        criteria_met = self._count_criteria_met()
+        # Final scoring uses LLM for semantic criteria
+        agent_text = collect_workspace_text(self._workspace) if self._workspace else ""
+        criteria_results = []
+        criteria_met = 0
+        for c in CRITERIA:
+            met = check_criterion_hybrid(c, agent_text, use_llm=True)
+            criteria_results.append((c, met))
+            if met:
+                criteria_met += 1
+
         reward = criteria_met / len(CRITERIA) if CRITERIA else 0.0
 
-        # Final report
-        agent_text = collect_workspace_text(self._workspace).lower() if self._workspace else ""
         lines = [
             f"Episode finished.",
             f"Final: {criteria_met}/{len(CRITERIA)} criteria met.",
@@ -374,8 +385,7 @@ class BuildingBlockEnvironment:
             f"",
             f"Criteria breakdown:",
         ]
-        for c in CRITERIA:
-            met = any(kw.lower() in agent_text for kw in c["check_keywords"])
+        for c, met in criteria_results:
             status = "PASS" if met else "FAIL"
             lines.append(f"  [{status}] {c['description']}")
 

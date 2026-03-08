@@ -3,17 +3,24 @@
 Uses OpenEnv's Rubric API (RFC 004) for composable, introspectable reward signals.
 Each rubric is a leaf that scores one dimension; they compose via WeightedSum.
 """
+from __future__ import annotations
 
 import json
+import os
 import re
 from pathlib import Path
 from typing import Any, List
+
+import requests
 
 try:
     from openenv.core.rubrics.base import Rubric
     from openenv.core.rubrics.containers import Gate, Sequential, WeightedSum
 except ImportError:
-    Rubric = None
+    class Rubric:
+        """Stub when OpenEnv not installed."""
+        def __init__(self): pass
+        def __call__(self, action, observation): return self.forward(action, observation)
     Gate = None
     Sequential = None
     WeightedSum = None
@@ -153,6 +160,166 @@ def is_talk_action(action_str: str) -> bool:
         return True
     if s.endswith(".") and not any(c in s for c in "|>&;$`"):
         return True
+    return False
+
+
+# ---------------------------------------------------------------------------
+# Hybrid criteria checking: fuzzy numbers + LLM judge
+# ---------------------------------------------------------------------------
+
+def _extract_numbers(text: str) -> list[float]:
+    """Extract all numeric values from text, handling $, %, MM, commas, negatives."""
+    patterns = [
+        r'[-−]?\$?[\d,]+\.?\d*\s*%',      # percentages like 17.9%, -$2.3%
+        r'[-−]?\$?[\d,]+\.?\d*\s*[Mm]{2}', # millions like $10.9MM
+        r'[-−]?\$?[\d,]+\.?\d*\s*x',       # multiples like 1.5x
+        r'[-−]?\$?[\d,]+\.\d+',            # decimals like $140.15
+        r'[-−]?\$?[\d,]{2,}',              # integers like 50,000
+    ]
+    results = []
+    for pattern in patterns:
+        for match in re.finditer(pattern, text, re.IGNORECASE):
+            raw = match.group()
+            # Strip non-numeric chars except minus and decimal
+            cleaned = re.sub(r'[^0-9.\-−]', '', raw.replace('−', '-'))
+            try:
+                results.append(float(cleaned))
+            except ValueError:
+                continue
+    return results
+
+
+def fuzzy_number_match(
+    criterion_text: str,
+    agent_text: str,
+    rel_tolerance: float = 0.05,
+    abs_tolerance: float = 0.15,
+) -> bool:
+    """Check if agent output contains numbers matching the criterion.
+
+    Uses both relative tolerance (5%) and absolute tolerance (0.15) to handle
+    rounding differences like 2.9 vs 2.8, 17.9% vs 17.94%.
+    """
+    expected_nums = _extract_numbers(criterion_text)
+    if not expected_nums:
+        return False
+
+    agent_nums = _extract_numbers(agent_text)
+    if not agent_nums:
+        return False
+
+    # All expected numbers must have a close match in agent output
+    for expected in expected_nums:
+        matched = False
+        for actual in agent_nums:
+            if expected == 0:
+                if abs(actual) <= abs_tolerance:
+                    matched = True
+                    break
+            else:
+                rel_diff = abs(actual - expected) / abs(expected)
+                abs_diff = abs(actual - expected)
+                if rel_diff <= rel_tolerance or abs_diff <= abs_tolerance:
+                    matched = True
+                    break
+        if not matched:
+            return False
+    return True
+
+
+def _get_openrouter_key() -> str:
+    """Get OpenRouter API key from env or .env.local files."""
+    key = os.environ.get("OPENROUTER_APIKEY", "")
+    if not key:
+        for env_path in [
+            Path.home() / "Documents" / "lilyzhng" / "2026" / ".env.local",
+            Path.home() / ".env.local",
+        ]:
+            if env_path.exists():
+                for line in env_path.read_text().splitlines():
+                    if line.startswith("OPENROUTER_APIKEY="):
+                        key = line.split("=", 1)[1].strip()
+                        break
+            if key:
+                break
+    return key
+
+
+def llm_criterion_check(
+    criterion_desc: str,
+    agent_text: str,
+    model: str = "anthropic/claude-haiku:beta",
+) -> bool:
+    """Use a lightweight LLM to judge if a criterion is satisfied.
+
+    Falls back to keyword matching if API is unavailable.
+    """
+    api_key = _get_openrouter_key()
+    if not api_key:
+        return False
+
+    # Truncate agent text to keep cost minimal
+    snippet = agent_text[:3000]
+
+    prompt = (
+        f"You are a strict grading judge. Determine if the agent's output satisfies this criterion.\n\n"
+        f"Criterion: {criterion_desc}\n\n"
+        f"Agent output (excerpt):\n{snippet}\n\n"
+        f"Does the agent's output satisfy this criterion? "
+        f"Consider approximate values acceptable (e.g. 17.94% satisfies '17.9%', "
+        f"1.5 satisfies '1.5x'). Respond with ONLY 'PASS' or 'FAIL'."
+    )
+
+    try:
+        resp = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": model,
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": 5,
+                "temperature": 0.0,
+            },
+            timeout=10,
+        )
+        resp.raise_for_status()
+        answer = resp.json()["choices"][0]["message"]["content"].strip().upper()
+        return "PASS" in answer
+    except Exception:
+        return False
+
+
+def check_criterion_hybrid(
+    criterion: dict[str, Any],
+    agent_text: str,
+    use_llm: bool = True,
+) -> bool:
+    """Hybrid criterion check: try fuzzy number match first, fall back to LLM.
+
+    Strategy:
+    - If criterion has numbers → fuzzy_number_match (deterministic, reliable)
+    - If fuzzy match fails AND use_llm → ask Claude Haiku (handles semantic cases)
+    - If no LLM → fall back to keyword matching (legacy behavior)
+    """
+    desc = criterion.get("description", "")
+    check_keywords = criterion.get("check_keywords", [])
+
+    # Step 1: Fuzzy number match (fast, deterministic, no API cost)
+    if _extract_numbers(desc):
+        if fuzzy_number_match(desc, agent_text):
+            return True
+
+    # Step 2: Legacy keyword match (fast fallback)
+    if any(kw.lower() in agent_text.lower() for kw in check_keywords):
+        return True
+
+    # Step 3: LLM judge (semantic understanding, handles edge cases)
+    if use_llm and desc:
+        return llm_criterion_check(desc, agent_text)
+
     return False
 
 
