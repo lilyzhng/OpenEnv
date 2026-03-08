@@ -29,6 +29,7 @@ import requests
 # Direct imports to bypass openenv dependency
 _project_root = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_project_root / "server_space" / "apex_env" / "server"))
+sys.path.insert(0, str(_project_root / "server_space" / "apex_env" / "server" / "sandbox"))
 # Also try the old path
 sys.path.insert(0, str(_project_root / "apex_env" / "server"))
 
@@ -243,6 +244,7 @@ def main():
     parser.add_argument("--model", default="openai/gpt-4o-mini")
     parser.add_argument("--per-tier", type=int, default=3, help="Tasks per tier")
     parser.add_argument("--max-turns", type=int, default=5)
+    parser.add_argument("--sandbox", action="store_true", help="Run commands in Docker sandbox")
     parser.add_argument("-o", "--output", default=None)
     args = parser.parse_args()
 
@@ -300,7 +302,12 @@ def main():
     print(f"\nRunning {total} tasks ({args.per_tier}/tier), model={args.model}, max_turns={args.max_turns}")
     print("=" * 70)
 
-    executor = BashExecutor()
+    if args.sandbox:
+        from docker_executor import DockerBashExecutor
+        executor = DockerBashExecutor()
+        print("Using Docker sandbox executor")
+    else:
+        executor = BashExecutor()
     all_results = []
 
     for tier in ["easy", "hard"]:
@@ -371,6 +378,10 @@ def main():
             "tier_averages": tier_avgs,
         }, f, indent=2)
     print(f"\nSaved to {output_path}")
+
+    # Cleanup sandbox containers
+    if args.sandbox and hasattr(executor, 'cleanup_all'):
+        executor.cleanup_all()
 
 
 if __name__ == "__main__":

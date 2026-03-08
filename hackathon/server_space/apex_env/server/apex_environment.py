@@ -14,6 +14,14 @@ from .reward import ApexRubric
 from .task_loader import TaskLoader
 
 
+def _make_executor(use_sandbox: bool):
+    """Create the appropriate bash executor."""
+    if use_sandbox:
+        from .sandbox.docker_executor import DockerBashExecutor
+        return DockerBashExecutor()
+    return BashExecutor()
+
+
 class ApexEnvironment(Environment):
     """Environment for APEX professional tasks (law, IB, consulting).
 
@@ -22,6 +30,11 @@ class ApexEnvironment(Environment):
     2. Agent executes bash commands via step()
     3. Episode ends at step limit or when agent sends "done"
     4. Reward computed via OpenEnv Rubric API (RFC 004) at episode end
+
+    Sandbox mode (use_sandbox=True):
+    - Commands run inside a Docker container (apex-sandbox:latest)
+    - No network access, memory/CPU limited, non-root user
+    - Workspace bind-mounted so output files are accessible for reward
 
     Rubric architecture:
         ApexRubric(
@@ -36,8 +49,9 @@ class ApexEnvironment(Environment):
 
     SUPPORTS_CONCURRENT_SESSIONS = True
 
-    def __init__(self):
-        self._executor = BashExecutor()
+    def __init__(self, use_sandbox: bool = False):
+        self._executor = _make_executor(use_sandbox)
+        self._use_sandbox = use_sandbox
         self._task_loader = TaskLoader()
         self.rubric = ApexRubric()
         self._state = ApexState()
@@ -179,6 +193,9 @@ class ApexEnvironment(Environment):
         self._cleanup_workspace()
 
     def _cleanup_workspace(self):
-        if self._workspace_dir and self._workspace_dir.exists():
-            shutil.rmtree(self._workspace_dir, ignore_errors=True)
+        if self._workspace_dir:
+            if self._use_sandbox and hasattr(self._executor, 'cleanup'):
+                self._executor.cleanup(self._workspace_dir)
+            if self._workspace_dir.exists():
+                shutil.rmtree(self._workspace_dir, ignore_errors=True)
         self._workspace_dir = None

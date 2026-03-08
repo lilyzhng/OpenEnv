@@ -1,0 +1,40 @@
+{
+  "model": "openai/gpt-4o-mini",
+  "per_tier": 1,
+  "results": [
+    {
+      "task_id": 145,
+      "domain": "Consulting",
+      "tier": "easy",
+      "difficulty_score": 7.0,
+      "reward": 0.52,
+      "num_turns": 5,
+      "actions": [
+        "cat /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_2539nv7y/Campaign_Portfolio.csv | head -n 5",
+        "ls /var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_145_2539nv7y",
+        "echo $PWD",
+        "ls /home/agent/workspace",
+        "head -n 5 /home/agent/workspace/Campaign_Portfolio.csv"
+      ]
+    },
+    {
+      "task_id": 283,
+      "domain": "Consulting",
+      "tier": "hard",
+      "difficulty_score": 14.0,
+      "reward": 0.6137931034482758,
+      "num_turns": 5,
+      "actions": [
+        "head -n 10 \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_283_y3r8l3zx/SoW v2 (2).csv\"",
+        "ls \"/var/folders/zb/gv9h0w894b92wzw6hwsqc0pr0000gn/T/apex_tier_283_y3r8l3zx\"",
+        "echo $PWD",
+        "ls \"/home/agent/workspace\"",
+        "head -n 10 \"/home/agent/workspace/SoW v2 (2).csv\""
+      ]
+    }
+  ],
+  "tier_averages": {
+    "easy": 0.52,
+    "hard": 0.6137931034482758
+  }
+}
