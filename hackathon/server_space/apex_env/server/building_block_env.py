@@ -149,6 +149,8 @@ class BuildingBlockEnvironment:
         self._progress_history: list[int] = []  # criteria_met per step
         self._scripts_written: set[str] = set()
         self._scripts_run: set[str] = set()
+        self._has_read_briefs: bool = False   # Layer 3: behavior blind spots
+        self._has_explored_tools: bool = False
         self._last_hint: str | None = None  # avoid repeating same hint
 
     def reset(self) -> dict:
@@ -162,6 +164,8 @@ class BuildingBlockEnvironment:
         self._progress_history = []
         self._scripts_written = set()
         self._scripts_run = set()
+        self._has_read_briefs = False
+        self._has_explored_tools = False
         self._last_hint = None
 
         # Create directory structure
@@ -265,7 +269,7 @@ class BuildingBlockEnvironment:
     def _track_behavior(self, command: str):
         """Track observable behavior for meta-feedback."""
         import re
-        cmd = command.strip()
+        cmd = command.strip().lower()
 
         # Track scripts written (> foo.py) vs run (python3 foo.py)
         write_match = re.search(r'>\s*(\S+\.py)', cmd)
@@ -275,26 +279,33 @@ class BuildingBlockEnvironment:
         if run_match:
             self._scripts_run.add(run_match.group(1))
 
+        # Track resource category exploration (not specific files)
+        if any(kw in cmd for kw in ["briefs/", "brief", "/briefs"]):
+            self._has_read_briefs = True
+        if any(kw in cmd for kw in ["tools/", "/tools", "ls tools"]):
+            self._has_explored_tools = True
+
     def _get_meta_feedback(self, command: str) -> str | None:
-        """Outcome-driven coaching: diagnose from results, not behavior.
+        """Hybrid coaching: outcome diagnosis + behavior blind spots.
 
-        A good coach doesn't track "did you open the textbook".
-        She watches your performance and says "your input data looks wrong".
+        Layer 1: [Progress: N/M] — always present (in step() directly)
+        Layer 2: Outcome diagnosis — "results wrong, check your method"
+        Layer 3: Behavior blind spots — "briefs/ and tools/ exist, you haven't looked"
 
-        Three layers: exposure → learning → application.
-        We only have ground truth on application (criteria_met).
-        So we coach based on outcomes + observable patterns.
+        Layer 2 tells you WHAT's wrong. Layer 3 tells you WHERE to look.
+        Neither tells you the specific answer.
         """
         import re
         hint = None
 
-        # 1. Script written but not run — directly observable fact
+        # --- Layer 2: Outcome diagnosis ---
+
+        # Script written but not run — directly observable
         unrun = self._scripts_written - self._scripts_run
         if unrun:
             hint = f"You wrote {', '.join(sorted(unrun))} but haven't executed it yet."
 
-        # 2. Computing but results don't match — outcome-driven
-        #    "Your results don't match any criteria — check your inputs or method."
+        # Computing but 0 criteria — your method or inputs are wrong
         elif (self._step_count >= 8
               and len(self._progress_history) >= 3
               and self._progress_history[-1] == 0
@@ -302,32 +313,34 @@ class BuildingBlockEnvironment:
             hint = ("You're computing but 0 criteria met. "
                     "Are your inputs correct? Is your method right for this data?")
 
-        # 3. Stalled: progress hasn't changed for 3+ turns
-        #    Diagnose WHY based on context
+        # Stalled: same score 4+ turns — diagnose based on level
         elif len(self._progress_history) >= 4:
             recent = self._progress_history[-4:]
-            if len(set(recent)) == 1:  # same score 4 turns in a row
+            if len(set(recent)) == 1:
                 current = recent[0]
                 total = len(CRITERIA)
                 if current == 0:
                     hint = ("No criteria met after several attempts. "
                             "Step back — have you read all the requirements for this task?")
                 elif current < total // 2:
-                    hint = (f"{current}/{total} met. You're making progress but stalled. "
-                            "What criteria are you missing? Your workspace may have resources you haven't used.")
+                    hint = (f"{current}/{total} criteria met but stalled. "
+                            "What criteria are you missing? Check if your workspace has unused resources.")
                 else:
-                    hint = (f"{current}/{total} met. Close! "
+                    hint = (f"{current}/{total} met — close! "
                             "Review which criteria are still failing and focus there.")
 
-        # 4. Running python repeatedly with no progress — pattern detection
-        elif len(self._actions) >= 3:
-            last_3 = [a.lower() for a in self._actions[-3:]]
-            if all("python" in a for a in last_3):
-                # 3 consecutive python commands with same progress = spinning wheels
-                if (len(self._progress_history) >= 3
-                        and len(set(self._progress_history[-3:])) == 1):
-                    hint = ("You've run 3 similar computations with no progress change. "
-                            "Your workspace may have tools or docs you haven't explored yet.")
+        # --- Layer 3: Behavior blind spots ---
+        # Only fire these when agent is struggling (0 criteria or stalled)
+        # and hasn't explored the resource category yet.
+        # Says "this category exists" not "use this specific file".
+
+        if hint is None and self._step_count >= 5:
+            if not self._has_read_briefs and self._progress_history[-1:] == [0]:
+                hint = ("Your workspace has a briefs/ directory with task requirements "
+                        "you haven't looked at yet.")
+            elif not self._has_explored_tools and self._step_count >= 8:
+                hint = ("Your workspace has a tools/ directory with utility scripts "
+                        "you haven't explored yet.")
 
         # Don't repeat the same hint consecutively
         if hint and hint == self._last_hint:
