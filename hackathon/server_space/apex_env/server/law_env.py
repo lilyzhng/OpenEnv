@@ -273,6 +273,51 @@ class LawEnvironment:
                 count += 1
         return count
 
+    def _detect_tool_signals(self):
+        """Detect tool use/composition/creation from file system diff."""
+        if not self._workspace or not self._workspace.exists():
+            return False, False, False
+
+        current_files = {str(f) for f in self._workspace.rglob("*") if f.is_file()}
+        new_files = current_files - self._original_files
+        if not new_files:
+            return False, False, False
+
+        bb_dirs = [self._workspace / "elements", self._workspace / "tools"]
+
+        agent_content = ""
+        for fp in sorted(new_files):
+            p = Path(fp)
+            if p.suffix in {'.txt', '.html', '.py', '.md', '.js', '.csv', '.json'}:
+                try:
+                    agent_content += " " + p.read_text(errors="replace").lower()
+                except Exception:
+                    pass
+
+        # Tool Use: agent output references building block directory paths
+        tool_use = any(
+            d.name + "/" in agent_content
+            for d in bb_dirs if d.exists()
+        )
+        meaningful = [fp for fp in new_files if Path(fp).stat().st_size > 50]
+        tool_composition = len(meaningful) > 1
+
+        tool_creation = False
+        for fp in new_files:
+            p = Path(fp)
+            try:
+                if p.stat().st_size > 50:
+                    for bb_dir in bb_dirs:
+                        if bb_dir.exists() and str(p).startswith(str(bb_dir)):
+                            tool_creation = True
+                            break
+            except Exception:
+                pass
+            if tool_creation:
+                break
+
+        return tool_use, tool_composition, tool_creation
+
     def _finish(self) -> dict:
         agent_text = self._collect_agent_text()
         criteria_results = []
@@ -285,27 +330,26 @@ class LawEnvironment:
 
         correctness = criteria_met / len(CRITERIA) if CRITERIA else 0.0
 
-        # Process signals — reward meta-strategy, not just outcome
-        discovery = self._has_read_case           # explored workspace, read case data
-        reference = self._has_explored_examples   # found and studied example memo
-        building_block = self._has_explored_tools  # discovered and used royalty_calc
+        # Process signals — file-diff based, not keyword based
+        tool_use, tool_composition, tool_creation = self._detect_tool_signals()
 
-        discovery_bonus = 0.1 if discovery else 0.0
-        reference_bonus = 0.1 if reference else 0.0
-        building_block_bonus = 0.2 if building_block else 0.0
+        use_bonus = 0.1 if tool_use else 0.0
+        composition_bonus = 0.15 if tool_composition else 0.0
+        creation_bonus = 0.15 if tool_creation else 0.0
         correctness_component = 0.6 * correctness
+        process_total = use_bonus + composition_bonus + creation_bonus
 
-        reward = discovery_bonus + reference_bonus + building_block_bonus + correctness_component
+        reward = process_total + correctness_component
 
         lines = [
             f"Episode finished.",
             f"Final: {criteria_met}/{len(CRITERIA)} criteria met.",
             f"Correctness: {correctness:.3f}",
-            f"Process: discovery={'Y' if discovery else 'N'} "
-            f"reference={'Y' if reference else 'N'} "
-            f"building_block={'Y' if building_block else 'N'}",
+            f"Process: tool_use={'Y' if tool_use else 'N'} "
+            f"tool_composition={'Y' if tool_composition else 'N'} "
+            f"tool_creation={'Y' if tool_creation else 'N'}",
             f"Reward: {reward:.3f} "
-            f"(process {discovery_bonus + reference_bonus + building_block_bonus:.1f} "
+            f"(process {process_total:.2f} "
             f"+ correctness {correctness_component:.3f})",
             f"Steps used: {self._step_count}",
             f"",
