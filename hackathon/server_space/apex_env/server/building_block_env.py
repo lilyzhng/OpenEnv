@@ -375,12 +375,22 @@ class BuildingBlockEnvironment:
             if met:
                 criteria_met += 1
 
-        reward = criteria_met / len(CRITERIA) if CRITERIA else 0.0
+        correctness = criteria_met / len(CRITERIA) if CRITERIA else 0.0
+
+        # Efficiency: penalize wasted turns (no progress change)
+        wasted = 0
+        for i in range(1, len(self._progress_history)):
+            if self._progress_history[i] <= self._progress_history[i - 1]:
+                wasted += 1
+        efficiency_mult = max(0.5, 1.0 - 0.05 * wasted)
+        reward = correctness * efficiency_mult
 
         lines = [
             f"Episode finished.",
             f"Final: {criteria_met}/{len(CRITERIA)} criteria met.",
-            f"Reward: {reward:.3f}",
+            f"Correctness: {correctness:.3f}",
+            f"Efficiency: {efficiency_mult:.3f} ({wasted} wasted turns out of {self._step_count})",
+            f"Reward: {reward:.3f} (correctness × efficiency)",
             f"Steps used: {self._step_count}",
             f"",
             f"Criteria breakdown:",
