@@ -33,20 +33,20 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 
 /* ── Section headers ── */
 .section-header {
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-  letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim);
-  margin-bottom: 16px; margin-top: 56px;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase; color: var(--text-dim);
+  margin-bottom: 24px; margin-top: 64px;
 }
 .section-header span { color: var(--amber); }
 
 /* ── Panels ── */
 .panel {
-  background: var(--charcoal); border-radius: 8px;
-  padding: 28px 32px; margin-bottom: 24px;
+  background: var(--charcoal); border-radius: 10px;
+  padding: 32px 36px; margin-bottom: 28px;
 }
 .panel-title {
-  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
-  letter-spacing: 2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 20px;
+  font-family: var(--font-sans); font-size: 15px; font-weight: 600;
+  color: var(--cyan); margin-bottom: 24px; line-height: 1.4;
 }
 
 /* ══════════════════════════════════════════════ */
@@ -78,7 +78,7 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 /* Demo card — fixed height to prevent layout shift */
 .hero-card {
   background: #181818; border-radius: 10px; padding: 24px 28px;
-  border: 1px solid #2a2a2a; min-height: 460px;
+  border: 1px solid #2a2a2a;
 }
 .hero-prompt {
   font-family: var(--font-mono); font-size: 15px; font-weight: 700;
@@ -131,6 +131,7 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 .hero-render {
   display: flex; justify-content: center; align-items: center;
   opacity: 0; transition: opacity 0.8s; align-self: stretch;
+  min-width: 300px; min-height: 300px;
 }
 .hero-render.visible { opacity: 1; }
 .hero-render svg {
@@ -139,8 +140,9 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 }
 
 .hero-pipeline {
-  display: inline-flex; align-items: center; gap: 0; flex-wrap: wrap;
+  display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap;
   font-family: var(--font-mono); font-size: 11px;
+  margin-top: 20px; padding-top: 20px; border-top: 1px solid #2a2a2a;
 }
 .hero-pipe-step {
   color: var(--green); padding: 5px 10px;
@@ -165,21 +167,21 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 /* SECTION 2: MODEL PICKER                       */
 /* ══════════════════════════════════════════════ */
 .model-buttons {
-  display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;
+  display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap;
 }
 .model-btn {
   font-family: var(--font-mono); font-size: 12px; font-weight: 700;
-  padding: 10px 18px; border-radius: 4px; border: 2px solid #444;
-  background: transparent; color: var(--text-dim); cursor: pointer;
-  transition: all 0.2s;
+  padding: 10px 20px; border-radius: 6px; border: 1.5px solid #3a3a3a;
+  background: rgba(255,255,255,0.03); color: var(--text-dim); cursor: pointer;
+  transition: all 0.25s;
 }
-.model-btn:hover { border-color: var(--text-light); color: var(--text-light); }
-.model-btn.active { border-color: var(--green); color: var(--green); background: rgba(57,255,20,0.08); }
+.model-btn:hover { border-color: var(--text-light); color: var(--text-light); background: rgba(255,255,255,0.06); }
+.model-btn.active { border-color: var(--green); color: var(--green); background: rgba(57,255,20,0.1); }
 
 .eval-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
 }
-.traj-panel { background: var(--panel); border-radius: 6px; padding: 20px 24px; }
+.traj-panel { background: var(--panel); border-radius: 8px; padding: 24px 28px; }
 .traj-header {
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #333;
@@ -206,15 +208,15 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 }
 .traj-summary strong { color: var(--text-light); }
 
-.render-panel { background: var(--panel); border-radius: 6px; padding: 20px 24px; }
+.render-panel { background: var(--panel); border-radius: 8px; padding: 24px 28px; }
 .render-header {
   font-family: var(--font-mono); font-size: 12px; font-weight: 700;
   color: var(--text-light); margin-bottom: 16px; padding-bottom: 12px;
   border-bottom: 1px solid #333;
 }
 .render-frame {
-  background: #e8dcc8; border-radius: 6px; overflow: hidden;
-  aspect-ratio: 1; border: 2px solid #333; margin-bottom: 16px;
+  background: #e8dcc8; border-radius: 8px; overflow: hidden;
+  aspect-ratio: 1; border: 1.5px solid #333; margin-bottom: 16px;
 }
 .render-frame iframe { width: 100%; height: 100%; border: none; pointer-events: none; }
 .render-verdict {
@@ -227,7 +229,7 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 
 .insight-bar {
   font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);
-  display: flex; gap: 24px; margin-top: 16px; justify-content: center;
+  display: flex; gap: 28px; margin-top: 20px; justify-content: center;
 }
 .insight-bar span { display: flex; align-items: center; gap: 6px; }
 .insight-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
@@ -243,7 +245,7 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 }
 .pipe-step {
   font-family: var(--font-mono); font-size: 13px; font-weight: 700;
-  color: var(--charcoal); background: var(--green); padding: 10px 16px; border-radius: 4px;
+  color: var(--charcoal); background: var(--green); padding: 10px 18px; border-radius: 6px;
 }
 .pipe-arrow {
   font-family: var(--font-mono); font-size: 20px; color: var(--text-dim); padding: 0 8px;
@@ -253,9 +255,9 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
   text-align: center; margin-top: 16px;
 }
 
-.domain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.domain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .domain-col {
-  background: var(--panel); border-radius: 6px; padding: 20px;
+  background: var(--panel); border-radius: 8px; padding: 24px;
   border-top: 3px solid var(--text-dim);
 }
 .domain-col.d1 { border-top-color: var(--green); }
@@ -279,7 +281,7 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 }
 .domain-row-value { color: var(--text-light); }
 
-.lb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.lb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
 table {
   width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 13px;
 }
@@ -329,15 +331,6 @@ tr.wrong td.shape { color: var(--red); }
         <div class="hero-label">OpenEnv Hackathon 2026</div>
         <h1 class="hero-title">SuperGeneral</h1>
         <div class="hero-subtitle">Recursive Environments for General Agents</div>
-        <div class="hero-pipeline" id="heroPipeline">
-          <span class="hero-pipe-step">Discover</span>
-          <span class="hero-pipe-arrow">&rarr;</span>
-          <span class="hero-pipe-step">Decompose</span>
-          <span class="hero-pipe-arrow">&rarr;</span>
-          <span class="hero-pipe-step">Recompose</span>
-          <span class="hero-pipe-arrow">&rarr;</span>
-          <span class="hero-pipe-step">Adapt</span>
-        </div>
       </div>
 
       <div class="hero-card">
@@ -414,6 +407,15 @@ tr.wrong td.shape { color: var(--red); }
         <div class="hero-render" id="heroRender">
           <svg id="svg-hero-tree" viewBox="0 0 300 300" width="100%" height="100%" style="max-width:420px;max-height:420px;"></svg>
         </div>
+      </div>
+      <div class="hero-pipeline" id="heroPipeline">
+        <span class="hero-pipe-step">Discover</span>
+        <span class="hero-pipe-arrow">&rarr;</span>
+        <span class="hero-pipe-step">Decompose</span>
+        <span class="hero-pipe-arrow">&rarr;</span>
+        <span class="hero-pipe-step">Recompose</span>
+        <span class="hero-pipe-arrow">&rarr;</span>
+        <span class="hero-pipe-step">Adapt</span>
       </div>
     </div>
     </div>
@@ -759,7 +761,7 @@ function runTeaser() {
     // Phase 2: Thinking
     setTimeout(function() {
       label.textContent = '\u2234 Thinking\u2026';
-      think.innerHTML = '"growing cherry blossom tree" \u2014 never drawn one.<br>= tree (static) + growing (animation)';
+      think.innerHTML = '"growing cherry blossom tree" \u2014 new task.<br>= tree (static) + growing (animation)';
       think.classList.add('visible');
 
       // Phase 3: Show root + start cherry blossom tree growth + tree rows
@@ -812,32 +814,66 @@ function runTeaser() {
             render.style.opacity = '0';
             prompt.style.transition = 'opacity 0.4s';
             prompt.style.opacity = '0';
-            // After everything fades, reset and restart
+
+            // After everything fades, wait 2s then show final state
             setTimeout(function() {
-              // Reset all states
-              prompt.style.transition = 'none';
-              prompt.style.opacity = '1';
-              prompt.textContent = '';
-              label.style.transition = 'none'; label.style.opacity = '1'; label.textContent = '';
-              think.style.transition = 'none'; think.style.opacity = '0';
-              think.classList.remove('visible');
-              root.style.transition = 'none'; root.style.opacity = '0';
-              root.classList.remove('visible');
-              root.textContent = '';
-              render.style.transition = 'none'; render.style.opacity = '0';
-              render.classList.remove('visible');
-              rows.forEach(function(r) {
-                r.style.transition = 'none';
-                r.style.opacity = '0';
-                r.classList.remove('visible');
-              });
-              // Restart after brief pause
-              setTimeout(runTeaser, 800);
-            }, 800);
+              showHeroFinalState();
+            }, 2000);
           });
         }, 7000);
       }, 800);
     }, 350);
+  });
+}
+
+function showHeroFinalState() {
+  var prompt = document.getElementById('heroPrompt');
+  var label = document.getElementById('treeLabel');
+  var think = document.getElementById('treeThink');
+  var root = document.getElementById('treeRoot');
+  var rows = [];
+  for (var i = 0; i <= 8; i++) rows.push(document.getElementById('tr' + i));
+  var render = document.getElementById('heroRender');
+
+  // Reset transitions so everything appears instantly
+  prompt.style.transition = 'none';
+  prompt.style.opacity = '1';
+  prompt.innerHTML = '\u276F draw a growing cherry blossom tree';
+  label.style.transition = 'none'; label.style.opacity = '1';
+  label.textContent = '\u2234 Thinking\u2026';
+  think.style.transition = 'none'; think.style.opacity = '1';
+  think.classList.add('visible');
+  root.style.transition = 'none'; root.style.opacity = '1';
+  root.classList.add('visible');
+  root.textContent = 'growing cherry blossom tree';
+  rows.forEach(function(r) {
+    r.style.transition = 'none';
+    r.style.opacity = '1';
+    r.classList.add('visible');
+  });
+
+  // Redraw the cherry blossom tree in its full state (no animation)
+  drawHeroTree();
+  render.style.transition = 'none';
+  render.style.opacity = '1';
+  render.classList.add('visible');
+
+  // Remove all animations so tree appears fully grown
+  var svg = document.getElementById('svg-hero-tree');
+  svg.querySelectorAll('*').forEach(function(el) {
+    el.style.animation = 'none';
+    el.style.clipPath = 'none';
+    el.style.opacity = '1';
+    el.style.strokeDashoffset = '0';
+    el.style.transform = 'scale(1)';
+  });
+
+  // Fade in smoothly
+  var card = document.querySelector('.hero-card');
+  card.style.transition = 'opacity 0.8s';
+  card.style.opacity = '0';
+  requestAnimationFrame(function() {
+    card.style.opacity = '1';
   });
 }
 
