@@ -380,7 +380,7 @@ class BuildingBlockEnvironment:
         # Efficiency: penalize stuck-in-a-loop turns, not exploration.
         # A no-progress streak of ≤2 is normal exploration (grace period).
         # Only turns beyond the grace period in each streak count as wasted.
-        grace = 2
+        grace = 3
         wasted = 0
         streak = 0
         for i in range(1, len(self._progress_history)):
