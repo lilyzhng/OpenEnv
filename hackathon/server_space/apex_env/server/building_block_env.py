@@ -360,10 +360,10 @@ class BuildingBlockEnvironment:
         # Says "this category exists" not "use this specific file".
 
         if hint is None and self._step_count >= 5:
-            if not self._has_explored_examples and self._progress_history[-1:] == [0]:
+            if not self._has_explored_examples:
                 hint = ("Your workspace has an examples/ directory with a completed "
                         "analysis you can study for the workflow pattern.")
-            elif not self._has_read_briefs and self._progress_history[-1:] == [0]:
+            elif not self._has_read_briefs:
                 hint = ("Your workspace has a briefs/ directory with task requirements "
                         "you haven't looked at yet.")
             elif not self._has_explored_tools and self._step_count >= 8:
