@@ -291,9 +291,19 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
 
 .lb-grid-4 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .lb-panel { padding: 20px; }
-.lb-panel table { font-size: 11px; }
+.lb-panel table { font-size: 11px; table-layout: fixed; }
 .lb-panel th { font-size: 10px; }
 .lb-panel td { padding: 7px 6px; }
+.lb-panel th:nth-child(1),
+.lb-panel td:nth-child(1) { width: 28%; }
+.lb-panel th:nth-child(2),
+.lb-panel th:nth-child(3),
+.lb-panel th:nth-child(4) { width: 10%; text-align: center; }
+.lb-panel td:nth-child(2),
+.lb-panel td:nth-child(3),
+.lb-panel td:nth-child(4) { text-align: center; }
+.lb-panel th:nth-child(5),
+.lb-panel td:nth-child(5) { width: 42%; padding-left: 36px; }
 .lb-coming-soon {
   font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);
   text-align: center; padding: 48px 0; opacity: 0.5;
@@ -564,10 +574,10 @@ tr.wrong td.shape { color: var(--red); }
     <table>
       <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
       <tbody>
-        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.500</span><span class="reward-bar" style="width:50px"></span></div></td></tr>
-        <tr><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.500</span><span class="reward-bar" style="width:50px"></span></div></td></tr>
-        <tr><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.500</span><span class="reward-bar" style="width:50px"></span></div></td></tr>
-        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.400</span><span class="reward-bar" style="width:40px"></span></div></td></tr>
+        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.700</span><span class="reward-bar" style="width:112px"></span></div></td></tr>
+        <tr class="highlight"><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.700</span><span class="reward-bar" style="width:112px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.600</span><span class="reward-bar" style="width:96px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.600</span><span class="reward-bar" style="width:96px"></span></div></td></tr>
         <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
       </tbody>
     </table>
