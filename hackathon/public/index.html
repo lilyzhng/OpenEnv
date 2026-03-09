@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SuperGeneral — Recursive Tool-Centric Environments for General Agents</title>
+<title>SuperGeneral — Compositional Tool Environments for Long-Horizon Agents</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -335,6 +335,69 @@ tr.wrong td.shape { color: var(--red); }
 }
 .hl { color: var(--green); font-weight: 600; }
 
+/* ── Try It Live ── */
+.tryit-bar {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+  padding-bottom: 20px; border-bottom: 1px solid #333;
+}
+.tryit-select {
+  font-family: var(--font-mono); font-size: 12px; padding: 8px 12px;
+  background: #181818; color: var(--text-light); border: 1.5px solid #3a3a3a;
+  border-radius: 6px; cursor: pointer;
+}
+.tryit-select:focus { border-color: var(--green); outline: none; }
+.tryit-btn {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  padding: 8px 20px; border-radius: 6px; border: 1.5px solid var(--green);
+  background: rgba(57,255,20,0.1); color: var(--green); cursor: pointer;
+  transition: all 0.2s; white-space: nowrap;
+}
+.tryit-btn:hover { background: rgba(57,255,20,0.2); }
+.tryit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.tryit-label {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);
+  margin-bottom: 10px;
+}
+.live-traj-panel {
+  background: var(--panel); border-radius: 8px; padding: 24px 28px;
+  max-height: 580px; overflow-y: auto; display: none;
+}
+.live-traj-panel.active { display: block; }
+.live-step {
+  border-left: 3px solid var(--amber); padding: 8px 14px; margin-bottom: 8px;
+  background: rgba(255,255,255,0.02);
+}
+.live-step.done { border-left-color: var(--green); }
+.live-step.talk { border-left-color: #555; }
+.live-step-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 3px; color: var(--text-dim);
+}
+.live-step-cmd {
+  font-family: var(--font-mono); font-size: 11px; color: var(--amber);
+  background: #111; padding: 4px 8px; border: 1px solid #333;
+  white-space: pre-wrap; word-break: break-all;
+}
+.live-step-obs {
+  font-family: var(--font-mono); font-size: 10px; color: #aaa;
+  background: #111; padding: 4px 8px; border: 1px solid #333;
+  margin-top: 4px; max-height: 80px; overflow-y: auto;
+  white-space: pre-wrap; word-break: break-all;
+}
+.live-reward {
+  font-family: var(--font-mono); font-size: 14px; font-weight: 700;
+  color: var(--green); margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid #333;
+}
+.live-spinner {
+  display: inline-block; width: 12px; height: 12px;
+  border: 2px solid var(--green); border-top-color: transparent;
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+  margin-left: 8px; vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
 /* ── Footer ── */
 .footer {
   text-align: center; padding: 40px;
@@ -457,34 +520,94 @@ tr.wrong td.shape { color: var(--red); }
   </div>
 </div>
 
+<!-- Punchline transition -->
+<div style="text-align:center; padding:48px 24px 32px; max-width:800px; margin:0 auto;">
+  <h2 style="font-family:var(--font-sans); font-size:26px; font-weight:700; color:var(--text); line-height:1.3; margin-bottom:12px; white-space:nowrap;">
+    Frontier models are surprisingly bad at using tools.
+  </h2>
+  <p style="color:var(--text-dim); font-size:16px; line-height:1.6;">
+    They cheat by memorizing knowledge instead of learning to act.<br>
+    But tool use is the key to adapting to new domains and long-horizon tasks.
+  </p>
+</div>
+
 <div class="container">
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 2: INTERACTIVE MODEL PICKER — "The Evaluation"            -->
+<!-- SECTION 01: LEADERBOARD — The proof, right away                   -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>01</span> &mdash; The Recomposition Evaluation</div>
+<div class="section-header"><span>01</span> &mdash; The Evidence</div>
 
-<div class="panel">
-  <div class="window-dots">
-    <div class="dot dot-red"></div>
-    <div class="dot dot-yellow"></div>
-    <div class="dot dot-green"></div>
+<p style="color:var(--text-dim); font-size:13px; margin-bottom:20px; line-height:1.6;">
+  We evaluated <strong style="color:var(--text);">Claude, GPT, Qwen, and DeepSeek</strong> across
+  <strong style="color:var(--text);">SVG illustration, law, consulting, and investment banking.</strong>
+  No model achieves tool composition + creation across all domains.
+</p>
+
+<!-- Part A: Cross-Domain Leaderboard — 4 columns, right after the claim -->
+<div class="lb-grid-4">
+  <!-- Hand-Draw -->
+  <div class="panel lb-panel" style="border-top: 3px solid var(--green);">
+    <div class="panel-title" style="color:var(--green); font-size:12px;">Hand-Draw: Hourglass</div>
+    <table>
+      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.700</span><span class="reward-bar" style="width:112px"></span></div></td></tr>
+        <tr class="highlight"><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.700</span><span class="reward-bar" style="width:112px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.600</span><span class="reward-bar" style="width:96px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.600</span><span class="reward-bar" style="width:96px"></span></div></td></tr>
+        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+      </tbody>
+    </table>
   </div>
-  <div class="panel-title" style="color:var(--green); font-family:var(--font-mono); font-weight:700;">&rsaquo; Compose an hourglass</div>
-
-  <div class="model-buttons" id="modelButtons"></div>
-
-  <div class="eval-grid">
-    <div class="traj-panel" id="trajPanel"></div>
-    <div class="render-panel" id="renderPanel"></div>
+  <!-- Law -->
+  <div class="panel lb-panel" style="border-top: 3px solid var(--amber);">
+    <div class="panel-title" style="color:var(--amber); font-size:12px;">Law: Royalty Dispute</div>
+    <table>
+      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.730</span><span class="reward-bar" style="width:73px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.700</span><span class="reward-bar" style="width:70px"></span></div></td></tr>
+        <tr><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.670</span><span class="reward-bar" style="width:67px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.210</span><span class="reward-bar" style="width:21px"></span></div></td></tr>
+        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+      </tbody>
+    </table>
   </div>
-
+  <!-- Consulting -->
+  <div class="panel lb-panel" style="border-top: 3px solid #c084fc;">
+    <div class="panel-title" style="color:#c084fc; font-size:12px;">Consulting: Market Entry</div>
+    <table>
+      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.850</span><span class="reward-bar" style="width:85px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.700</span><span class="reward-bar" style="width:70px"></span></div></td></tr>
+        <tr><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.550</span><span class="reward-bar" style="width:55px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.280</span><span class="reward-bar" style="width:28px"></span></div></td></tr>
+        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Investment Banking -->
+  <div class="panel lb-panel" style="border-top: 3px solid var(--cyan);">
+    <div class="panel-title" style="color:var(--cyan); font-size:12px;">Investment Banking: Financial Analysis</div>
+    <table>
+      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.741</span><span class="reward-bar" style="width:74px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.741</span><span class="reward-bar" style="width:74px"></span></div></td></tr>
+        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.327</span><span class="reward-bar" style="width:33px"></span></div></td></tr>
+        <tr><td>Qwen3-Coder-30B</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.327</span><span class="reward-bar" style="width:33px"></span></div></td></tr>
+        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 3: CORE PRINCIPLE + SCALE OUT — "The Distillation"        -->
+<!-- SECTION 02: ENVIRONMENT DESIGN — How we test this                  -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>02</span> &mdash; Scale Down &rarr; Scale Out</div>
+<div class="section-header"><span>02</span> &mdash; How We Test This</div>
 
 <div class="panel">
   <div class="window-dots">
@@ -566,64 +689,101 @@ tr.wrong td.shape { color: var(--red); }
   </div>
 </div>
 
-<!-- Part C: Cross-Domain Leaderboard — 4 columns matching domain order -->
-<div class="lb-grid-4">
-  <!-- Hand-Draw -->
-  <div class="panel lb-panel" style="border-top: 3px solid var(--green);">
-    <div class="panel-title" style="color:var(--green); font-size:12px;">Hand-Draw: Hourglass</div>
-    <table>
-      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
-      <tbody>
-        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.500</span><span class="reward-bar" style="width:50px"></span></div></td></tr>
-        <tr><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.500</span><span class="reward-bar" style="width:50px"></span></div></td></tr>
-        <tr><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.500</span><span class="reward-bar" style="width:50px"></span></div></td></tr>
-        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.400</span><span class="reward-bar" style="width:40px"></span></div></td></tr>
-        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
-      </tbody>
-    </table>
+<!-- Part B2: Meta-Strategy Table — same structure, different domains -->
+<div class="panel" style="margin-top: 28px;">
+  <div class="panel-title">How the environment teaches meta-strategy</div>
+  <p style="color:var(--text-dim); font-size:13px; margin-bottom:16px; line-height:1.6;">
+    Each domain has a <strong style="color:var(--text-light)">worked example</strong> showing how to compose building blocks into a finished output.
+    The agent learns the method &mdash; <em>decompose &rarr; find blocks &rarr; compose</em> &mdash; not the specific answer.
+  </p>
+  <table style="font-size:12px;">
+    <thead>
+      <tr>
+        <th>Domain</th>
+        <th>Worked Example</th>
+        <th>Building Blocks</th>
+        <th>Meta-Strategy Tip</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:var(--green); font-weight:600;">Hand-Draw</td>
+        <td><code style="color:var(--text-light);">diamond.html</code> <span style="color:var(--text-dim)">&mdash; 2 triangles &rarr; diamond</span></td>
+        <td><code style="color:var(--cyan);">elements/*.js</code></td>
+        <td style="color:var(--text-dim); font-style:italic;">&ldquo;See how illustrations compose from building blocks&rdquo;</td>
+      </tr>
+      <tr>
+        <td style="color:var(--amber); font-weight:600;">Law</td>
+        <td><code style="color:var(--text-light);">precedent_memo.txt</code> <span style="color:var(--text-dim)">&mdash; case &rarr; tool &rarr; memo</span></td>
+        <td><code style="color:var(--cyan);">tools/royalty_calc.py</code></td>
+        <td style="color:var(--text-dim); font-style:italic;">&ldquo;See how memo uses tools and case data&rdquo;</td>
+      </tr>
+      <tr>
+        <td style="color:#c084fc; font-weight:600;">Consulting</td>
+        <td><code style="color:var(--text-light);">market_analysis.txt</code> <span style="color:var(--text-dim)">&mdash; data &rarr; framework &rarr; strategy</span></td>
+        <td><code style="color:var(--cyan);">tools/tam_tool.py</code></td>
+        <td style="color:var(--text-dim); font-style:italic;">&ldquo;See how strategy uses frameworks and market data&rdquo;</td>
+      </tr>
+      <tr>
+        <td style="color:var(--cyan); font-weight:600;">Investment Banking</td>
+        <td><code style="color:var(--text-light);">alpha_analysis.txt</code> <span style="color:var(--text-dim)">&mdash; brief &rarr; tool &rarr; result</span></td>
+        <td><code style="color:var(--cyan);">tools/xirr_tool.py</code></td>
+        <td style="color:var(--text-dim); font-style:italic;">&ldquo;See how analysis uses tools and data&rdquo;</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 03: SEE IT IN ACTION — Interactive model picker            -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section-header"><span>03</span> &mdash; See It In Action</div>
+
+<p style="color:var(--text-dim); font-size:13px; margin-bottom:20px; line-height:1.6;">
+  Click a model to see its full agent trajectory on the <strong style="color:var(--text);">Hand-Draw: Hourglass</strong> task.
+  Watch how each model discovers (or fails to discover) the building blocks.
+</p>
+
+<div class="panel">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
   </div>
-  <!-- Law -->
-  <div class="panel lb-panel" style="border-top: 3px solid var(--amber);">
-    <div class="panel-title" style="color:var(--amber); font-size:12px;">Law: Royalty Dispute</div>
-    <table>
-      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
-      <tbody>
-        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.730</span><span class="reward-bar" style="width:73px"></span></div></td></tr>
-        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.700</span><span class="reward-bar" style="width:70px"></span></div></td></tr>
-        <tr><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.670</span><span class="reward-bar" style="width:67px"></span></div></td></tr>
-        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.210</span><span class="reward-bar" style="width:21px"></span></div></td></tr>
-        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
-      </tbody>
-    </table>
+  <div class="panel-title" style="color:var(--green); font-family:var(--font-mono); font-weight:700;">&rsaquo; Compose an hourglass</div>
+
+  <div class="model-buttons" id="modelButtons"></div>
+
+  <div class="eval-grid">
+    <div class="traj-panel" id="trajPanel"></div>
+    <div class="render-panel" id="renderPanel"></div>
   </div>
-  <!-- Consulting -->
-  <div class="panel lb-panel" style="border-top: 3px solid #c084fc;">
-    <div class="panel-title" style="color:#c084fc; font-size:12px;">Consulting: Market Entry</div>
-    <table>
-      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
-      <tbody>
-        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.850</span><span class="reward-bar" style="width:85px"></span></div></td></tr>
-        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.700</span><span class="reward-bar" style="width:70px"></span></div></td></tr>
-        <tr><td>Qwen3-Coder-30B</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.550</span><span class="reward-bar" style="width:55px"></span></div></td></tr>
-        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.280</span><span class="reward-bar" style="width:28px"></span></div></td></tr>
-        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
-      </tbody>
-    </table>
+
+  <!-- Try It Live — below pre-computed results -->
+  <div style="margin-top:28px; padding-top:24px; border-top:1px solid #333;">
+    <div class="tryit-label">Try It Live &mdash; run an agent on the SuperGeneral environment</div>
+    <div class="tryit-bar">
+      <select id="tryitTask" class="tryit-select">
+        <option value="hourglass">Hourglass (near)</option>
+        <option value="diamond">Diamond (zero)</option>
+        <option value="seesaw">Seesaw (medium)</option>
+        <option value="temple">Temple (far)</option>
+      </select>
+      <select id="tryitModel" class="tryit-select">
+        <option value="anthropic/claude-sonnet-4">Claude Sonnet 4 ($$$)</option>
+        <option value="openai/gpt-5.4">GPT-5.4 ($$$$)</option>
+        <option value="openai/gpt-4o-mini">GPT-4o-mini ($)</option>
+        <option value="qwen/qwen3-coder-30b-a3b-instruct">Qwen3-Coder-30B (free)</option>
+        <option value="deepseek/deepseek-chat-v3-0324">DeepSeek-V3 (free)</option>
+      </select>
+      <button id="tryitBtn" class="tryit-btn" onclick="runLiveAgent()">&#9654; Run Agent</button>
+    </div>
+    <div class="eval-grid" id="liveGrid" style="display:none;">
+      <div class="live-traj-panel active" id="liveTrajPanel"></div>
+      <div class="render-panel" id="liveRenderPanel" style="display:flex; align-items:center; justify-content:center; color:var(--text-dim); font-family:var(--font-mono); font-size:12px;">Waiting for agent output&hellip;</div>
+    </div>
   </div>
-  <!-- Investment Banking -->
-  <div class="panel lb-panel" style="border-top: 3px solid var(--cyan);">
-    <div class="panel-title" style="color:var(--cyan); font-size:12px;">Investment Banking: Financial Analysis</div>
-    <table>
-      <thead><tr><th>Model</th><th>Tool Use</th><th>Tool Comp.</th><th>Tool Create</th><th>Reward</th></tr></thead>
-      <tbody>
-        <tr class="highlight"><td>Claude Sonnet 4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.741</span><span class="reward-bar" style="width:74px"></span></div></td></tr>
-        <tr><td>OpenAI GPT-5.4</td><td class="metric-yes">&#10003;</td><td class="metric-yes">&#10003;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.741</span><span class="reward-bar" style="width:74px"></span></div></td></tr>
-        <tr><td>OpenAI GPT-4o-mini</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.327</span><span class="reward-bar" style="width:33px"></span></div></td></tr>
-        <tr><td>Qwen3-Coder-30B</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td class="metric-no">&#10007;</td><td><div class="reward-cell"><span class="reward-num">0.327</span><span class="reward-bar" style="width:33px"></span></div></td></tr>
-        <tr><td>DeepSeek V3</td><td colspan="3" style="color:var(--text-dim); text-align:center;">DNF</td><td style="color:var(--text-dim);">&#8212;</td></tr>
-      </tbody>
-    </table>
-  </div>
+
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
@@ -632,7 +792,7 @@ tr.wrong td.shape { color: var(--red); }
 <div class="footer">
   SuperGeneral &middot; OpenEnv Hackathon 2026 &middot;
   <a href="https://github.com/lilyzhng/OpenEnv">GitHub</a> &middot;
-  <a href="https://huggingface.co/spaces/lilyzhng/apex-env">HF Spaces</a>
+  <a href="https://huggingface.co/spaces/lilyzhng/supergeneral-env">HF Spaces</a>
 </div>
 
 </div>
@@ -957,35 +1117,6 @@ function showHeroFinalState() {
 // ══════════════════════════════════════════════════
 var modelData = [
   {
-    name: 'OpenAI GPT-5.4',
-    result: 'pass',
-    resultLabel: '\u2713 HOURGLASS',
-    shape: 'hourglass',
-    iframe: 'data/handdraw_v1/html/gpt54_hourglass.html',
-    criteria: '5/6',
-    reward: '0.833',
-    method: 'Read ALL files in one command. Used python3 to generate from internal knowledge.',
-    toolUse: { used: false, label: 'Knowledge-based. No analogical reasoning, no building block reuse.' },
-    blocks: [],
-    phases: [
-      { name: 'Discover', dim: '(explore workspace)', items: [
-        { cmd: 'ls -la', cls: '' },
-        { cmd: 'find . -maxdepth 2 -type f | sort', cls: '' }
-      ]},
-      { name: 'Find Nearest', dim: '(read example)', items: [
-        { cmd: 'cat specs.md template.html', cls: '' },
-        { cmd: 'cat examples/diamond.html', cls: 'example' },
-        { cmd: 'cat elements/*.js notes/*.md', cls: '' }
-      ]},
-      { name: 'Recompose', dim: '(generate)', items: [
-        { cmd: 'python3 > hourglass.html', cls: '' },
-        { cmd: 'grep + review output', cls: 'talk' },
-        { cmd: 'python3 > hourglass.html (rewrite)', cls: 'talk' }
-      ]},
-      { name: 'done', dim: '', items: [] }
-    ]
-  },
-  {
     name: 'Claude Sonnet 4',
     result: 'pass',
     resultLabel: '\u2713 HOURGLASS',
@@ -1014,6 +1145,35 @@ var modelData = [
       { name: 'Recompose', dim: '(adapt & write)', items: [
         { cmd: 'cat > hourglass.html \u2190 adapted!', cls: 'done' },
         { cmd: 'rewrites (add caps, sand)...', cls: 'talk' }
+      ]},
+      { name: 'done', dim: '', items: [] }
+    ]
+  },
+  {
+    name: 'OpenAI GPT-5.4',
+    result: 'pass',
+    resultLabel: '\u2713 HOURGLASS',
+    shape: 'hourglass',
+    iframe: 'data/handdraw_v1/html/gpt54_hourglass.html',
+    criteria: '5/6',
+    reward: '0.833',
+    method: 'Read ALL files in one command. Used python3 to generate from internal knowledge.',
+    toolUse: { used: false, label: 'Knowledge-based. No analogical reasoning, no building block reuse.' },
+    blocks: [],
+    phases: [
+      { name: 'Discover', dim: '(explore workspace)', items: [
+        { cmd: 'ls -la', cls: '' },
+        { cmd: 'find . -maxdepth 2 -type f | sort', cls: '' }
+      ]},
+      { name: 'Find Nearest', dim: '(read example)', items: [
+        { cmd: 'cat specs.md template.html', cls: '' },
+        { cmd: 'cat examples/diamond.html', cls: 'example' },
+        { cmd: 'cat elements/*.js notes/*.md', cls: '' }
+      ]},
+      { name: 'Recompose', dim: '(generate)', items: [
+        { cmd: 'python3 > hourglass.html', cls: '' },
+        { cmd: 'grep + review output', cls: 'talk' },
+        { cmd: 'python3 > hourglass.html (rewrite)', cls: 'talk' }
       ]},
       { name: 'done', dim: '', items: [] }
     ]
@@ -1260,6 +1420,140 @@ document.addEventListener('DOMContentLoaded', function() {
   // Start hero animation
   runTeaser();
 });
+
+// ══════════════════════════════════════════════════
+// LIVE AGENT RUN — SSE to server space
+// ══════════════════════════════════════════════════
+var SERVER_URL = 'https://lilyzhng-apex-env-server.hf.space';
+var TALK_PREFIXES = ['I ', "I'", 'Let me', 'Now ', 'First', 'Next', 'The ', 'This ',
+  'Here', 'Sure', 'OK', 'Okay', 'Great', 'Note', 'Since ', 'To ', 'We ', 'My ',
+  'After', 'Before', 'Based', 'Looking', 'There '];
+
+function isTalk(s) {
+  s = s.trim();
+  if (!s) return true;
+  for (var i = 0; i < TALK_PREFIXES.length; i++) {
+    if (s.indexOf(TALK_PREFIXES[i]) === 0) return true;
+  }
+  if (s.endsWith('.') && !/[|>&;$`]/.test(s)) return true;
+  return false;
+}
+
+function esc(s) { return s.replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+function runLiveAgent() {
+  var taskId = document.getElementById('tryitTask').value;
+  var model = document.getElementById('tryitModel').value;
+  var btn = document.getElementById('tryitBtn');
+  var grid = document.getElementById('liveGrid');
+  var traj = document.getElementById('liveTrajPanel');
+  var render = document.getElementById('liveRenderPanel');
+
+  btn.disabled = true;
+  btn.innerHTML = 'Running<span class="live-spinner"></span>';
+  grid.style.display = '';
+  traj.innerHTML = '<div class="live-step" style="border-left-color:var(--cyan);"><div class="live-step-label" style="color:var(--cyan);">Running agent on ' + esc(taskId) + '&hellip; this takes 30-90 seconds.</div></div>';
+  render.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-dim); font-family:var(--font-mono); font-size:12px;">Waiting for agent output&hellip;</div>';
+
+  fetch(SERVER_URL + '/agent_run', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ task_id: taskId, model: model, max_turns: 20 }),
+  }).then(function(response) {
+    if (!response.ok) throw new Error('Server returned ' + response.status);
+    return response.json();
+  }).then(function(data) {
+    btn.disabled = false;
+    btn.innerHTML = '&#9654; Run Agent';
+
+    if (data.error) {
+      traj.innerHTML = '<div class="live-step" style="border-left-color:var(--red);"><div class="live-step-label" style="color:var(--red);">ERROR</div><div class="live-step-cmd" style="color:var(--red);">' + esc(data.error) + '</div></div>';
+      return;
+    }
+
+    // Render all steps
+    traj.innerHTML = '<div class="live-step" style="border-left-color:var(--cyan);"><div class="live-step-label" style="color:var(--cyan);">TASK: ' + esc(data.task_id) + '</div></div>';
+
+    var steps = data.steps || [];
+    for (var i = 0; i < steps.length; i++) {
+      var s = steps[i];
+      var isDone = s.done;
+      var isTalkAction = !isDone && isTalk(s.action);
+      var cls = isDone ? 'done' : (isTalkAction ? 'talk' : '');
+      var labelText = isDone ? '\u2713 DONE' : (isTalkAction ? '\u2022 TALK ' + s.turn : '\u2605 ACTION ' + s.turn);
+      var labelColor = isDone ? 'var(--green)' : (isTalkAction ? '#555' : 'var(--amber)');
+
+      var stepHtml = '<div class="live-step ' + cls + '">' +
+        '<div class="live-step-label" style="color:' + labelColor + ';">' + labelText +
+        ' &nbsp; <span style="color:var(--text-dim);">' + (s.criteria_met||0) + '/' + (s.criteria_total||0) + ' criteria</span></div>' +
+        '<div class="live-step-cmd">$ ' + esc((s.action||'').substring(0, 300)) + '</div>';
+
+      if (s.stdout && !isDone) {
+        stepHtml += '<div class="live-step-obs">' + esc(s.stdout.substring(0, 500)) + '</div>';
+      }
+
+      if (isDone && s.reward !== null && s.reward !== undefined) {
+        var rColor = s.reward > 0.3 ? 'var(--green)' : (s.reward > 0 ? 'var(--amber)' : 'var(--red)');
+        stepHtml += '<div class="live-reward" style="color:' + rColor + ';">REWARD: ' + s.reward.toFixed(3) + '</div>';
+        stepHtml += '<div class="live-step-obs" style="max-height:200px;">' + esc(s.stdout) + '</div>';
+      }
+
+      stepHtml += '</div>';
+      traj.innerHTML += stepHtml;
+    }
+    // Analyze agent behavior for method/tool-use summary
+    var actions = steps.map(function(s) { return s.action || ''; });
+    var readDiamond = actions.some(function(a) { return a.indexOf('examples/diamond') >= 0 || a.indexOf('diamond.html') >= 0; });
+    var readElements = actions.some(function(a) { return a.indexOf('elements/') >= 0; });
+    var readSpecs = actions.some(function(a) { return a.indexOf('specs.md') >= 0; });
+    var wroteFile = actions.some(function(a) { return a.indexOf('>') >= 0 && a.indexOf('.html') >= 0; });
+    var elemNames = ['triangle', 'circle', 'rectangle', 'line', 'arc', 'ellipse', 'curve', 'path'];
+    var usedElems = elemNames.filter(function(e) { return actions.some(function(a) { return a.indexOf('elements/' + e) >= 0; }); });
+    var outputText = actions.join(' ').toLowerCase();
+    var reusedInOutput = elemNames.filter(function(e) { return outputText.indexOf('draw' + e.charAt(0).toUpperCase() + e.slice(1)) >= 0 || outputText.indexOf(e + '.js') >= 0; });
+
+    var method = '';
+    if (readDiamond && readElements && wroteFile) {
+      method = 'Discovered diamond \u2192 recognized building blocks \u2192 adapted to new composition.';
+    } else if (readElements && wroteFile) {
+      method = 'Read building blocks directly \u2192 composed new illustration.';
+    } else if (wroteFile) {
+      method = 'Wrote output from knowledge without studying building blocks.';
+    } else {
+      method = 'Explored workspace but did not produce output file.';
+    }
+
+    var toolUsed = readElements && usedElems.length >= 2;
+    var toolLabel = toolUsed
+      ? 'Reused ' + usedElems.join(', ') + ' from elements/.' + (readDiamond ? ' Analogical reasoning from diamond example.' : '')
+      : (readElements ? 'Read elements but did not reuse them in output.' : 'No building block reuse.');
+
+    traj.innerHTML += '<div class="traj-summary" style="margin-top:12px;"><strong>Method:</strong> ' + method + '</div>' +
+      '<div class="traj-tool-use">' +
+        '<strong>Tool Use:</strong> ' +
+        (toolUsed ? '<span class="tool-use-yes">\u2713 Yes</span> ' : '<span class="tool-use-no">\u2717 None</span> ') +
+        '<span class="tool-use-detail">' + toolLabel + '</span>' +
+      '</div>';
+
+    traj.scrollTop = traj.scrollHeight;
+
+    // Render output HTML if available
+    if (data.output_html) {
+      render.style.display = 'block';
+      render.innerHTML = '<div class="render-header">Agent Output &mdash; ' + esc(data.output_filename || 'output.html') + '</div>' +
+        '<div class="render-frame"><iframe srcdoc="' + data.output_html.replace(/"/g, '&quot;') + '" sandbox="allow-scripts" style="width:100%;height:100%;border:none;"></iframe></div>';
+    } else {
+      render.style.display = 'block';
+      render.innerHTML = '<div class="render-header">Agent Output</div>' +
+        '<div style="text-align:center; padding:40px; color:var(--red); font-family:var(--font-mono); font-size:12px;">Agent did not produce an output file.<br>It ran out of turns before writing the HTML.</div>';
+    }
+
+  }).catch(function(err) {
+    traj.innerHTML = '<div class="live-step" style="border-left-color:var(--red);"><div class="live-step-label" style="color:var(--red);">CONNECTION ERROR</div><div class="live-step-cmd" style="color:var(--red);">' + esc(err.message || 'Failed to connect to server') + '</div></div>';
+    btn.disabled = false;
+    btn.innerHTML = '&#9654; Run Agent';
+  });
+}
 </script>
 </body>
 </html>
