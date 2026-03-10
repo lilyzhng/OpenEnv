@@ -414,10 +414,10 @@ tr.wrong td.shape { color: var(--red); }
   .eval-grid { grid-template-columns: 1fr; }
   .traj-panel, .render-panel { height: auto; max-height: 480px; }
   .lb-grid-4 { grid-template-columns: 1fr 1fr; }
-  .distill-layout { flex-direction: column; }
+  .distill-layout { flex-direction: column; align-items: stretch; }
   .distill-core { width: 100%; padding-right: 0; margin-bottom: 16px; }
   .distill-arrow { display: none; }
-  .distill-domains { grid-template-columns: 1fr 1fr; }
+  .distill-domains { grid-template-columns: 1fr 1fr; width: 100%; }
 }
 
 /* ── Phone ── */
@@ -439,7 +439,7 @@ tr.wrong td.shape { color: var(--red); }
   .model-btn { font-size: 11px; padding: 8px 12px; }
   .traj-panel, .render-panel { padding: 16px; height: auto; max-height: 420px; }
   .panel { padding: 20px 16px; }
-  .distill-domains { grid-template-columns: 1fr; }
+  .distill-domains { grid-template-columns: 1fr; width: 100%; }
   .domain-col { padding: 12px; }
   .lb-grid-4 { grid-template-columns: 1fr; }
   .lb-panel { padding: 12px; overflow-x: auto; }
