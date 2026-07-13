@@ -149,6 +149,10 @@ body { background: var(--bg); font-family: var(--font-sans); color: var(--text);
   border: 1px solid rgba(57,255,20,0.25); border-radius: 3px;
 }
 .hero-pipe-arrow { color: var(--text-dim); padding: 0 6px; }
+.hero-pipe-label {
+  color: var(--text-light); font-weight: 700; letter-spacing: 1px;
+  margin-right: 12px; text-transform: uppercase;
+}
 
 /* Cherry blossom growth animations */
 @keyframes hero-grow-up { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
@@ -461,7 +465,6 @@ tr.wrong td.shape { color: var(--red); }
   <div class="container">
     <div class="hero-split">
       <div class="hero-left">
-        <div class="hero-label">OpenEnv Hackathon 2026</div>
         <h1 class="hero-title">SuperGeneral</h1>
         <div class="hero-subtitle">Compositional Tool Environments for Long-Horizon Agents</div>
       </div>
@@ -542,6 +545,7 @@ tr.wrong td.shape { color: var(--red); }
         </div>
       </div>
       <div class="hero-pipeline" id="heroPipeline">
+        <span class="hero-pipe-label">Meta Skill:</span>
         <span class="hero-pipe-step">Tool Use</span>
         <span class="hero-pipe-arrow">&rarr;</span>
         <span class="hero-pipe-step">Tool Composition</span>
@@ -555,12 +559,9 @@ tr.wrong td.shape { color: var(--red); }
 
 <!-- Punchline transition -->
 <div style="text-align:center; padding:48px 24px 32px; max-width:800px; margin:0 auto;">
-  <h2 style="font-family:var(--font-sans); font-size:26px; font-weight:700; color:var(--text); line-height:1.3; margin-bottom:12px; white-space:nowrap;">
-    Frontier models are surprisingly bad at using tools.
-  </h2>
-  <p style="color:var(--text-dim); font-size:16px; line-height:1.6;">
-    They cheat by memorizing knowledge instead of learning to act.<br>
-    But tool use is the key to adapting to new domains and long-horizon tasks.
+  <p style="font-family:var(--font-sans); font-size:24px; font-weight:600; color:var(--text); line-height:1.5; margin:0;">
+    RL training does not generalize well,<br>
+    we need to push the agent to learn the <span style="background-color:rgba(57,255,20,0.30); color:var(--text); padding:1px 8px; border-radius:4px;">meta-skill</span>.
   </p>
 </div>
 
@@ -569,7 +570,7 @@ tr.wrong td.shape { color: var(--red); }
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <!-- SECTION 01: LEADERBOARD — The proof, right away                   -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>01</span> &mdash; The Evidence</div>
+<div class="section-header"><span>01</span> &mdash; Frontier models are surprisingly bad at using tools</div>
 
 <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px; line-height:1.6;">
   We evaluated <strong style="color:var(--text);">Claude, GPT, Qwen, and DeepSeek</strong> across
@@ -823,7 +824,7 @@ tr.wrong td.shape { color: var(--red); }
 <!-- FOOTER                                                             -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <div class="footer">
-  SuperGeneral &middot; OpenEnv Hackathon 2026 &middot;
+  SuperGeneral &middot;
   <a href="https://github.com/lilyzhng/OpenEnv">GitHub</a> &middot;
   <a href="https://huggingface.co/spaces/lilyzhng/supergeneral-env">HF Spaces</a>
 </div>
